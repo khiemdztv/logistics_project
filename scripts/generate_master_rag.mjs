@@ -1,4 +1,9 @@
-# BỘ DỮ LIỆU HUẤN LUYỆN VÀ TRI THỨC ĐIỀU HÀNH HÀNG HẢI - TÀU DOLPHIN 01 (RAG MARITIME MASTER DATABASE)
+import fs from 'fs';
+import path from 'path';
+
+const publicDir = path.resolve('public');
+
+const masterRagContext = `# BỘ DỮ LIỆU HUẤN LUYỆN VÀ TRI THỨC ĐIỀU HÀNH HÀNG HẢI - TÀU DOLPHIN 01 (RAG MARITIME MASTER DATABASE)
 Phiên bản: 2.0 (Chuẩn MARPOL Annex II, FOSFA, INTERTANKO, CHRIS Manual & SOP Tàu Dolphin 01)
 Tàu áp dụng: DOLPHIN 01 (Tàu chở Dầu & Hóa chất 34,000 DWT - Hệ thống hầm hàng bọc sơn Pure Epoxy)
 
@@ -172,3 +177,7 @@ VI. CÔNG THỨC DỰ TOÁN HÓA CHẤT & VẬT TƯ LÀM SẠCH (CHEMICAL CALCUL
    - V_chem = V_water x Nồng độ pha khuyến nghị (từ 1.5% đến 3.0% thể tích).
 3. Lượng Dung môi Methanol dùng cho Kiểm tra Wall Wash (WWT Sampling):
    - Trung bình 5 - 10 lít Methanol Lab-grade cho mỗi hầm 1,200 m3 để tráng trắc diện 5 điểm.
+`;
+
+fs.writeFileSync(path.join(publicDir, 'rag_context.txt'), masterRagContext, 'utf8');
+console.log('Successfully written master RAG context to public/rag_context.txt');

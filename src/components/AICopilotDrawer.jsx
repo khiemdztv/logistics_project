@@ -1,7 +1,34 @@
 import { useState, useRef, useEffect } from 'react'
 import { useApp } from '../context/AppContext'
-import { Sparkles, X, Send, BookOpen, AlertCircle, Bot, User, Loader2 } from 'lucide-react'
+import { Sparkles, X, Send, BookOpen, Bot, Loader2 } from 'lucide-react'
 import { chatWithCopilot } from '../services/aiService'
+
+function renderFormattedMarkdown(text) {
+  if (!text) return ''
+  
+  // Clean string
+  let html = text
+    // Replace HTML brackets
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    // Bold: **text**
+    .replace(/\*\*(.+?)\*\*/g, '<strong style="color: var(--color-accent-cyan, #00E5FF); font-weight: 700;">$1</strong>')
+    // Italic: *text*
+    .replace(/\*([^*\n]+?)\*/g, '<em>$1</em>')
+    // Inline code: `code`
+    .replace(/`([^`]+)`/g, '<code style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 11px;">$1</code>')
+    // Bullet list items (- item or • item)
+    .replace(/^\s*[-•*]\s+(.+)$/gm, '<div style="display: flex; gap: 6px; margin: 4px 0;"><span style="color: var(--color-accent-cyan, #00E5FF);">•</span><span>$1</span></div>')
+    // Numbered lists (1. item)
+    .replace(/^\s*(\d+)\.\s+(.+)$/gm, '<div style="display: flex; gap: 6px; margin: 4px 0;"><span style="color: var(--color-accent-cyan, #00E5FF); font-weight: 600;">$1.</span><span>$2</span></div>')
+    // Double line breaks
+    .replace(/\n\n/g, '<div style="height: 8px;"></div>')
+    // Single line break
+    .replace(/\n/g, '<br/>')
+
+  return html
+}
 
 export default function AICopilotDrawer() {
   const { state, dispatch } = useApp()
@@ -23,31 +50,31 @@ export default function AICopilotDrawer() {
     'Quy trình chuẩn rửa hầm sau khi chở CPO?',
     'Phải làm gì khi PTT chỉ đạt 6.5 phút?',
     'Khác biệt giữa Wall Wash và Water White?',
-    'Yêu cầu an toàn thông gió hầm theo MARPOL?'
+    'Yêu cầu kiểm tra Clorua & Lưu ý găng tay Nitrile?'
   ]
 
-  const handleSend = async () => {
-    if (!inputText.trim() || isLoading) return
+  const handleSend = async (customPrompt) => {
+    const textToSend = typeof customPrompt === 'string' ? customPrompt : inputText
+    if (!textToSend.trim() || isLoading) return
 
-    const userMessageText = inputText
     setInputText('')
     
     // Add user message
-    const newMsg = { role: 'user', content: userMessageText }
+    const newMsg = { role: 'user', content: textToSend }
     dispatch({ type: 'ADD_AI_MESSAGE', message: newMsg })
 
     setIsLoading(true)
 
     try {
-      // Call Gemini API
-      const aiResponse = await chatWithCopilot(userMessageText, messages)
+      // Call Gemini AI + RAG Engine
+      const aiResponse = await chatWithCopilot(textToSend, [...messages, newMsg])
       
       dispatch({
         type: 'ADD_AI_MESSAGE',
         message: { 
           role: 'assistant', 
           content: aiResponse,
-          source: 'Gemini 3.5 Flash Lite (RAG Mode)'
+          source: 'RAG Knowledge: CHRIS Manual / MARPOL / FOSFA'
         }
       })
     } catch (error) {
@@ -68,8 +95,7 @@ export default function AICopilotDrawer() {
   }
 
   const handlePromptClick = (prompt) => {
-    setInputText(prompt)
-    // Optionally trigger send immediately: setTimeout(() => handleSend(), 0)
+    handleSend(prompt)
   }
 
   if (!isOpen) {
@@ -77,7 +103,7 @@ export default function AICopilotDrawer() {
       <button 
         className="ai-fab" 
         onClick={() => dispatch({ type: 'TOGGLE_AI_CHAT' })}
-        title="Dolphin AI Copilot - Tra cứu chuyên sâu"
+        title="Dolphin AI Copilot - Cố vấn Hàng hải Chuyên sâu"
       >
         <Sparkles size={24} />
       </button>
@@ -98,39 +124,40 @@ export default function AICopilotDrawer() {
 
       <div className="ai-panel-messages">
         <div style={{ fontSize: '11px', textAlign: 'center', color: 'var(--color-text-muted)', marginBottom: '8px' }}>
-          Mô hình: <strong>Google Gemini 3.5 Flash Lite (RAG Enabled)</strong>
+          Mô hình: <strong>Gemini 2.5 Flash / 1.5 Flash (RAG Maritime Engine)</strong>
         </div>
         
         {messages.map((msg, idx) => (
           <div key={idx} className={`ai-message ${msg.role}`}>
             {msg.role === 'assistant' && (
-              <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '4px', color: 'var(--color-accent-cyan)' }}>
+              <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '6px', color: 'var(--color-accent-cyan)' }}>
                 <Sparkles size={14} />
-                <span style={{ fontSize: '11px', fontWeight: 600 }}>Gemini AI</span>
+                <span style={{ fontSize: '11px', fontWeight: 600 }}>Dolphin Maritime AI</span>
               </div>
             )}
             
-            {/* Simple markdown rendering logic */}
-            <div dangerouslySetInnerHTML={{ 
-              __html: msg.content.replace(/\\n/g, '<br/>')
-                                 .replace(/\\*\\*(.*?)\\*\\*/g, '<strong>$1</strong>')
-                                 .replace(/\\*(.*?)\\*/g, '<em>$1</em>') 
-            }} />
+            {/* Robust Markdown Rendering */}
+            <div 
+              style={{ lineHeight: '1.6', fontSize: '13px' }}
+              dangerouslySetInnerHTML={{ 
+                __html: renderFormattedMarkdown(msg.content)
+              }} 
+            />
             
             {msg.source && (
-              <div className="ai-source">
-                <BookOpen size={12} style={{ display: 'inline', marginRight: '4px', verticalAlign: 'middle' }} />
-                {msg.source}
+              <div className="ai-source" style={{ marginTop: '8px', fontSize: '10px', color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <BookOpen size={12} style={{ color: 'var(--color-accent-cyan)' }} />
+                <span>{msg.source}</span>
               </div>
             )}
           </div>
         ))}
 
         {isLoading && (
-          <div className="ai-message assistant" style={{ opacity: 0.7 }}>
+          <div className="ai-message assistant" style={{ opacity: 0.85 }}>
             <div style={{ display: 'flex', gap: '8px', alignItems: 'center', color: 'var(--color-accent-cyan)' }}>
               <Loader2 size={16} className="animate-spin" />
-              <span style={{ fontSize: '12px' }}>Đang tra cứu dữ liệu...</span>
+              <span style={{ fontSize: '12px' }}>Đang tra cứu cơ sở dữ liệu CHRIS / MARPOL...</span>
             </div>
           </div>
         )}
@@ -138,7 +165,7 @@ export default function AICopilotDrawer() {
         {/* Suggestion Prompts if only 1 message (greeting) */}
         {messages.length === 1 && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '12px' }}>
-            <div style={{ fontSize: '11px', color: 'var(--color-text-secondary)', fontWeight: 600 }}>CÂU HỎI ĐỀ XUẤT:</div>
+            <div style={{ fontSize: '11px', color: 'var(--color-text-secondary)', fontWeight: 600 }}>CÂU HỎI NHANH CHO SĨ QUAN:</div>
             {suggestedPrompts.map((prompt, idx) => (
               <button 
                 key={idx}
@@ -148,23 +175,24 @@ export default function AICopilotDrawer() {
                   padding: '8px 12px',
                   background: 'var(--color-bg-input)',
                   border: '1px solid var(--color-border)',
-                  borderRadius: '16px',
+                  borderRadius: '12px',
                   color: 'var(--color-text-primary)',
                   fontSize: '12px',
                   cursor: 'pointer',
-                  transition: 'all 0.2s ease'
+                  transition: 'all 0.2s ease',
+                  lineHeight: '1.4'
                 }}
                 onClick={() => handlePromptClick(prompt)}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = 'var(--color-accent-cyan)'
-                  e.currentTarget.style.background = 'rgba(0, 229, 255, 0.05)'
+                  e.currentTarget.style.background = 'rgba(0, 229, 255, 0.08)'
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.borderColor = 'var(--color-border)'
                   e.currentTarget.style.background = 'var(--color-bg-input)'
                 }}
               >
-                {prompt}
+                💡 {prompt}
               </button>
             ))}
           </div>
@@ -176,13 +204,13 @@ export default function AICopilotDrawer() {
       <div className="ai-panel-input">
         <input 
           type="text" 
-          placeholder="Hỏi AI về quy trình chuẩn MARPOL..." 
+          placeholder="Hỏi AI về quy trình chuẩn MARPOL, FOSFA, Wall Wash..." 
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           onKeyDown={handleKeyDown}
           disabled={isLoading}
         />
-        <button onClick={handleSend} disabled={!inputText.trim() || isLoading}>
+        <button onClick={() => handleSend()} disabled={!inputText.trim() || isLoading}>
           {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
         </button>
       </div>
