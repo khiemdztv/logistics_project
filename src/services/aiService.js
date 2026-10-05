@@ -1,19 +1,21 @@
+import Groq from 'groq-sdk'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 
 // Retrieve API key from localStorage or Vite env
 export function getActiveApiKey() {
   if (typeof window !== 'undefined') {
-    const customKey = localStorage.getItem('dolphin_gemini_api_key')
+    const customKey = localStorage.getItem('dolphin_ai_api_key') || localStorage.getItem('dolphin_gemini_api_key')
     if (customKey && customKey.trim()) return customKey.trim()
   }
-  return import.meta.env.VITE_GEMINI_API_KEY || ''
+  return import.meta.env.VITE_GROQ_API_KEY || import.meta.env.VITE_GEMINI_API_KEY || ''
 }
 
 export function saveCustomApiKey(key) {
   if (typeof window !== 'undefined') {
     if (key && key.trim()) {
-      localStorage.setItem('dolphin_gemini_api_key', key.trim())
+      localStorage.setItem('dolphin_ai_api_key', key.trim())
     } else {
+      localStorage.removeItem('dolphin_ai_api_key')
       localStorage.removeItem('dolphin_gemini_api_key')
     }
   }
@@ -206,11 +208,11 @@ Dựa trên tài liệu huấn luyện chuyên ngành tàu hóa chất Dolphin 0
   - Để tìm hiểu **Tính năng Website:** Bạn có thể hỏi *"giải thích web"*, *"hướng dẫn sử dụng web"*, hoặc *"lý thuyết dọn hầm"*!`
 }
 
-// Unified chat function: Calls serverless /api/chat first, then client Gemini, then local RAG
+// Unified chat function
 export async function chatWithCopilot(userMessage, chatHistory) {
   const customApiKey = getActiveApiKey()
 
-  // 1. Try serverless backend (/api/chat) on Vercel
+  // 1. Call serverless backend (/api/chat) on Vercel
   try {
     const res = await fetch('/api/chat', {
       method: 'POST',
@@ -232,37 +234,31 @@ export async function chatWithCopilot(userMessage, chatHistory) {
     console.warn('Serverless /api/chat not available, trying client-side AI...', err)
   }
 
-  // 2. Try client-side Gemini if API Key is configured in localStorage or Vite env
-  if (customApiKey) {
+  // 2. Direct Groq API call if user has Groq key (gsk_...)
+  if (customApiKey && customApiKey.startsWith('gsk_')) {
     try {
       const context = await getRagContext()
-      const genAIInstance = new GoogleGenerativeAI(customApiKey)
-      const model = genAIInstance.getGenerativeModel({
-        model: 'gemini-2.5-flash',
-        systemInstruction: `Bạn là Dolphin Maritime Copilot - Chuyên gia Cố vấn AI Hàng hải cho Tàu Dolphin 01.
-Nhiệm vụ: Trả lời thông minh, thân thiện mọi câu hỏi về tính năng web Dolphin TankOps, lý thuyết làm sạch hầm hàng, tiêu chuẩn kiểm tra Wall Wash/Water White, quy chuẩn MARPOL, FOSFA và an toàn hóa chất.
-Nguồn dữ liệu tham chiếu:
-${context.substring(0, 45000)}
-`
+      const groq = new Groq({ apiKey: customApiKey, dangerouslyAllowBrowser: true })
+      const completion = await groq.chat.completions.create({
+        messages: [
+          {
+            role: 'system',
+            content: `Bạn là Dolphin Maritime Copilot - Chuyên gia AI Cố vấn Hàng hải siêu tốc cho tàu Dolphin 01.
+Trả lời thông minh, thân thiện các câu hỏi về quy trình làm sạch hầm, Wall Wash, Water White, FOSFA, MARPOL.
+Tài liệu tham chiếu:
+${context.substring(0, 30000)}`
+          },
+          ...chatHistory.filter(m => m.role !== 'system').map(m => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: m.content })),
+          { role: 'user', content: userMessage }
+        ],
+        model: 'llama-3.3-70b-versatile',
+        temperature: 0.4,
+        max_tokens: 1200
       })
-
-      const history = chatHistory
-        .filter(msg => msg.role !== 'system')
-        .map(msg => ({
-          role: msg.role === 'assistant' ? 'model' : 'user',
-          parts: [{ text: msg.content }]
-        }))
-
-      const chat = model.startChat({
-        history,
-        generationConfig: { maxOutputTokens: 1200, temperature: 0.4 }
-      })
-
-      const result = await chat.sendMessage(userMessage)
-      const response = await result.response
-      return response.text()
-    } catch (clientErr) {
-      console.error('Client-side Gemini call failed:', clientErr)
+      const reply = completion.choices[0]?.message?.content
+      if (reply) return reply
+    } catch (e) {
+      console.error('Direct Groq API failed:', e)
     }
   }
 

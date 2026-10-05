@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { useApp } from '../context/AppContext'
-import { Sparkles, X, Send, BookOpen, Bot, Loader2, Key, Check, Info } from 'lucide-react'
+import { Sparkles, X, Send, BookOpen, Bot, Loader2, Key, Check, Zap } from 'lucide-react'
 import { chatWithCopilot, getActiveApiKey, saveCustomApiKey } from '../services/aiService'
 
 function renderFormattedMarkdown(text) {
@@ -41,7 +41,9 @@ export default function AICopilotDrawer() {
 
   const isOpen = state.aiChatOpen
   const messages = state.aiMessages
-  const hasActiveKey = Boolean(getActiveApiKey())
+  const activeKey = getActiveApiKey()
+  const hasActiveKey = Boolean(activeKey)
+  const isGroq = activeKey.startsWith('gsk_')
 
   // Auto scroll to bottom on new message
   useEffect(() => {
@@ -51,10 +53,10 @@ export default function AICopilotDrawer() {
   }, [messages, isOpen, isLoading])
 
   const suggestedPrompts = [
+    'Tôi chưa hiểu gì về web này, giải thích đi',
+    'Lý thuyết về việc dọn hầm là gì?',
     'Quy trình chuẩn rửa hầm sau khi chở CPO?',
-    'Phải làm gì khi PTT chỉ đạt 6.5 phút?',
-    'Khác biệt giữa Wall Wash và Water White?',
-    'Yêu cầu kiểm tra Clorua & Lưu ý găng tay Nitrile?'
+    'Phải làm gì khi PTT chỉ đạt 6.5 phút?'
   ]
 
   const handleSaveKey = () => {
@@ -79,7 +81,7 @@ export default function AICopilotDrawer() {
     setIsLoading(true)
 
     try {
-      // Call Gemini AI + RAG Engine
+      // Call Groq / AI + RAG Engine
       const aiResponse = await chatWithCopilot(textToSend, [...messages, newMsg])
       
       dispatch({
@@ -87,7 +89,9 @@ export default function AICopilotDrawer() {
         message: { 
           role: 'assistant', 
           content: aiResponse,
-          source: hasActiveKey ? 'Live Gemini 2.5 Flash + RAG Knowledge' : 'RAG Maritime Engine (CHRIS/MARPOL/FOSFA)'
+          source: isGroq 
+            ? '⚡ Live Groq Llama 3.3 70B (Siêu tốc) + RAG Knowledge' 
+            : (hasActiveKey ? 'Live AI + RAG Knowledge' : 'RAG Maritime Engine (CHRIS/MARPOL/FOSFA)')
         }
       })
     } catch (error) {
@@ -134,8 +138,8 @@ export default function AICopilotDrawer() {
           <button 
             className="ai-panel-close" 
             onClick={() => setShowKeyModal(!showKeyModal)}
-            title="Cài đặt API Key Gemini"
-            style={{ color: hasActiveKey ? 'var(--color-accent-cyan)' : 'var(--color-text-muted)' }}
+            title="Cài đặt Groq API Key"
+            style={{ color: hasActiveKey ? '#F97316' : 'var(--color-text-muted)' }}
           >
             <Key size={16} />
           </button>
@@ -147,16 +151,16 @@ export default function AICopilotDrawer() {
 
       {showKeyModal && (
         <div style={{ padding: '12px 16px', background: 'var(--color-bg-card)', borderBottom: '1px solid var(--color-border)', fontSize: '12px' }}>
-          <div style={{ fontWeight: 600, color: 'var(--color-accent-cyan)', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <Key size={14} /> Cài đặt Google Gemini API Key
+          <div style={{ fontWeight: 600, color: '#F97316', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <Zap size={14} /> Cài đặt Groq API Key (Khuyên dùng)
           </div>
           <div style={{ color: 'var(--color-text-secondary)', marginBottom: '8px', fontSize: '11px', lineHeight: '1.4' }}>
-            Nhập API key từ Google AI Studio (bắt đầu bằng <code>AIzaSy...</code>) để kích hoạt Live Gemini AI. Hoặc để trống để dùng bộ tri thức nội bộ Offline.
+            Lấy key miễn phí siêu tốc tại <a href="https://console.groq.com/keys" target="_blank" rel="noreferrer" style={{ color: '#F97316', textDecoration: 'underline' }}>console.groq.com/keys</a> (bắt đầu bằng <code>gsk_...</code>). Hoặc dùng key Gemini (<code>AIzaSy...</code>).
           </div>
           <div style={{ display: 'flex', gap: '6px' }}>
             <input 
               type="password"
-              placeholder="Dán khóa AIzaSy..."
+              placeholder="Dán khóa gsk_..."
               value={customKeyInput}
               onChange={(e) => setCustomKeyInput(e.target.value)}
               style={{
@@ -173,8 +177,8 @@ export default function AICopilotDrawer() {
               onClick={handleSaveKey}
               style={{
                 padding: '6px 12px',
-                background: 'var(--color-accent-cyan)',
-                color: '#0B132B',
+                background: '#F97316',
+                color: '#fff',
                 border: 'none',
                 borderRadius: '8px',
                 fontWeight: 600,
@@ -190,22 +194,26 @@ export default function AICopilotDrawer() {
 
       <div className="ai-panel-messages">
         <div style={{ fontSize: '11px', textAlign: 'center', color: 'var(--color-text-muted)', marginBottom: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
-          <span>Chế độ:</span>
-          {hasActiveKey ? (
+          <span>Động cơ:</span>
+          {isGroq ? (
+            <span style={{ color: '#F97316', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+              <Zap size={12} fill="#F97316" /> Groq Llama 3.3 70B (Siêu tốc + RAG)
+            </span>
+          ) : (hasActiveKey ? (
             <span style={{ color: '#10B981', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10B981' }}></span> Live Gemini 2.5 Flash + RAG
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10B981' }}></span> Live AI + RAG Knowledge
             </span>
           ) : (
             <span style={{ color: 'var(--color-accent-cyan)', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--color-accent-cyan)' }}></span> RAG Local Maritime Engine
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--color-accent-cyan)' }}></span> RAG Maritime Engine (Offline Database)
             </span>
-          )}
+          ))}
         </div>
         
         {messages.map((msg, idx) => (
           <div key={idx} className={`ai-message ${msg.role}`}>
             {msg.role === 'assistant' && (
-              <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '6px', color: 'var(--color-accent-cyan)' }}>
+              <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '6px', color: isGroq ? '#F97316' : 'var(--color-accent-cyan)' }}>
                 <Sparkles size={14} />
                 <span style={{ fontSize: '11px', fontWeight: 600 }}>Dolphin Maritime AI</span>
               </div>
@@ -221,7 +229,7 @@ export default function AICopilotDrawer() {
             
             {msg.source && (
               <div className="ai-source" style={{ marginTop: '8px', fontSize: '10px', color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <BookOpen size={12} style={{ color: 'var(--color-accent-cyan)' }} />
+                <BookOpen size={12} style={{ color: isGroq ? '#F97316' : 'var(--color-accent-cyan)' }} />
                 <span>{msg.source}</span>
               </div>
             )}
@@ -230,9 +238,9 @@ export default function AICopilotDrawer() {
 
         {isLoading && (
           <div className="ai-message assistant" style={{ opacity: 0.85 }}>
-            <div style={{ display: 'flex', gap: '8px', alignItems: 'center', color: 'var(--color-accent-cyan)' }}>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center', color: isGroq ? '#F97316' : 'var(--color-accent-cyan)' }}>
               <Loader2 size={16} className="animate-spin" />
-              <span style={{ fontSize: '12px' }}>Đang tra cứu cơ sở dữ liệu CHRIS / MARPOL...</span>
+              <span style={{ fontSize: '12px' }}>Groq đang suy luận siêu tốc từ dữ liệu RAG...</span>
             </div>
           </div>
         )}
@@ -259,15 +267,15 @@ export default function AICopilotDrawer() {
                 }}
                 onClick={() => handlePromptClick(prompt)}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--color-accent-cyan)'
-                  e.currentTarget.style.background = 'rgba(0, 229, 255, 0.08)'
+                  e.currentTarget.style.borderColor = '#F97316'
+                  e.currentTarget.style.background = 'rgba(249, 115, 22, 0.08)'
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.borderColor = 'var(--color-border)'
                   e.currentTarget.style.background = 'var(--color-bg-input)'
                 }}
               >
-                💡 {prompt}
+                ⚡ {prompt}
               </button>
             ))}
           </div>
@@ -279,7 +287,7 @@ export default function AICopilotDrawer() {
       <div className="ai-panel-input">
         <input 
           type="text" 
-          placeholder="Hỏi AI về quy trình chuẩn MARPOL, FOSFA, Wall Wash..." 
+          placeholder="Hỏi AI về tính năng web, lý thuyết làm sạch, chuẩn MARPOL..." 
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           onKeyDown={handleKeyDown}

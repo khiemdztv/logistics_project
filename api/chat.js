@@ -1,3 +1,4 @@
+import Groq from 'groq-sdk'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import fs from 'fs'
 import path from 'path'
@@ -32,18 +33,17 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
-  const apiKey = 
+  const groqApiKey = 
+    process.env.GROQ_API_KEY || 
+    process.env.VITE_GROQ_API_KEY || 
+    (req.body?.customApiKey && req.body.customApiKey.startsWith('gsk_') ? req.body.customApiKey : '')
+
+  const geminiApiKey = 
     process.env.GEMINI_API_KEY || 
     process.env.VITE_GEMINI_API_KEY || 
-    req.body?.customApiKey || 
-    ''
+    (req.body?.customApiKey && req.body.customApiKey.startsWith('AIzaSy') ? req.body.customApiKey : '')
 
-  if (!apiKey) {
-    return res.status(400).json({ 
-      error: 'NO_API_KEY',
-      message: 'Chưa cấu hình GEMINI_API_KEY trên Vercel hoặc chưa nhập khóa.' 
-    })
-  }
+  const customKey = req.body?.customApiKey || ''
 
   const { userMessage, chatHistory = [], isDiagnostic = false, diagnosticData } = req.body
 
@@ -51,11 +51,9 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Missing userMessage' })
   }
 
-  try {
-    const genAI = new GoogleGenerativeAI(apiKey)
-    const knowledge = getKnowledge()
+  const knowledge = getKnowledge()
 
-    const systemInstruction = `Bạn là Dolphin Maritime Copilot - Chuyên gia Cố vấn AI Hàng hải và Giám định viên Kỹ thuật cho Website Quản lý & Làm sạch Hầm hàng Tàu Hóa chất Dolphin 01 (Pure Epoxy Coating, 34,000 DWT).
+  const systemInstruction = `Bạn là Dolphin Maritime Copilot - Chuyên gia Cố vấn AI Hàng hải và Giám định viên Kỹ thuật siêu tốc cho Website Quản lý & Làm sạch Hầm hàng Tàu Hóa chất Dolphin 01 (Pure Epoxy Coating, 34,000 DWT).
 
 VỀ WEBSITE DOLPHIN TANKOPS:
 Website gồm 3 bước chính:
@@ -76,17 +74,22 @@ VỀ LÝ THUYẾT LÀM SẠCH HẦM HÀNG:
 - Tiêu chuẩn tham chiếu: MARPOL Annex II (MEPC.2-Circ.29/31), FOSFA Banned Cargoes, CHRIS Manual, INTERTANKO Cleanliness Standards, ASTM D1722, ASTM D1363, ASTM D512.
 
 YÊU CẦU TRẢ LỜI:
-- Trả lời thân thiện, thông minh, chuyên nghiệp, tự nhiên.
-- Luôn giải thích rõ ràng, chi tiết, logic khi người dùng hỏi về tính năng web, lý thuyết làm sạch, nguyên nhân lỗi test hoặc quy trình hóa chất.
+- Trả lời bằng tiếng Việt, thông minh, thân thiện, súc tích, logic và chuyên nghiệp.
+- Khi người dùng hỏi bất kỳ câu hỏi nào về web, lý thuyết làm sạch, khái niệm hay sự cố test, hãy giải thích cặn kẽ và chuẩn xác.
 - Trình bày định dạng Markdown chuẩn (**in đậm**, danh sách gạch đầu dòng, code block).
 
 --- KHO DỮ LIỆU TRI THỨC ĐẦY ĐỦ (RAG CONTEXT) ---
-${knowledge.substring(0, 50000)}
+${knowledge.substring(0, 40000)}
 `
 
-    if (isDiagnostic) {
-      const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' })
-      const diagnosticPrompt = `Bạn là chuyên gia giám định hóa chất (Cargo Surveyor). Sĩ quan vừa test Wall Wash cho hầm tàu Dolphin 01:
+  // 1. Prioritize GROQ API if available
+  const activeGroqKey = groqApiKey || (customKey.startsWith('gsk_') ? customKey : '')
+  if (activeGroqKey) {
+    try {
+      const groq = new Groq({ apiKey: activeGroqKey })
+
+      if (isDiagnostic) {
+        const diagnosticPrompt = `Bạn là chuyên gia giám định hóa chất (Cargo Surveyor). Sĩ quan vừa test Wall Wash cho hầm tàu Dolphin 01:
 Hàng cũ: ${diagnosticData.previousCargo}
 Hàng mới: ${diagnosticData.newCargo}
 Các chỉ tiêu KHÔNG ĐẠT:
@@ -103,51 +106,78 @@ Trả lời đúng JSON format:
   "solutions": ["Bước 1...", "Bước 2..."]
 }
 `
-      const result = await model.generateContent({
-        contents: [{ role: 'user', parts: [{ text: diagnosticPrompt }] }],
-        generationConfig: { responseMimeType: "application/json", temperature: 0.1 }
-      })
-      const resp = await result.response
-      return res.status(200).json(JSON.parse(resp.text()))
-    }
-
-    const modelCandidates = ['gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-2.0-flash']
-    let lastError = null
-
-    for (const modelName of modelCandidates) {
-      try {
-        const model = genAI.getGenerativeModel({
-          model: modelName,
-          systemInstruction: systemInstruction,
+        const completion = await groq.chat.completions.create({
+          messages: [
+            { role: 'system', content: 'Bạn là hệ thống AI giám định hàng hải trả lời strictly bằng JSON hợp lệ.' },
+            { role: 'user', content: diagnosticPrompt }
+          ],
+          model: 'llama-3.3-70b-versatile',
+          temperature: 0.1,
+          response_format: { type: 'json_object' }
         })
 
-        const history = chatHistory
+        const content = completion.choices[0]?.message?.content || '{}'
+        return res.status(200).json(JSON.parse(content))
+      }
+
+      // Normal Chat with Groq Llama 3.3 70B
+      const messages = [
+        { role: 'system', content: systemInstruction },
+        ...chatHistory
           .filter(msg => msg.role !== 'system')
           .map(msg => ({
-            role: msg.role === 'assistant' ? 'model' : 'user',
-            parts: [{ text: msg.content }]
-          }))
+            role: msg.role === 'assistant' ? 'assistant' : 'user',
+            content: msg.content
+          })),
+        { role: 'user', content: userMessage }
+      ]
 
-        const chat = model.startChat({
-          history: history,
-          generationConfig: {
-            maxOutputTokens: 1200,
-            temperature: 0.4,
-          }
-        })
+      const completion = await groq.chat.completions.create({
+        messages: messages,
+        model: 'llama-3.3-70b-versatile',
+        temperature: 0.4,
+        max_tokens: 1500,
+      })
 
-        const result = await chat.sendMessage(userMessage)
-        const response = await result.response
-        return res.status(200).json({ reply: response.text(), model: modelName })
-      } catch (err) {
-        console.warn(`Serverless Gemini with ${modelName} error:`, err.message)
-        lastError = err
-      }
+      const reply = completion.choices[0]?.message?.content || ''
+      return res.status(200).json({ reply, model: 'Groq Llama 3.3 70B' })
+    } catch (groqErr) {
+      console.warn('Groq API failed, trying fallback:', groqErr.message)
     }
-
-    throw lastError || new Error('Không thể kết nối Gemini API')
-  } catch (error) {
-    console.error('Serverless Chatbot API Error:', error)
-    return res.status(500).json({ error: 'AI_ERROR', message: error.message })
   }
+
+  // 2. Secondary fallback: Gemini API if key exists
+  const activeGeminiKey = geminiApiKey || (customKey.startsWith('AIzaSy') ? customKey : '')
+  if (activeGeminiKey) {
+    try {
+      const genAI = new GoogleGenerativeAI(activeGeminiKey)
+      const model = genAI.getGenerativeModel({
+        model: 'gemini-2.5-flash',
+        systemInstruction: systemInstruction,
+      })
+
+      const history = chatHistory
+        .filter(msg => msg.role !== 'system')
+        .map(msg => ({
+          role: msg.role === 'assistant' ? 'model' : 'user',
+          parts: [{ text: msg.content }]
+        }))
+
+      const chat = model.startChat({
+        history,
+        generationConfig: { maxOutputTokens: 1200, temperature: 0.4 }
+      })
+
+      const result = await chat.sendMessage(userMessage)
+      const response = await result.response
+      return res.status(200).json({ reply: response.text(), model: 'Gemini 2.5 Flash' })
+    } catch (geminiErr) {
+      console.warn('Gemini API fallback failed:', geminiErr.message)
+    }
+  }
+
+  return res.status(400).json({
+    error: 'NO_API_KEY',
+    message: 'Vui lòng thiết lập GROQ_API_KEY trên Vercel hoặc nhập khóa trên giao diện.'
+  })
 }
