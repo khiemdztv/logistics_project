@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useApp } from '../context/AppContext'
-import { Sparkles, X, Send, BookOpen, Bot, Loader2, Key, Check, Zap } from 'lucide-react'
-import { chatWithCopilot, getActiveApiKey, saveCustomApiKey } from '../services/aiService'
+import { Sparkles, X, Send, BookOpen, Bot, Loader2, Zap } from 'lucide-react'
+import { chatWithCopilot } from '../services/aiService'
 
 function renderFormattedMarkdown(text) {
   if (!text) return ''
@@ -34,16 +34,10 @@ export default function AICopilotDrawer() {
   const { state, dispatch } = useApp()
   const [inputText, setInputText] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [showKeyModal, setShowKeyModal] = useState(false)
-  const [customKeyInput, setCustomKeyInput] = useState('')
-  const [keySavedMsg, setKeySavedMsg] = useState(false)
   const messagesEndRef = useRef(null)
 
   const isOpen = state.aiChatOpen
   const messages = state.aiMessages
-  const activeKey = getActiveApiKey()
-  const hasActiveKey = Boolean(activeKey)
-  const isGroq = activeKey.startsWith('gsk_')
 
   // Auto scroll to bottom on new message
   useEffect(() => {
@@ -58,15 +52,6 @@ export default function AICopilotDrawer() {
     'Quy trình chuẩn rửa hầm sau khi chở CPO?',
     'Phải làm gì khi PTT chỉ đạt 6.5 phút?'
   ]
-
-  const handleSaveKey = () => {
-    saveCustomApiKey(customKeyInput)
-    setKeySavedMsg(true)
-    setTimeout(() => {
-      setKeySavedMsg(false)
-      setShowKeyModal(false)
-    }, 1200)
-  }
 
   const handleSend = async (customPrompt) => {
     const textToSend = typeof customPrompt === 'string' ? customPrompt : inputText
@@ -89,9 +74,7 @@ export default function AICopilotDrawer() {
         message: { 
           role: 'assistant', 
           content: aiResponse,
-          source: isGroq 
-            ? '⚡ Live Groq Llama 3.3 70B (Siêu tốc) + RAG Knowledge' 
-            : (hasActiveKey ? 'Live AI + RAG Knowledge' : 'RAG Maritime Engine (CHRIS/MARPOL/FOSFA)')
+          source: '⚡ Groq Llama 3.3 70B (Siêu tốc) + RAG Knowledge'
         }
       })
     } catch (error) {
@@ -134,86 +117,22 @@ export default function AICopilotDrawer() {
           <Bot size={20} />
         </div>
         <div className="ai-panel-title">Dolphin Maritime Copilot</div>
-        <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
-          <button 
-            className="ai-panel-close" 
-            onClick={() => setShowKeyModal(!showKeyModal)}
-            title="Cài đặt Groq API Key"
-            style={{ color: hasActiveKey ? '#F97316' : 'var(--color-text-muted)' }}
-          >
-            <Key size={16} />
-          </button>
-          <button className="ai-panel-close" onClick={() => dispatch({ type: 'TOGGLE_AI_CHAT' })}>
-            <X size={18} />
-          </button>
-        </div>
+        <button className="ai-panel-close" onClick={() => dispatch({ type: 'TOGGLE_AI_CHAT' })}>
+          <X size={18} />
+        </button>
       </div>
-
-      {showKeyModal && (
-        <div style={{ padding: '12px 16px', background: 'var(--color-bg-card)', borderBottom: '1px solid var(--color-border)', fontSize: '12px' }}>
-          <div style={{ fontWeight: 600, color: '#F97316', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <Zap size={14} /> Cài đặt Groq API Key (Khuyên dùng)
-          </div>
-          <div style={{ color: 'var(--color-text-secondary)', marginBottom: '8px', fontSize: '11px', lineHeight: '1.4' }}>
-            Lấy key miễn phí siêu tốc tại <a href="https://console.groq.com/keys" target="_blank" rel="noreferrer" style={{ color: '#F97316', textDecoration: 'underline' }}>console.groq.com/keys</a> (bắt đầu bằng <code>gsk_...</code>). Hoặc dùng key Gemini (<code>AIzaSy...</code>).
-          </div>
-          <div style={{ display: 'flex', gap: '6px' }}>
-            <input 
-              type="password"
-              placeholder="Dán khóa gsk_..."
-              value={customKeyInput}
-              onChange={(e) => setCustomKeyInput(e.target.value)}
-              style={{
-                flex: 1,
-                padding: '6px 10px',
-                background: 'var(--color-bg-input)',
-                border: '1px solid var(--color-border)',
-                borderRadius: '8px',
-                color: '#fff',
-                fontSize: '12px'
-              }}
-            />
-            <button 
-              onClick={handleSaveKey}
-              style={{
-                padding: '6px 12px',
-                background: '#F97316',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '8px',
-                fontWeight: 600,
-                fontSize: '11px',
-                cursor: 'pointer'
-              }}
-            >
-              {keySavedMsg ? <Check size={14} /> : 'Lưu'}
-            </button>
-          </div>
-        </div>
-      )}
 
       <div className="ai-panel-messages">
         <div style={{ fontSize: '11px', textAlign: 'center', color: 'var(--color-text-muted)', marginBottom: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
-          <span>Động cơ:</span>
-          {isGroq ? (
-            <span style={{ color: '#F97316', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-              <Zap size={12} fill="#F97316" /> Groq Llama 3.3 70B (Siêu tốc + RAG)
-            </span>
-          ) : (hasActiveKey ? (
-            <span style={{ color: '#10B981', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10B981' }}></span> Live AI + RAG Knowledge
-            </span>
-          ) : (
-            <span style={{ color: 'var(--color-accent-cyan)', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--color-accent-cyan)' }}></span> RAG Maritime Engine (Offline Database)
-            </span>
-          ))}
+          <span style={{ color: '#F97316', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+            <Zap size={12} fill="#F97316" /> Groq Llama 3.3 70B (Siêu tốc + RAG)
+          </span>
         </div>
         
         {messages.map((msg, idx) => (
           <div key={idx} className={`ai-message ${msg.role}`}>
             {msg.role === 'assistant' && (
-              <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '6px', color: isGroq ? '#F97316' : 'var(--color-accent-cyan)' }}>
+              <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '6px', color: '#F97316' }}>
                 <Sparkles size={14} />
                 <span style={{ fontSize: '11px', fontWeight: 600 }}>Dolphin Maritime AI</span>
               </div>
@@ -229,7 +148,7 @@ export default function AICopilotDrawer() {
             
             {msg.source && (
               <div className="ai-source" style={{ marginTop: '8px', fontSize: '10px', color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <BookOpen size={12} style={{ color: isGroq ? '#F97316' : 'var(--color-accent-cyan)' }} />
+                <BookOpen size={12} style={{ color: '#F97316' }} />
                 <span>{msg.source}</span>
               </div>
             )}
@@ -238,7 +157,7 @@ export default function AICopilotDrawer() {
 
         {isLoading && (
           <div className="ai-message assistant" style={{ opacity: 0.85 }}>
-            <div style={{ display: 'flex', gap: '8px', alignItems: 'center', color: isGroq ? '#F97316' : 'var(--color-accent-cyan)' }}>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center', color: '#F97316' }}>
               <Loader2 size={16} className="animate-spin" />
               <span style={{ fontSize: '12px' }}>Groq đang suy luận siêu tốc từ dữ liệu RAG...</span>
             </div>
