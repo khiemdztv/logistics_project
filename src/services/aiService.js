@@ -38,11 +38,68 @@ export async function getRagContext() {
   return cachedContext
 }
 
-// Smart Local RAG Search Engine (TF-IDF keyword & section ranking)
+// Smart Local RAG Search Engine
 function searchLocalRagDatabase(query, rawContext) {
   const q = query.toLowerCase().trim()
 
-  // 1. Conversational / Identity Queries
+  // 1. Web Explanation & Features
+  if (
+    q.includes('chưa hiểu gì về web') ||
+    q.includes('giải thích web') ||
+    q.includes('web này làm gì') ||
+    q.includes('chức năng của web') ||
+    q.includes('hướng dẫn sử dụng') ||
+    q.includes('tính năng')
+  ) {
+    return `**HỆ THỐNG QUẢN LÝ & GIÁM ĐỊNH LÀM SẠCH HẦM HÀNG DOLPHIN TANKOPS**
+
+Website được thiết kế chuyên biệt cho Sĩ quan tàu **Dolphin 01 (34,000 DWT, Bọc sơn Pure Epoxy)** nhằm tối ưu hóa quy trình rửa hầm, rút ngắn thời gian sẵn sàng trao NOR (Notice of Readiness) và ngăn ngừa rủi ro ô nhiễm chéo hàng hóa.
+
+**Quy trình 3 Bước Cốt lõi:**
+1. **Bước 1: Khởi tạo & Phân tích Tương thích (Step 1)**
+   - Nhập thông tin: Lô hàng cũ vừa dỡ, lô hàng mới sắp nhận, số hầm hàng, hải trình.
+   - Hệ thống tự động:
+     • Đối chiếu danh mục cấm **FOSFA Banned Immediate Previous Cargoes** (Luật cấm 3 chuyến trước khi chở dầu thực vật).
+     • Kiểm tra khả năng tương thích lớp bọc Pure Epoxy.
+     • Đề xuất phương pháp kiểm tra: **Wall Wash Standard** (hàng tinh khiết/dung môi) hoặc **Water White Standard** (dầu thô/DPP).
+     • Xuất quy trình rửa hầm tiêu chuẩn 5–7 bước chi tiết.
+
+2. **Bước 2: Thực hiện Kiểm tra & Số hóa Bằng chứng (Step 2)**
+   - **Nhánh Water White (Cảm quan):** Checklist số hóa 7 khu vực hầm (Trần hầm, vách mũi/lái/mạn, đáy hầm, giếng thu) theo 4 tiêu chí *Sạch – Khô – Không mùi – Không gỉ sắt*, kèm chức năng tải ảnh chụp bằng chứng.
+   - **Nhánh Wall Wash (Định lượng hóa chất):** Nhập 5 chỉ số test phòng thí nghiệm (*Clorua <= 2 ppm, PTT >= 50 min, APHA <= 20, Hydrocarbon <= 35 ppm, NVM*). Nếu có chỉ số không đạt, AI tự động chẩn đoán nguyên nhân và hướng dẫn quy trình rửa lại.
+
+3. **Bước 3: Tổng hợp Báo cáo & Nghiệm thu (Step 3)**
+   - Đóng gói toàn bộ nhật ký kiểm tra, số liệu hóa nghiệm, ảnh chụp bằng chứng, chữ ký sĩ quan.
+   - Xuất **Chứng chỉ Vệ sinh Hầm hàng (Cargo Hold Cleanliness Certificate)** chuẩn **INTERTANKO** phục vụ nghiệm thu với Giám định viên độc lập (Surveyor).`
+  }
+
+  // 2. Theory of Tank Cleaning ("lý thuyết về việc dọn hầm", "nguyên lý làm sạch")
+  if (
+    q.includes('lý thuyết về việc dọn hầm') ||
+    q.includes('lý thuyết dọn hầm') ||
+    q.includes('nguyên lý làm sạch') ||
+    q.includes('tại sao phải làm sạch') ||
+    q.includes('mục đích làm sạch')
+  ) {
+    return `**LÝ THUYẾT VÀ NGUYÊN LÝ LÀM SẠCH HẦM HÀNG TÀU DẦU / HÓA CHẤT (TANK CLEANING THEORY)**
+
+**1. Mục đích Cốt lõi:**
+- **Ngăn ngừa nhiễm bẩn chéo (Cross-Contamination):** Một lượng tạp chất siêu vi lượng (vài ppm Hydrocarbon hoặc Clorua) từ hàng cũ có thể làm hỏng toàn bộ lô hàng hóa chất tinh khiết trị giá hàng triệu USD.
+- **Tuân thủ Công ước Quốc tế:** MARPOL Annex II (bảo vệ môi trường biển) và FOSFA (an toàn thực phẩm).
+- **Đạt chứng nhận nghiệm thu:** Đạt chứng chỉ độ sạch từ Giám định viên (Cargo Surveyor) để đủ điều kiện trao thông báo sẵn sàng làm hàng (NOR).
+
+**2. Cơ chế Hóa học & Vật lý trong Rửa Hầm:**
+- **Cơ chế Nhũ hóa (Emulsification):** Dùng chất tẩy rửa gốc dầu mỏ (*Unitor Seaclean Plus, Marclean HCR*) để phân tán các phân tử dầu nặng, sáp paraffin không tan trong nước thành các hạt micelle lơ lửng dễ bị xối trôi.
+- **Cơ chế Xà phòng hóa (Saponification):** Dùng chất tẩy tính Kiềm mạnh (*Unitor Alkaclean / Careclean Alkaline*) ở 75–85°C phản ứng với axit béo trong Dầu thực vật (CPO) tạo thành xà phòng tan hoàn toàn trong nước.
+- **Cơ chế Tách ẩm & Bay hơi (Desorption & Evaporation):** Đối với lớp sơn Pure Epoxy bị ngậm dung môi hữu cơ (Benzene, Toluene), dùng phương pháp xông hơi (Steaming) hoặc thổi khí khô nóng cưỡng bức để kéo dung môi từ sâu trong màng sơn ra bề mặt.
+- **Cơ chế Khử mặn (De-salination):** Rửa tráng áp lực cao bằng Nước khử khoáng (**DI Water**) sau khi rửa nước biển để triệt tiêu hoàn toàn ion Clorua (\`Cl-\`).
+
+**3. Các Tiêu chuẩn Kiểm định Độ sạch:**
+- **Water White Standard:** Đạt tiêu chuẩn cảm quan bằng mắt và khứu giác (*Sạch – Khô – Không mùi – Không dị vật*).
+- **Wall Wash Standard:** Đạt 5 chỉ tiêu hóa nghiệm định lượng (*Clorua < 2 ppm, PTT > 50 min, Hydrocarbon không đục, APHA < 20, NVM < 10 ppm*).`
+  }
+
+  // 3. Conversational / Identity Queries
   if (
     q === '?' ||
     q === 'hi' ||
@@ -51,8 +108,7 @@ function searchLocalRagDatabase(query, rawContext) {
     q.includes('mày là ai') ||
     q.includes('bạn là ai') ||
     q.includes('ai là bạn') ||
-    q.includes('giới thiệu') ||
-    q.includes('chức năng')
+    q.includes('giới thiệu')
   ) {
     return `**Dolphin Maritime Copilot (Hệ thống AI Cố vấn Hàng hải Chuyên sâu):**
 
@@ -67,17 +123,18 @@ Tôi là trợ lý AI được tích hợp trực tiếp vào hệ thống đi�
 • **Sổ tay tương thích sơn:** *Jotun Cargo Resistance Guide for Pure Epoxy*
 
 **Tôi có thể hỗ trợ bạn:**
-1. Tra cứu ma trận tương thích hàng hóa cũ ➡️ hàng mới.
-2. Hướng dẫn chi tiết từng bước rửa hầm (nhiệt độ nước, hóa chất kiềm/dung môi, liều lượng).
-3. Chẩn đoán nguyên nhân và hướng dẫn xử lý khi rớt chỉ số kiểm tra (PTT, Clorua, Hydrocarbon, APHA).
-4. Tính toán dự toán khối lượng hóa chất tẩy rửa (Chemical Calculator).`
+1. Hướng dẫn toàn diện về **Tính năng và Quy trình của Website Dolphin TankOps**.
+2. Giải thích **Lý thuyết làm sạch hầm hàng** và cơ chế phản ứng hóa chất.
+3. Tra cứu **Ma trận tương thích hàng hóa FOSFA & MARPOL**.
+4. Hướng dẫn quy trình rửa hầm từng loại hàng (CPO, Methanol, Jet A-1, Dầu thô).
+5. Chẩn đoán và xử lý khi rớt chỉ số test (PTT, Clorua, Hydrocarbon, APHA).`
   }
 
-  // 2. Definition & Concept Queries ("khái niệm", "là gì", "định nghĩa")
+  // 4. Definition & Concept Queries ("khái niệm", "là gì", "định nghĩa")
   if (q.includes('khái niệm') || q.includes('là gì') || q.includes('định nghĩa') || q.includes('ý nghĩa')) {
     if (q.includes('wall wash') || q.includes('wwt')) {
       return `**Khái niệm Tiêu chuẩn Wall Wash Standard (WWT):**
-• **Định nghĩa:** Là phương pháp kiểm tra độ sạch hóa học định lượng nghiêm ngặt nhất trên tàu chở hóa chất. Sĩ quan sẽ dùng dung môi tinh khiết phòng thí nghiệm (thường là *Methanol* hoặc *Acetone*) phun quét lên vách hầm và hứng dịch chảy xuống để làm các xét nghiệm hóa lý.
+• **Định nghĩa:** Là phương pháp kiểm tra độ sạch hóa học định lượng nghiêm ngặt nhất trên tàu chở hóa chất. Sĩ quan sẽ dùng dung môi tinh khiết phòng thí nghiệm (*Methanol* hoặc *Acetone*) phun quét lên vách hầm và hứng dịch chảy xuống để làm các xét nghiệm hóa lý.
 • **Áp dụng cho:** Các lô hàng dung môi công nghiệp tinh khiết cao (Methanol, Ethanol, MEG, IPA, Benzene, Acetone), Nhiên liệu bay Jet A-1, Monomer nhạy cảm.
 • **5 Phép thử cốt lõi:**
   1. *Hydrocarbon (Water Miscibility)*: <= 35 ppm (Pha nước DI không đục).
@@ -108,7 +165,7 @@ Tôi là trợ lý AI được tích hợp trực tiếp vào hệ thống đi�
     }
   }
 
-  // 3. Topic specific matches
+  // 5. CPO / Dầu thực vật
   if (q.includes('cpo') || q.includes('dầu cọ') || q.includes('dầu thực vật')) {
     return `**Quy trình chuẩn rửa hầm sau khi dỡ Dầu Cọ (CPO) / Dầu Thực Vật:**
 • **Bước 1 (Xả trôi lạnh):** Rửa xả trôi bằng **NƯỚC BIỂN MÁT (< 40°C)** ngay sau khi dỡ hàng.
@@ -118,6 +175,7 @@ Tôi là trợ lý AI được tích hợp trực tiếp vào hệ thống đi�
 • **Bước 4 (Sấy khô & Thử WWT):** Sấy khô cưỡng bức bằng khí sạch không dầu. Lấy mẫu test PTT, FFA và Hydrocarbon.`
   }
 
+  // 6. PTT Failures
   if (q.includes('ptt') || q.includes('thuốc tím') || q.includes('6.5') || q.includes('6.8') || q.includes('fade')) {
     return `**Hướng dẫn chẩn đoán và xử lý khi rớt chỉ số PTT (Permanganate Time Test < 50 phút):**
 • **Nguyên nhân kỹ thuật:**
@@ -129,6 +187,7 @@ Tôi là trợ lý AI được tích hợp trực tiếp vào hệ thống đi�
   3. Tráng nước khử khoáng (DI Water), sấy khô và kiểm tra lại PTT ở 15°C.`
   }
 
+  // 7. Clorua / Chloride / Nitrile
   if (q.includes('clorua') || q.includes('độ mặn') || q.includes('muối') || q.includes('chloride') || q.includes('nitrile') || q.includes('agno3')) {
     return `**Tiêu chuẩn kiểm tra Clorua & Lưu ý An toàn thao tác:**
 • **Nguyên lý:** Nhỏ 2 giọt Axit Nitric (HNO3) để triệt tiêu cặn carbonat gây đục giả, sau đó nhỏ 5 giọt dung dịch Bạc Nitrat (AgNO3 10%). Phản ứng tạo kết tủa trắng bạc Clorua: \`Ag+ + Cl- -> AgCl\`.
@@ -136,105 +195,106 @@ Tôi là trợ lý AI được tích hợp trực tiếp vào hệ thống đi�
 • **Yếu tố con người (Human Factor Constraint):** Bắt buộc sĩ quan phải đeo **găng tay Nitrile sạch không bột** khi cầm phễu và chai mẫu. Tuyệt đối không để da tay chạm vào mẫu vì muối trong mồ hôi tay sẽ gây lỗi nhiễm mặn giả lập!`
   }
 
-  if (q.includes('methanol') || q.includes('dung môi') || q.includes('meg') || q.includes('ipa') || q.includes('benzene')) {
-    return `**Tiêu chuẩn nhận hàng Hóa chất & Dung môi tinh khiết (Methanol, MEG, IPA, Benzene):**
-• **Yêu cầu làm sạch:** Bắt buộc đạt chuẩn **Wall Wash Standard** nghiêm ngặt.
-• **Quy trình:** Rửa nước ngọt nóng 70°C ➡️ Xông hơi dung môi trung gian (Solvent Wash) nếu hàng trước là dầu nặng ➡️ Tráng nước DI (Clorua < 0.1 ppm) ➡️ Sấy khô khí sạch không dầu.
-• **Chỉ tiêu bàn giao:** Clorua < 2 ppm, PTT > 50 phút, Hydrocarbon Miscibility trong suốt, APHA <= 10.`
-  }
+  return `**Dolphin Maritime Copilot (Cơ sở dữ liệu Hàng hải Tàu Dolphin 01):**
 
-  if (q.includes('epoxy') || q.includes('sơn') || q.includes('lớp phủ') || q.includes('jotun')) {
-    return `**Đặc tính & Lưu ý Lớp sơn phủ Pure Epoxy của tàu Dolphin 01:**
-• **Đặc tính:** Chịu tốt dầu mỏ, dầu thực vật, dung môi hữu cơ thông thường.
-• **Cảnh báo sống còn:**
-  1. *Tính ngậm dung môi:* Sau khi chở cồn/dung môi hoạt tính, sơn sẽ bị mềm tạm thời. Tuyệt đối không xông hơi quá 80°C và cần thời gian phục hồi (Rest period) 24–48h.
-  2. *Chất cấm:* Tuyệt đối không dùng hóa chất tẩy rửa có tính Axit vô cơ mạnh (HCl, HNO3 đặc) xịt trực tiếp lên bề mặt vì sẽ gây rộp hỏng màng sơn!`
-  }
+Dựa trên tài liệu huấn luyện chuyên ngành tàu hóa chất Dolphin 01 (Pure Epoxy, 34,000 DWT):
 
-  if (q.includes('tính') || q.includes('công thức') || q.includes('vật tư') || q.includes('lượng hóa chất')) {
-    return `**Công thức dự toán hóa chất & vật tư làm sạch (Chemical Calculator):**
-1. **Thể tích nước rửa tuần hoàn:** \`V_water = Diện tích vách (m2) x 0.15 đến 0.25 (lít/m2)\`.
-2. **Khối lượng hóa chất tẩy rửa:** \`V_chem = V_water x Nồng độ % (thường 2.0% - 3.0% thể tích)\`.
-3. **Lượng dung môi Methanol thử WWT:** Trung bình 5 – 10 lít Methanol Lab-grade cho mỗi hầm 1,200 m3 để lấy mẫu 5 điểm vách.`
-  }
-
-  // Generic fallback with search excerpt from text
-  return `**Dolphin Maritime Copilot (Cơ sở dữ liệu Tàu Dolphin 01):**
-Dựa trên tài liệu huấn luyện hàng hải cho tàu Dolphin 01 (Pure Epoxy, 34,000 DWT):
-
-• **Quy chuẩn đối chiếu:** MARPOL Annex II, FOSFA Banned Lists, INTERTANKO Cleanliness, CHRIS Manual.
-• **Hướng dẫn cho câu hỏi "${query}":** 
-  Vui lòng chỉ định rõ loại hàng hóa cũ/mới (ví dụ: *CPO*, *Methanol*, *Jet A-1*, *Crude Oil*) hoặc chỉ tiêu cần tra cứu (*PTT*, *Clorua*, *Hydrocarbon*, *APHA*, *FOSFA*, *Water White*), tôi sẽ cung cấp đầy đủ quy trình, hóa chất và nhiệt độ chuẩn xác!`
+• **Tài liệu tham chiếu:** *CHRIS Manual, MARPOL Annex II (MEPC.2-Circ.29/31), FOSFA Banned Lists, INTERTANKO Standards, Jotun Resistance Guide*.
+• **Giải đáp cho câu hỏi "${query}":**
+  - Để tra cứu **Quy trình làm sạch:** Bạn có thể hỏi về các loại hàng như *CPO*, *Methanol*, *Jet A-1*, *Dầu thô*, *Styrene Monomer*.
+  - Để tra cứu **Tiêu chuẩn kiểm tra:** Bạn có thể hỏi về *Wall Wash Test*, *Water White*, *Chỉ số PTT*, *Phép thử Clorua*, *Độ màu APHA*.
+  - Để tìm hiểu **Tính năng Website:** Bạn có thể hỏi *"giải thích web"*, *"hướng dẫn sử dụng web"*, hoặc *"lý thuyết dọn hầm"*!`
 }
 
-// Call live Gemini AI with fallback
+// Unified chat function: Calls serverless /api/chat first, then client Gemini, then local RAG
 export async function chatWithCopilot(userMessage, chatHistory) {
-  const context = await getRagContext()
-  const apiKey = getActiveApiKey()
+  const customApiKey = getActiveApiKey()
 
-  // If no API key configured, use local RAG search
-  if (!apiKey) {
-    return searchLocalRagDatabase(userMessage, context)
-  }
-
+  // 1. Try serverless backend (/api/chat) on Vercel
   try {
-    const genAIInstance = new GoogleGenerativeAI(apiKey)
-    const modelCandidates = ['gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-2.0-flash']
-    let lastError = null
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userMessage,
+        chatHistory,
+        customApiKey
+      })
+    })
 
-    const systemInstruction = `Bạn là Dolphin Maritime Copilot - Chuyên gia AI Cố vấn Hàng hải cho Sĩ quan tàu Dầu/Hóa chất Dolphin 01 (Pure Epoxy coating, 34,000 DWT).
-Nhiệm vụ: Trả lời chính xác, thông minh, tự nhiên các câu hỏi kỹ thuật về làm sạch hầm hàng, kiểm tra Wall Wash Test, Water White, quy tắc FOSFA Banned List, MARPOL Annex II, và an toàn MSDS.
-Nếu người dùng chào hỏi hoặc hỏi bạn là ai, hãy giới thiệu bản thân thân thiện, ngắn gọn và nêu rõ các tài liệu bạn được huấn luyện (CHRIS Manual, MARPOL, FOSFA, INTERTANKO, Jotun Resistance).
-Nguồn dữ liệu tham chiếu (RAG Context): Hãy DỰA TRỰC TIẾP VÀO NỘI DUNG TÀI LIỆU DƯỚI ĐÂY để trả lời.
-Quy định trình bày: 
-- Trình bày định dạng Markdown chuẩn (dùng danh sách gạch đầu dòng, **in đậm** tiêu đề và số liệu quan trọng).
-
---- TÀI LIỆU HUẤN LUYỆN DOLPHIN TANKOPS (RAG DATABASE) ---
-${context.substring(0, 45000)}
-`
-
-    const history = chatHistory
-      .filter(msg => msg.role !== 'system')
-      .map(msg => ({
-        role: msg.role === 'assistant' ? 'model' : 'user',
-        parts: [{ text: msg.content }]
-      }))
-
-    for (const modelName of modelCandidates) {
-      try {
-        const model = genAIInstance.getGenerativeModel({
-          model: modelName,
-          systemInstruction: systemInstruction,
-        })
-
-        const chat = model.startChat({
-          history: history,
-          generationConfig: {
-            maxOutputTokens: 1000,
-            temperature: 0.3,
-          }
-        })
-        const result = await chat.sendMessage(userMessage)
-        const response = await result.response
-        return response.text()
-      } catch (err) {
-        console.warn(`Model ${modelName} failed:`, err.message)
-        lastError = err
+    if (res.ok) {
+      const data = await res.json()
+      if (data && data.reply) {
+        return data.reply
       }
     }
-
-    throw lastError || new Error('Không thể kết nối Gemini API.')
-  } catch (error) {
-    console.error('Gemini API Error, falling back to Local RAG Engine:', error)
-    return searchLocalRagDatabase(userMessage, context)
+  } catch (err) {
+    console.warn('Serverless /api/chat not available, trying client-side AI...', err)
   }
+
+  // 2. Try client-side Gemini if API Key is configured in localStorage or Vite env
+  if (customApiKey) {
+    try {
+      const context = await getRagContext()
+      const genAIInstance = new GoogleGenerativeAI(customApiKey)
+      const model = genAIInstance.getGenerativeModel({
+        model: 'gemini-2.5-flash',
+        systemInstruction: `Bạn là Dolphin Maritime Copilot - Chuyên gia Cố vấn AI Hàng hải cho Tàu Dolphin 01.
+Nhiệm vụ: Trả lời thông minh, thân thiện mọi câu hỏi về tính năng web Dolphin TankOps, lý thuyết làm sạch hầm hàng, tiêu chuẩn kiểm tra Wall Wash/Water White, quy chuẩn MARPOL, FOSFA và an toàn hóa chất.
+Nguồn dữ liệu tham chiếu:
+${context.substring(0, 45000)}
+`
+      })
+
+      const history = chatHistory
+        .filter(msg => msg.role !== 'system')
+        .map(msg => ({
+          role: msg.role === 'assistant' ? 'model' : 'user',
+          parts: [{ text: msg.content }]
+        }))
+
+      const chat = model.startChat({
+        history,
+        generationConfig: { maxOutputTokens: 1200, temperature: 0.4 }
+      })
+
+      const result = await chat.sendMessage(userMessage)
+      const response = await result.response
+      return response.text()
+    } catch (clientErr) {
+      console.error('Client-side Gemini call failed:', clientErr)
+    }
+  }
+
+  // 3. Fallback to Smart Local Semantic RAG Search Engine
+  const context = await getRagContext()
+  return searchLocalRagDatabase(userMessage, context)
 }
 
 export async function analyzeTestFailures(failedTests, allResults, previousCargo, newCargo) {
-  const context = await getRagContext()
-  const apiKey = getActiveApiKey()
+  const customApiKey = getActiveApiKey()
 
-  const fallbackDiagnostic = {
+  // Try serverless API first
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        isDiagnostic: true,
+        diagnosticData: { failedTests, allResults, previousCargo, newCargo },
+        customApiKey
+      })
+    })
+
+    if (res.ok) {
+      return await res.json()
+    }
+  } catch (e) {
+    console.warn('Serverless diagnostic failed, using fallback:', e)
+  }
+
+  // Fallback diagnostic
+  return {
     title: "AI CHẨN ĐOÁN & HƯỚNG DẪN KHẮC PHỤC (RAG SOP)",
     causes: failedTests.map(testId => {
       if (testId === 'ptt') return 'Chỉ số PTT thấp do còn màng dầu mỏng (Hydrocarbon film) hoặc lớp sơn Epoxy hấp thụ cặn hữu cơ từ hàng trước tiết ra.'
@@ -248,47 +308,5 @@ export async function analyzeTestFailures(failedTests, allResults, previousCargo
       `Xông hơi nhiệt hoặc tráng rửa áp lực cao toàn bộ vách và giếng thu bằng Nước khử khoáng (DI Water).`,
       `Sấy khô cưỡng bức bằng khí sạch không dầu và tiến hành kiểm tra lại các chỉ tiêu không đạt.`
     ]
-  }
-
-  if (!apiKey) {
-    return fallbackDiagnostic
-  }
-
-  try {
-    const genAIInstance = new GoogleGenerativeAI(apiKey)
-    const model = genAIInstance.getGenerativeModel({ model: 'gemini-2.5-flash' })
-    const prompt = `Bạn là chuyên gia giám định hóa chất (Cargo Surveyor). Sĩ quan tàu Dolphin 01 vừa thực hiện kiểm tra Wall Wash Standard.
-Hàng cũ vừa dỡ: ${previousCargo}
-Hàng sắp nhận: ${newCargo}
-Các chỉ tiêu KHÔNG ĐẠT:
-${failedTests.map(testId => `- ${testId.toUpperCase()}: ${allResults[testId]}`).join('\n')}
-
-Dựa vào tài liệu CHRIS Manual / Tank Cleaning Guide:
-1. Nêu NGẮN GỌN nguyên nhân khả dĩ (causes) khiến các chỉ tiêu này không đạt. (2-3 ý)
-2. Đề xuất quy trình RỬA LẠI (solutions) cụ thể, chi tiết các hóa chất cần dùng và nhiệt độ. (2-3 bước)
-
-Trả lời bắt buộc theo định dạng JSON sau:
-{
-  "title": "AI CHẨN ĐOÁN & HƯỚNG DẪN KHẮC PHỤC",
-  "causes": ["Nguyên nhân 1", "Nguyên nhân 2"],
-  "solutions": ["Bước 1...", "Bước 2..."]
-}
-
---- TÀI LIỆU THAM KHẢO ---
-${context.substring(0, 30000)}
-`
-    const result = await model.generateContent({
-      contents: [{ role: 'user', parts: [{ text: prompt }] }],
-      generationConfig: {
-        responseMimeType: "application/json",
-        temperature: 0.1
-      }
-    })
-    
-    const responseText = await result.response.text()
-    return JSON.parse(responseText)
-  } catch (error) {
-    console.error('Gemini AI Diagnostic Error, using fallback:', error)
-    return fallbackDiagnostic
   }
 }
