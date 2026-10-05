@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useApp } from '../context/AppContext'
-import { Sparkles, X, Send, BookOpen, Bot, Loader2 } from 'lucide-react'
-import { chatWithCopilot } from '../services/aiService'
+import { Sparkles, X, Send, BookOpen, Bot, Loader2, Key, Check, Info } from 'lucide-react'
+import { chatWithCopilot, getActiveApiKey, saveCustomApiKey } from '../services/aiService'
 
 function renderFormattedMarkdown(text) {
   if (!text) return ''
@@ -34,10 +34,14 @@ export default function AICopilotDrawer() {
   const { state, dispatch } = useApp()
   const [inputText, setInputText] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [showKeyModal, setShowKeyModal] = useState(false)
+  const [customKeyInput, setCustomKeyInput] = useState('')
+  const [keySavedMsg, setKeySavedMsg] = useState(false)
   const messagesEndRef = useRef(null)
 
   const isOpen = state.aiChatOpen
   const messages = state.aiMessages
+  const hasActiveKey = Boolean(getActiveApiKey())
 
   // Auto scroll to bottom on new message
   useEffect(() => {
@@ -52,6 +56,15 @@ export default function AICopilotDrawer() {
     'Khác biệt giữa Wall Wash và Water White?',
     'Yêu cầu kiểm tra Clorua & Lưu ý găng tay Nitrile?'
   ]
+
+  const handleSaveKey = () => {
+    saveCustomApiKey(customKeyInput)
+    setKeySavedMsg(true)
+    setTimeout(() => {
+      setKeySavedMsg(false)
+      setShowKeyModal(false)
+    }, 1200)
+  }
 
   const handleSend = async (customPrompt) => {
     const textToSend = typeof customPrompt === 'string' ? customPrompt : inputText
@@ -74,7 +87,7 @@ export default function AICopilotDrawer() {
         message: { 
           role: 'assistant', 
           content: aiResponse,
-          source: 'RAG Knowledge: CHRIS Manual / MARPOL / FOSFA'
+          source: hasActiveKey ? 'Live Gemini 2.5 Flash + RAG Knowledge' : 'RAG Maritime Engine (CHRIS/MARPOL/FOSFA)'
         }
       })
     } catch (error) {
@@ -117,14 +130,76 @@ export default function AICopilotDrawer() {
           <Bot size={20} />
         </div>
         <div className="ai-panel-title">Dolphin Maritime Copilot</div>
-        <button className="ai-panel-close" onClick={() => dispatch({ type: 'TOGGLE_AI_CHAT' })}>
-          <X size={18} />
-        </button>
+        <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+          <button 
+            className="ai-panel-close" 
+            onClick={() => setShowKeyModal(!showKeyModal)}
+            title="Cài đặt API Key Gemini"
+            style={{ color: hasActiveKey ? 'var(--color-accent-cyan)' : 'var(--color-text-muted)' }}
+          >
+            <Key size={16} />
+          </button>
+          <button className="ai-panel-close" onClick={() => dispatch({ type: 'TOGGLE_AI_CHAT' })}>
+            <X size={18} />
+          </button>
+        </div>
       </div>
 
+      {showKeyModal && (
+        <div style={{ padding: '12px 16px', background: 'var(--color-bg-card)', borderBottom: '1px solid var(--color-border)', fontSize: '12px' }}>
+          <div style={{ fontWeight: 600, color: 'var(--color-accent-cyan)', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <Key size={14} /> Cài đặt Google Gemini API Key
+          </div>
+          <div style={{ color: 'var(--color-text-secondary)', marginBottom: '8px', fontSize: '11px', lineHeight: '1.4' }}>
+            Nhập API key từ Google AI Studio (bắt đầu bằng <code>AIzaSy...</code>) để kích hoạt Live Gemini AI. Hoặc để trống để dùng bộ tri thức nội bộ Offline.
+          </div>
+          <div style={{ display: 'flex', gap: '6px' }}>
+            <input 
+              type="password"
+              placeholder="Dán khóa AIzaSy..."
+              value={customKeyInput}
+              onChange={(e) => setCustomKeyInput(e.target.value)}
+              style={{
+                flex: 1,
+                padding: '6px 10px',
+                background: 'var(--color-bg-input)',
+                border: '1px solid var(--color-border)',
+                borderRadius: '8px',
+                color: '#fff',
+                fontSize: '12px'
+              }}
+            />
+            <button 
+              onClick={handleSaveKey}
+              style={{
+                padding: '6px 12px',
+                background: 'var(--color-accent-cyan)',
+                color: '#0B132B',
+                border: 'none',
+                borderRadius: '8px',
+                fontWeight: 600,
+                fontSize: '11px',
+                cursor: 'pointer'
+              }}
+            >
+              {keySavedMsg ? <Check size={14} /> : 'Lưu'}
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="ai-panel-messages">
-        <div style={{ fontSize: '11px', textAlign: 'center', color: 'var(--color-text-muted)', marginBottom: '8px' }}>
-          Mô hình: <strong>Gemini 2.5 Flash / 1.5 Flash (RAG Maritime Engine)</strong>
+        <div style={{ fontSize: '11px', textAlign: 'center', color: 'var(--color-text-muted)', marginBottom: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+          <span>Chế độ:</span>
+          {hasActiveKey ? (
+            <span style={{ color: '#10B981', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10B981' }}></span> Live Gemini 2.5 Flash + RAG
+            </span>
+          ) : (
+            <span style={{ color: 'var(--color-accent-cyan)', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--color-accent-cyan)' }}></span> RAG Local Maritime Engine
+            </span>
+          )}
         </div>
         
         {messages.map((msg, idx) => (
