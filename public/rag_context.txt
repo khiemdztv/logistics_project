@@ -1,0 +1,171 @@
+﻿=================== DOCX: m├┤ tß║ú chi tiß║┐t.docx ===================
+GIAI ─ÉOß║áN 1: KHß╗₧I Tß║áO V├Ç X├üC ─Éß╗èNH PH╞»╞áNG PH├üP KIß╗éM TRA
+Nhß║¡p dß╗» liß╗çu ─æß║ºu v├áo (Input):
+Thao t├íc cß╗ºa S─⌐ quan: Truy cß║¡p hß╗ç thß╗æng, chß╗ìn/nhß║¡p T├¬n h├áng mß╗¢i sß║»p nhß║¡n. 
+Xß╗¡ l├╜ dß╗» liß╗çu (Web Processing):
+Web c─ân cß╗⌐ v├áo loß║íi h├áng sß║»p tß╗¢i, tß╗▒ ─æß╗Öng ─æß╗æi chiß║┐u vß╗¢i c╞í sß╗ƒ dß╗» liß╗çu quy chuß║⌐n vß╗ç sinh hß║ºm h├áng. 
+Web ─æ╞░a ra Ph╞░╞íng ph├íp kiß╗âm tra hß║ºm ph├╣ hß╗úp nhß║Ñt thuß╗Öc mß╗Öt trong hai ti├¬u chuß║⌐n: Water White Standard hoß║╖c Wall Wash Standard. 
+GIAI ─ÉOß║áN 2: THß╗░C HIß╗åN KIß╗éM TRA THEO PH├éN NH├üNH
+ NH├üNH 1: TI├èU CHUß║¿N WATER WHITE (Kiß╗âm tra Cß║úm quan bß║▒ng Mß║»t th╞░ß╗¥ng)
+├üp dß╗Ñng cho c├íc loß║íi h├áng h├│a th├┤ng th╞░ß╗¥ng, y├¬u cß║ºu c╞í bß║ún vß╗ü ─æß╗Ö sß║ích cß║úm quan.
+Hiß╗ân thß╗ï Ti├¬u chuß║⌐n & Checklist:
+Web hiß╗ân thß╗ï y├¬u cß║ºu cß╗æt l├╡i: Hß║ºm h├áng phß║úi ─æß║ít c├íc ti├¬u ch├¡ Sß║ích ΓÇô Kh├┤ ΓÇô Kh├┤ng c├│ m├╣i ΓÇô Kh├┤ng c├│ dß╗ï vß║¡t/gß╗ë s├⌐t. 
+Web xuß║Ñt ra Checklist sß╗æ h├│a theo tß╗½ng khu vß╗▒c (Trß║ºn hß║ºm, v├ích m┼⌐i/l├íi/mß║ín, ─æ├íy hß║ºm, hß╗ç thß╗æng ─æ╞░ß╗¥ng ß╗æng/giß║┐ng thu). 
+Thao t├íc kiß╗âm tra & Tß║úi bß║▒ng chß╗⌐ng:
+S─⌐ quan cß║ºm ─æ├¿n kiß╗âm tra thß╗▒c tß║┐ hß║ºm h├áng, t├¡ch chß╗ìn v├áo c├íc n├║t [─Éß║ít] hoß║╖c [Kh├┤ng ─æß║ít] t╞░╞íng ß╗⌐ng tß╗½ng khu vß╗▒c tr├¬n m├án h├¼nh. 
+─Éß╗â ─æß║úm bß║úo t├¡nh minh bß║ích, Web y├¬u cß║ºu S─⌐ quan chß╗Ñp v├á tß║úi ß║únh thß╗▒c tß║┐ cß╗ºa tß╗½ng khu vß╗▒c l├¬n hß╗ç thß╗æng ─æß╗â l├ám bß║▒ng chß╗⌐ng 
+─É├ính gi├í & Rß║╜ nh├ính kß║┐t quß║ú:
+Nß║┐u [─Éß║áT]: Hß╗ç thß╗æng ghi nhß║¡n hß║ºm ─æß║ít chuß║⌐n cß║úm quan  Chuyß╗ân thß║│ng sang b╞░ß╗¢c Kß║╛T TH├ÜC QUY TR├îNH. 
+Nß║┐u [KH├öNG ─Éß║áT]: Web ─æ╞░a ra cß║únh b├ío v├á Y├¬u cß║ºu thuyß╗ün bß╗Ö rß╗¡a lß║íi ch├¡nh x├íc nhß╗»ng vß╗ï tr├¡/phß║ºn ch╞░a sß║ích  Sau khi rß╗¡a xong, S─⌐ quan thß╗▒c hiß╗çn kiß╗âm tra v├á t├¡ch lß║íi checklist. 
+≡ƒƒú NH├üNH 2: TI├èU CHUß║¿N WALL WASH (Kiß╗âm tra Bß║▒ng H├│a chß║Ñt)
+├üp dß╗Ñng cho c├íc loß║íi h├áng tinh khiß║┐t, h├áng h├│a chß║Ñt cao cß║Ñp ─æ├▓i hß╗Åi ─æß╗Ö sß║ích h├│a hß╗ìc cao.
+─Éß╗ü xuß║Ñt H╞░ß╗¢ng dß║½n Test H├│a chß║Ñt 
+Web hiß╗ân thß╗ï quy tr├¼nh thß╗¡ nghiß╗çm chi tiß║┐t:
+Loß║íi h├│a chß║Ñt dung m├┤i cß║ºn d├╣ng (Methanol, Acetone, Hydrocarbon... t├╣y loß║íi h├áng). 
+Quy tr├¼nh lß║Ñy mß║½u rß╗¡a v├ích (Wall Wash) v├á dß╗Ñng cß╗Ñ thß╗¡ nghiß╗çm cß║ºn thiß║┐t. 
+Nhß║¡p & Trß║ú kß║┐t quß║ú Test:
+Sau khi l├ám x├⌐t nghiß╗çm thß╗▒c tß║┐ tß║íi ph├▓ng lab/tr├¬n t├áu, S─⌐ quan nhß║¡p c├íc chß╗ë sß╗æ kß║┐t quß║ú test (─æß╗Ö mß║╖n, chß╗ë sß╗æ PTT, ─æß╗Ö m├áu, d╞░ l╞░ß╗úng Hydrocarbon...) v├áo hß╗ç thß╗æng. 
+─Éß╗æi chiß║┐u & ─É├ính gi├í tß╗▒ ─æß╗Öng:
+Web tß╗▒ ─æß╗Öng ─æß╗æi chiß║┐u c├íc chß╗ë sß╗æ S─⌐ quan vß╗½a nhß║¡p vß╗¢i C╞í sß╗ƒ dß╗» liß╗çu ti├¬u chuß║⌐n cung cß║Ñp sß║╡n. 
+Tr╞░ß╗¥ng hß╗úp [─Éß║áT]: Chß╗ë sß╗æ nß║▒m trong ng╞░ß╗íng cho ph├⌐p  Web x├íc nhß║¡n hß║ºm ─æß║ít chuß║⌐n h├│a chß║Ñt  Chuyß╗ân sang Kß║╛T TH├ÜC QUY TR├îNH. 
+Tr╞░ß╗¥ng hß╗úp [KH├öNG ─Éß║áT]: Chß╗ë sß╗æ v╞░ß╗út ng╞░ß╗íng quy ─æß╗ïnh: 
+web ph├ón t├¡ch theo kß║┐t quß║ú test ─æß╗â Chß║⌐n ─æo├ín nguy├¬n nh├ón (v├¡ dß╗Ñ: rß╗¢t PTT do d╞░ l╞░ß╗úng dß║ºu mß╗Å, rß╗¢t ─æß╗Ö mß║╖n do muß╗æi biß╗ân...) v├á ─É╞░a ra ph╞░╞íng ├ín rß╗¡a lß║íi hß║ºm ph├╣ hß╗úp (d├╣ng n╞░ß╗¢c ngß╗ìt, x├á ph├▓ng chuy├¬n dß╗Ñng hay dung m├┤i). 
+V├▓ng lß║╖p khß║»c phß╗Ñc: Thuyß╗ün bß╗Ö tiß║┐n h├ánh rß╗¡a lß║íi hß║ºm theo h╞░ß╗¢ng dß║½n cß╗ºa web  Tiß║┐n h├ánh test lß║íi  Nhß║¡p lß║íi kß║┐t quß║ú. V├▓ng lß║╖p n├áy lß║╖p lß║íi cho ─æß║┐n khi kß║┐t quß║ú ─æß║ít chuß║⌐n. 
+GIAI ─ÉOß║áN 3: HO├ÇN TH├ÇNH V├Ç Kß║╛T TH├ÜC QUY TR├îNH
+khi kß║┐t quß║ú kiß╗âm tra ─æß║ít trß║íng th├íi [─Éß║áT], hß╗ç thß╗æng ─æi ─æß║┐n ─æiß╗âm Kß║╛T TH├ÜC. 
+Xuß║Ñt b├ío c├ío: Web ─æ├│ng g├│i to├án bß╗Ö dß╗» liß╗çu (Bß║úng checklist, ß║únh bß║▒ng chß╗⌐ng, kß║┐t quß║ú test h├│a chß║Ñt, thß╗¥i gian thß╗▒c hiß╗çn, t├¬n S─⌐ quan) th├ánh B├ío c├ío ─æiß╗çn tß╗¡ phß╗Ñc vß╗Ñ cho viß╗çc nß╗Öp Th├┤ng b├ío sß║╡n s├áng hoß║╖c tr├¼nh Gi├ím ─æß╗ïnh vi├¬n nghiß╗çm thu. 
+=================== PPTX: m├┤ tß║ú chi tiß║┐t c├ích web hoß║ít ─æß╗Öng.pptx ===================
+--- ppt/slides/slide1.xml ---
+Bß║«T ─Éß║ªU Nhß║¡p t├¬n h├áng H├áng c┼⌐ vß╗½a dß╗í H├áng mß╗¢i sß║»p nhß║¡n Web ─æß╗æi chiß║┐u quy ─æß╗ïnh cß║Ñm xß║┐p h├áng nß╗æi tiß║┐p v├á trß║ú kß║┐t quß║ú Cß║Ñm chß╗ƒ Kß║┐t th├║c ─É╞░ß╗úc ph├⌐p Web c─ân cß╗⌐ v├áo loß║íi hang sß║»p tß╗¢i v├á ─æ╞░a ra c├ích kiß╗âm tra hß║ºm Water while standard Kiß╗âm tra mß║»t th╞░ß╗¥ng, sß║ích, kh├┤, kh├┤ng m├╣i Wall wash standard Kiß╗âm tra bß║▒ng h├│a ch├ót Web ─æß╗ü xu├ít h╞░ß╗¢ng dß║½n test bß║▒ng h├│a chß║Ñt (h├│a chß║Ñt n├áo, quy tr├¼nh ra sao) Nhß║¡p kß║┐t  quß║ú test (hoß║╖c chß╗Ñp ß║únh ─æß╗â ai qu├⌐t nß║┐u c├│) Trß║ú kß║┐t quß║ú test ─Éß║ít Web sß║╜ ─æß╗æi chiß║┐u vß╗¢i kß║┐t quß║ú test, c─ân cß╗⌐ v├áo th├┤ng tin cung cß║Ñp sß║╡n ─æß╗â ─æ╞░a ra kß║┐t quß║ú  Kh├┤ng ─æß║ít ai chß║⌐n ─æo├ín nguy├¬n nh├ón v├á ─æ╞░a ra c├ích rß╗¡a lß║íi hß║ºm Rß╗¡a hß║ºm v├á nhß║¡p lß║íi kß║┐t quß║ú Lß║╖p lß║íi ─æß║┐n khi ─æß║ít  Chß╗Ñp ß║únh to├án bß╗Ö hß║ºm hang ─æß╗â AI qu├⌐t (nß║┐u c├│) Ai gi├║p xem hß║ºm hang xem c├▓n cß║╖n bß║⌐n hay kh├┤ng hoß║╖c nhß╗»ng g├│c khuß║Ñt sß║╜ y├¬u cß║ºu chß╗Ñp bß╗ò sung, chß╗Ñp lß║íi nß║┐u ß║únh mß╗¥ rß╗ôi ─æ╞░a ra kß║┐t quß║ú Hß║ºm sß║ích Hß║ºm ch╞░a sß║ích Y├¬u cß║ºu rß╗¡a lß║íi Kß║┐t th├║c
+--- ppt/slides/slide2.xml ---
+Bß║«T ─Éß║ªU Nhß║¡p t├¬n h├áng H├áng mß╗¢i sß║»p nhß║¡n Web c─ân cß╗⌐ v├áo loß║íi hang sß║»p tß╗¢i v├á ─æ╞░a ra c├ích kiß╗âm tra hß║ºm Water while standard Kiß╗âm tra mß║»t th╞░ß╗¥ng, sß║ích, kh├┤, kh├┤ng m├╣i Wall wash standard Kiß╗âm tra bß║▒ng h├│a ch├ót Web ─æß╗ü xu├ít h╞░ß╗¢ng dß║½n test bß║▒ng h├│a chß║Ñt (h├│a chß║Ñt n├áo, quy tr├¼nh ra sao) Nhß║¡p kß║┐t  quß║ú Trß║ú kß║┐t quß║ú test ─Éß║ít Web sß║╜ ─æß╗æi chiß║┐u vß╗¢i kß║┐t quß║ú test, c─ân cß╗⌐ v├áo th├┤ng tin cung cß║Ñp sß║╡n ─æß╗â ─æ╞░a ra kß║┐t quß║ú  Kh├┤ng ─æß║ít ai chß║⌐n ─æo├ín nguy├¬n nh├ón v├á ─æ╞░a ra c├ích rß╗¡a lß║íi hß║ºm Lß║╖p lß║íi ─æß║┐n khi ─æß║ít  ─Éß║ít Kh├┤ng ─æß║ít Y├¬u cß║ºu rß╗¡a lß║íi nhß╗»ng phß║ºn kh├┤ng sß║ích Kß║┐t th├║c Web ─æ╞░a ra checklist y├¬u cß║ºu s─⌐ quan kiß╗âm tra v├á t├¡ch v├áo n├║t ─æß║ít hoß║╖c kh├┤ng ─æß║ít v├á chß╗Ñp ß║únh ─æß╗â l├ám bß║▒ng chß╗⌐ng
+=================== DOCX: Tß╗öNG Hß╗óP CHß║ñT TEST.docx ===================
+X├⌐t nghiß╗çm hydrocarbon (HC)
+(Khß║ú n─âng trß╗Ön lß║½n)
+Ph├ít hiß╗çn cß║╖n hydrocarbon bß║▒ng ph╞░╞íng ph├íp h├▓a tan: dung dß╗ïch rß╗¡a th├ánh bß╗ôn ─æ╞░ß╗úc trß╗Ön vß╗¢i n╞░ß╗¢c khß╗¡ ion v├á lß║»c ─æß╗üu. V├¼ hydrocarbon kh├┤ng tan trong n╞░ß╗¢c, n├¬n bß║Ñt kß╗│ l╞░ß╗úng hydrocarbon n├áo c├│ mß║╖t sß║╜ hiß╗çn ra d╞░ß╗¢i dß║íng ─æß╗Ö ─æß╗Ñc hoß║╖c lß╗¢p bß╗ìt tr├¬n bß╗ü mß║╖t khi quan s├ít d╞░ß╗¢i ├ính s├íng trong kh├┤ng gian tß╗æi. Mß║½u trong suß╗æt, kh├┤ng ─æß╗Ñc sß║╜ ─æß║ít y├¬u cß║ºu; lß╗¢p bß╗ìt cho thß║Ñy l╞░ß╗úng hydrocarbon ─æ├íng kß╗â, th╞░ß╗¥ng l├á do h├áng h├│a tuß║ºn ho├án c├▓n s├│t lß║íi. Qu├í tr├¼nh n├áy ─æ╞░ß╗úc thß╗▒c hiß╗çn tr╞░ß╗¢c khi tr├íng lß║íi bß║▒ng n╞░ß╗¢c ngß╗ìt lß║ºn cuß╗æi, ─æß╗â ph├ít hiß╗çn sß╗▒ cß╗æ hydrocarbon tr╞░ß╗¢c khi l├úng ph├¡ l╞░ß╗úng n╞░ß╗¢c tr├íng tiß║┐p theo.
+Thß╗¡ nghiß╗çm clorua
+(Giß╗¢i hß║ín < 2 ppm)
+Ph╞░╞íng ph├íp n├áy ─æo l╞░ß╗¥ng sß╗▒ nhiß╗àm bß║⌐n clorua, th╞░ß╗¥ng do rß╗¡a bß║▒ng n╞░ß╗¢c biß╗ân, bß║▒ng c├ích sß╗¡ dß╗Ñng bß║íc nitrat v├á axit nitric ─æß╗â tß║ío ra chß╗ë sß╗æ ─æß╗Ö ─æß╗Ñc so vß╗¢i ti├¬u chuß║⌐n. Giß╗¢i hß║ín chß║Ñp nhß║¡n th├┤ng th╞░ß╗¥ng l├á d╞░ß╗¢i 2 ppm. Sß╗▒ kh├┤ng ─æß║ít y├¬u cß║ºu vß╗ü clorua th╞░ß╗¥ng cho thß║Ñy viß╗çc tr├íng rß╗¡a cuß╗æi c├╣ng bß║▒ng n╞░ß╗¢c ngß╗ìt hoß║╖c n╞░ß╗¢c khß╗¡ ion sau khi rß╗¡a bß║▒ng n╞░ß╗¢c biß╗ân ch╞░a ─æß║ºy ─æß╗º, v├á ─æiß╗üu n├áy rß║Ñt quan trß╗ìng v├¼ clorua g├óy ─ân m├▓n v├á l├ám ├┤ nhiß╗àm h├áng h├│a nhß║íy cß║úm.
+X├⌐t nghiß╗çm thß╗¥i gian permanganat (PTT / PMTT)
+(Th├┤ng th╞░ß╗¥ng > 50 ph├║t)
+Thß╗¡ nghiß╗çm n├áy ─æ├ính gi├í c├íc tß║íp chß║Ñt c├│ thß╗â bß╗ï oxy h├│a trong r╞░ß╗úu v├á xeton. Kali permanganat ─æ╞░ß╗úc th├¬m v├áo mß║½u trong bß╗â n╞░ß╗¢c ─æ╞░ß╗úc kiß╗âm so├ít nhiß╗çt ─æß╗Ö ΓÇö khoß║úng 15┬░C ─æß╗æi vß╗¢i metanol, 25┬░C ─æß╗æi vß╗¢i axeton ΓÇö v├á thß╗¥i gian ─æß╗â m├áu phai ─æ╞░ß╗úc ─æo; thß╗¥i gian chß║Ñp nhß║¡n th├┤ng th╞░ß╗¥ng l├á h╞ín n─âm m╞░╞íi ph├║t. N├│ ph├ít hiß╗çn c├íc sß║ún phß║⌐m bß╗ï ß╗⌐c chß║┐ v├á chß║Ñt hß╗»u c╞í, nh╞░ng ─æ├íng ch├║ ├╜ l├á kh├┤ng phß║ún ß╗⌐ng vß╗¢i hi─ærocacbon, v├¼ vß║¡y n├│ bß╗ò sung chß╗⌐ kh├┤ng thay thß║┐ cho thß╗¡ nghiß╗çm hi─ærocacbon. M├áu phai nhanh th├ánh m├áu v├áng r╞ím l├á kh├┤ng ─æß║ít.
+M├áu (APHA / Hazen)
+(Khoß║úng 455 nm)
+M├íy ─æo n├áy so s├ính m├áu sß║»c cß╗ºa mß║½u vß╗¢i thang ─æo bß║ích kim-cobalt APHA (Hazen), v├¼ sß╗▒ nhiß╗àm bß║⌐n c├│ m├áu cho thß║Ñy d╞░ l╞░ß╗úng ngay cß║ú ß╗ƒ nß╗ông ─æß╗Ö thß║Ñp. Tr├¬n m├íy ─æo quang phß╗ò, m├áu sß║»c ─æ╞░ß╗úc ─æß╗ìc ß╗ƒ khoß║úng 455 nm. ─Éß╗æi vß╗¢i h├áng h├│a trong suß╗æt nh╞░ n╞░ß╗¢c, m├áu sß║»c chß║Ñp nhß║¡n ─æ╞░ß╗úc rß║Ñt thß║Ñp, v├á mß║½u c├│ m├áu v├áng nhß║ít sß║╜ kh├┤ng ─æ├íp ß╗⌐ng ─æ╞░ß╗úc ti├¬u chuß║⌐n m├áu sß║»c nghi├¬m ngß║╖t.
+Thß╗ï gi├íc v├á khß╗⌐u gi├íc
+(Kiß╗âm tra cß║úm quan)
+Mß║½u ─æ╞░ß╗úc kiß╗âm tra xem c├│ c├íc hß║ít l╞í lß╗¡ng hoß║╖c tß║íp chß║Ñt hay kh├┤ng v├á c├│ m├╣i lß║í dai dß║│ng n├áo kh├┤ng. Ph╞░╞íng ph├íp ─æ╞ín giß║ún nh╞░ng rß║Ñt hß╗»u ├¡ch: c├íc hß║ít cho thß║Ñy qu├í tr├¼nh rß╗¡a ch╞░a ho├án to├án hoß║╖c c├│ cß║╖n b├ím, v├á m├╣i c├▓n s├│t lß║íi cho thß║Ñy h├áng h├│a ─æ├ú hß║Ñp thß╗Ñ m├á thiß║┐t bß╗ï kiß╗âm tra c├│ thß╗â kh├┤ng ph├ít hiß╗çn hß║┐t, ─æß║╖c biß╗çt l├á vß╗¢i lß╗¢p phß╗º epoxy c├│ khß║ú n─âng giß╗» m├╣i.
+Kß╗╣ thuß║¡t lß║Ñy mß║½u quyß║┐t ─æß╗ïnh kß║┐t quß║ú.
+Kß║┐t quß║ú kiß╗âm tra bß║▒ng ph╞░╞íng ph├íp rß╗¡a th├ánh bß╗â chß╗ë ch├¡nh x├íc khi mß║½u thß╗¡ ch├¡nh x├íc. Tß║Ñt cß║ú thiß║┐t bß╗ï ΓÇö phß╗àu, chai, ß╗æng nghiß╗çm ΓÇö ─æß╗üu ─æ╞░ß╗úc tr├íng bß║▒ng methanol khi ─æ╞░a v├áo mß╗ùi bß╗â ─æß╗â tr├ính nhiß╗àm ch├⌐o, vß╗ï tr├¡ lß║Ñy mß║½u ─æ╞░ß╗úc chß╗ìn tr├¬n th├ánh bß╗â hoß║╖c v├ích ng─ân, v├á dung m├┤i ─æ╞░ß╗úc phun tß╗½ ─æß╗Ö cao ├¡t nhß║Ñt mß╗Öt m├⌐t so vß╗¢i phß╗àu ─æß╗â n├│ chß║úy xuß╗æng mß╗Öt khu vß╗▒c ─æß║íi diß╗çn cß╗ºa th├ánh bß╗â v├áo trong chai. ß╗Éng Nessler ─æ╞░ß╗úc l├ám sß║ích bß║▒ng axit v├á tr├íng qua n╞░ß╗¢c, n╞░ß╗¢c khß╗¡ ion v├á methanol tr╞░ß╗¢c khi sß╗¡ dß╗Ñng. Viß╗çc lß║Ñy mß║½u cß║⌐u thß║ú dß╗à dß║½n ─æß║┐n kß║┐t quß║ú sai lß╗çch c┼⌐ng nh╞░ kß║┐t quß║ú ─æß║ít y├¬u cß║ºu, v├¼ vß║¡y viß╗çc tu├ón thß╗º kß╗╣ thuß║¡t sß║ích sß║╜ l├á mß╗Öt phß║ºn cß╗ºa thß╗¡ nghiß╗çm, chß╗⌐ kh├┤ng phß║úi l├á kh├óu chuß║⌐n bß╗ï cho thß╗¡ nghiß╗çm.
+─Éß╗½ng chß║íy theo kß║┐t quß║ú kiß╗âm tra thay v├¼ tß║¡p trung v├áo sß╗▒ sß║ích sß║╜.
+V├¼ thß╗¡ nghiß╗çm permanganat c├│ thß╗â bß╗ï v╞░ß╗út qua bß║▒ng c├ích phun tr╞░ß╗¢c dung dß╗ïch kali permanganat v├áo bß╗ôn chß╗⌐a ─æß╗â ng─ân chß║╖n phß║ún ß╗⌐ng cß╗ºa ng╞░ß╗¥i kiß╗âm ─æß╗ïnh, n├¬n ng╞░ß╗¥i ta th╞░ß╗¥ng c├│ xu h╞░ß╗¢ng thao t├║ng kß║┐t quß║ú thß╗¡ nghiß╗çm thay v├¼ l├ám sß║ích bß╗ôn chß╗⌐a. ─É├óy l├á h├ánh vi sai tr├íi: n├│ tß║ío ra kß║┐t quß║ú ─æß║ít y├¬u cß║ºu tr├¬n mß╗Öt bß╗ôn chß╗⌐a thß╗▒c tß║┐ kh├┤ng sß║ích, v├á sß╗▒ ├┤ nhiß╗àm m├á n├│ che giß║Ñu sß║╜ g├óy ra khiß║┐u nß║íi lß╗¢n h╞ín nhiß╗üu so vß╗¢i chi ph├¡ l├ám sß║ích lß║íi ─æ╞░ß╗úc tr├ính. Viß╗çc rß╗¡a th├ánh bß╗ôn nhß║▒m mß╗Ñc ─æ├¡ch x├íc minh mß╗Öt bß╗ôn chß╗⌐a thß╗▒c sß╗▒ sß║ích sß║╜, v├á viß╗çc thao t├║ng kß║┐t quß║ú sß║╜ l├ám mß║Ñt ─æi to├án bß╗Ö mß╗Ñc ─æ├¡ch cß╗ºa ti├¬u chuß║⌐n. C├ích l├ám trung thß╗▒c v├á tiß║┐t kiß╗çm chi ph├¡ nhß║Ñt l├á lu├┤n lu├┤n l├ám sß║ích theo ti├¬u chuß║⌐n v├á ─æß╗â thß╗¡ nghiß╗çm x├íc nhß║¡n ─æiß╗üu ─æ├│.
+NGUß╗ÆN:  Mß╗ñC 5 Cß╗ªA LINK https://marineinspection.app/article/cargo-tank-cleaning-procedures-standards-wall-wash-testing
+C├üC PH╞»╞áNG PH├üP KIß╗éM TRA Vß╗ÜI Bß╗ÿ Dß╗ñNG Cß╗ñ KIß╗éM TRA Bß╗Ç Mß║╢T Bß╗ÆN CHß╗¿A (WALL WASH TEST KIT)
+a) Kiß╗âm tra Hydrocarbon ─æß╗æi vß╗¢i Methanol
+Do bß╗ü mß║╖t bß╗ôn chß╗⌐a hoß║╖c th├╣ng chß╗⌐a Methanol phß║úi ho├án to├án kh├┤ng d├¡nh hydrocarbon, cß║ºn thß╗▒c hiß╗çn kiß╗âm tra tß║íi hiß╗çn tr╞░ß╗¥ng. Nguy├¬n l├╜ cß╗ºa ph├⌐p thß╗¡ n├áy l├á nß║┐u hydrocarbon lß║½n v├áo n╞░ß╗¢c, dung dß╗ïch sß║╜ trß╗ƒ n├¬n ─æß╗Ñc hoß║╖c c├│ m├áu trß║»ng sß╗»a.
+Quy tr├¼nh:
+- Lau sß║ích 1 m┬▓ bß╗ü mß║╖t bß╗ôn bß║▒ng b├┤ng g├▓n v├á Methanol kh├┤ng chß╗⌐a hydrocarbon.
+- Sau khi lau, vß║»t kiß╗çt miß║┐ng b├┤ng ─æ├ú d├╣ng v├áo ß╗æng Nessler cho ─æß║┐n khi thu ─æ╞░ß╗úc 15 ml mß║½u Methanol.
+- Th├¬m 45 ml n╞░ß╗¢c khß╗¡ ion (DI water). (L├║c n├áy bß║ín sß║╜ c├│ tß╗òng cß╗Öng 60 ml mß║½u: 15 ml methanol + 45 ml n╞░ß╗¢c cß║Ñt/n╞░ß╗¢c khß╗¡ ion).
+- Lß║»c ─æß╗üu hß╗ùn hß╗úp v├á ─æß╗úi tß╗½ 15 ΓÇô 20 ph├║t.
+- So s├ính kß║┐t quß║ú vß╗¢i mß╗Öt ß╗æng ─æß╗æi chß╗⌐ng chß╗⌐a 60 ml n╞░ß╗¢c khß╗¡ ion.
+- Nß║┐u mß║½u kh├┤ng ho├án to├án trong suß╗æt hoß║╖c bß╗ï ─æß╗Ñc, ngh─⌐a l├á vß║½n c├▓n hydrocarbon tr├¬n bß╗ü mß║╖t bß╗ôn. Bß║ín phß║úi lau lß║íi to├án bß╗Ö bß╗ü mß║╖t bß╗ôn v├á thß╗▒c hiß╗çn lß║íi ph├⌐p thß╗¡ hydrocarbon.
+L╞░u ├╜: Sß╗¡ dß╗Ñng g─âng tay nhß╗▒a v├á bao bß╗ìc gi├áy (c├│ sß║╡n trong bß╗Ö dß╗Ñng cß╗Ñ kiß╗âm tra) trong suß╗æt qu├í tr├¼nh thß╗▒c hiß╗çn ─æß╗â tr├ính l├ám nhiß╗àm bß║⌐n mß║½u.
+b) Kiß╗âm tra Chloride
+Nguy├¬n l├╜ cß╗ºa ph├⌐p thß╗¡ n├áy l├á khi chloride trß╗Ön lß║½n vß╗¢i dung dß╗ïch bß║íc nitrat (silver nitrate), n├│ sß║╜ tß║ío th├ánh dung dß╗ïch bß╗ï ─æß╗Ñc.
+Quy tr├¼nh:
+ß╗Éng nghiß╗çm:
+- Lau sß║ích 1 m┬▓ bß╗ü mß║╖t bß╗ôn bß║▒ng b├┤ng g├▓n ─æ├ú thß║Ñm ╞░ß╗¢t n╞░ß╗¢c cß║Ñt.
+- Sau khi lau, vß║»t kiß╗çt miß║┐ng b├┤ng ─æ├ú d├╣ng v├áo ß╗æng Nessler cho ─æß║┐n khi thu ─æ╞░ß╗úc 100 ml mß║½u.
+- B├óy giß╗¥, bß║ín cß║ºn lß╗ìc 100 ml mß║½u n╞░ß╗¢c thu ─æ╞░ß╗úc. ─Éß╗â lß╗ìc mß║½u, h├úy lß║Ñy mß╗Öt ß╗æng Nessler rß╗ùng, ─æß║╖t phß╗àu l├¬n tr├¬n v├á l├│t giß║Ñy lß╗ìc v├áo trong phß╗àu. - Sau khi lß╗ìc, ─æß║úm bß║úo c├│ ch├¡nh x├íc 100 ml mß║½u n╞░ß╗¢c khß╗¡ ion (DI) trong ß╗æng Nessler.
+- Th├¬m 5 giß╗ìt dung dß╗ïch bß║íc nitrat v├áo 100 ml mß║½u n╞░ß╗¢c DI ─æ├ú lß╗ìc.
+- Lß║»c ß╗æng Nessler trong v├ái ph├║t.
+ß╗Éng ─æß╗æi chß╗⌐ng:
+- Chuß║⌐n bß╗ï dung dß╗ïch ─æß╗æi chß╗⌐ng ─æß╗â so s├ính vß╗¢i ß╗æng thß╗¡.
+- ─Éß╗ò 99 ml n╞░ß╗¢c DI v├áo mß╗Öt ß╗æng Nessler sß║ích.
+- Th├¬m 1 ml dung dß╗ïch chuß║⌐n clorua (1 mg clorua tr├¬n mß╗ùi 1 ml).
+- Th├¬m 5 giß╗ìt dung dß╗ïch bß║íc nitrat.
+- Lß║»c ß╗æng ─æß╗æi chß╗⌐ng trong v├ái ph├║t.
+So s├ính ß╗æng thß╗¡ v├á ß╗æng ─æß╗æi chß╗⌐ng: (1 ml dung dß╗ïch chuß║⌐n clorua t╞░╞íng ß╗⌐ng vß╗¢i 1 mg clorua tr├¬n 1 m┬▓)
+- Khi ─æß╗Ö ─æß╗Ñc cß╗ºa ß╗æng thß╗¡ thß║Ñp h╞ín ─æß╗Ö ─æß╗Ñc cß╗ºa ß╗æng ─æß╗æi chß╗⌐ng: h├ám l╞░ß╗úng clorua tr├¬n bß╗ü mß║╖t bß╗ôn chß╗⌐a thß║Ñp h╞ín 1 mg tr├¬n 1 m┬▓.
+- Nß║┐u ─æß╗Ö ─æß╗Ñc cß╗ºa ß╗æng thß╗¡ cao h╞ín ─æß╗Ö ─æß╗Ñc cß╗ºa ß╗æng ─æß╗æi chß╗⌐ng: h├ám l╞░ß╗úng clorua tr├¬n bß╗ü mß║╖t bß╗ôn chß╗⌐a cao h╞ín 1 mg tr├¬n 1 m┬▓.
+- Nß║┐u ─æß╗Ö ─æß╗Ñc cß╗ºa ß╗æng thß╗¡ bß║▒ng ─æß╗Ö ─æß╗Ñc cß╗ºa ß╗æng ─æß╗æi chß╗⌐ng: h├ám l╞░ß╗úng clorua tr├¬n bß╗ü mß║╖t bß╗ôn chß╗⌐a l├á 1 mg tr├¬n 1 m┬▓.
+- Khi ─æ├ú biß║┐t tß╗òng diß╗çn t├¡ch v├á thß╗â t├¡ch cß╗ºa bß╗ôn chß╗⌐a, bß║ín c├│ thß╗â t├¡nh to├ín l╞░ß╗úng Methanol cß║ºn thiß║┐t ─æß╗â rß╗¡a tr├┤i clorua khß╗Åi bß╗ü mß║╖t th├ánh bß╗ôn.
+L╞░u ├╜: Sß╗¡ dß╗Ñng g─âng tay nhß╗▒a v├á bao bß╗ìc gi├áy trong suß╗æt qu├í tr├¼nh thß╗¡ nghiß╗çm (c├│ sß║╡n trong bß╗Ö dß╗Ñng cß╗Ñ thß╗¡ nghiß╗çm rß╗¡a th├ánh bß╗ôn) ─æß╗â tr├ính l├ám nhiß╗àm bß║⌐n mß║½u.
+c) ΓÇïΓÇïThß╗¡ nghiß╗çm thß╗¥i gian Permanganat
+Phß║ím vi ├íp dß╗Ñng:
+Ph╞░╞íng ph├íp n├áy d├╣ng ─æß╗â ph├ít hiß╗çn sß╗▒ hiß╗çn diß╗çn cß╗ºa c├íc tß║íp chß║Ñt trong r╞░ß╗úu (alcohol) hoß║╖c ketone c├│ khß║ú n─âng khß╗¡ kali permanganat.
+├üp dß╗Ñng cho Methanol, Ethanol, Propanol, Butanol, Acetone, Methyl Ethyl Ketone v├á Methyl Isobutyl Ketone. T├│m tß║»t ph╞░╞íng ph├íp:
+C├íc chß║Ñt phß║ún ß╗⌐ng vß╗¢i kali permanganat trong dung dß╗ïch trung t├¡nh sß║╜ khß╗¡ n├│ th├ánh mangan dioxit,
+l├ám dung dß╗ïch chuyß╗ân sang m├áu v├áng.
+Trong ph├⌐p thß╗¡ thß╗¥i gian permanganat, thß╗¥i gian phß║ún ß╗⌐ng cß╗ºa kali permanganat ─æ╞░ß╗úc ─æo ─æß║íc. N├│i c├ích kh├íc,
+ng╞░ß╗¥i ta ─æo khoß║úng thß╗¥i gian tß╗½ l├║c dung dß╗ïch chuyß╗ân tß╗½ m├áu hß╗ông cam sang v├áng cam.
+M├áu cß╗ºa dung dß╗ïch thß╗¡ nghiß╗çm sß║╜ chuyß╗ân tß╗½ hß╗ông cam sang v├áng cam.
+Dß╗Ñng cß╗Ñ:
+- ß╗Éng ─æong (c├│ n├║t thß╗ºy tinh, loß║íi cao, dung t├¡ch 50 ml).
+- Bß╗â ß╗òn nhiß╗çt, c├│ khß║ú n─âng duy tr├¼ nhiß╗çt ─æß╗Ö ß╗ƒ mß╗⌐c 15,0 ┬▒ 0,5 ┬║C hoß║╖c 25,0 ┬▒ 0,5 ┬║C.
+- Pipet c├│ khß║ú n─âng lß║Ñy ch├¡nh x├íc 2 ml dung dß╗ïch.
+- ─Éß╗ông hß╗ô hoß║╖c ─æß╗ông hß╗ô bß║Ñm giß╗¥.
+Thuß╗æc thß╗¡:
+- Dung dß╗ïch Kali Permanganat: h├▓a tan 0,1 mg bß╗Öt Kali Permanganat v├áo 0,5 l├¡t n╞░ß╗¢c.
+Quy tr├¼nh:
+- Cho mß║½u cß║ºn thß╗¡ v├áo ß╗æng ─æong 50 ml c├│ n├║t thß╗ºy tinh (─æß╗ò v╞░ß╗út qu├í vß║ích mß╗⌐c) v├á ─æß║╖t ß╗æng v├áo
+bß╗â ß╗òn nhiß╗çt (15 ┬║C ─æß╗æi vß╗¢i Methanol hoß║╖c 25 ┬║C ─æß╗æi vß╗¢i Acetone).
+- Khi mß║½u ─æ├ú ─æß║ít ─æß║┐n nhiß╗çt ─æß╗Ö cß╗ºa bß╗â (khoß║úng 5 ph├║t), d├╣ng pipet th├¬m 2 ml
+dung dß╗ïch kali permanganat v├áo.
+- ─Éß║¡y n├║t ß╗æng, ─æß║úo ng╞░ß╗úc ß╗æng mß╗Öt lß║ºn ─æß╗â trß╗Ön ─æß╗üu c├íc th├ánh phß║ºn, rß╗ôi ─æß║╖t lß║íi v├áo bß╗â ß╗òn nhiß╗çt.
+- X├íc ─æß╗ïnh khoß║úng thß╗¥i gian tß╗½ l├║c th├¬m KMnOΓéä cho ─æß║┐n khi m├áu sß║»c cß╗ºa mß║½u tr├╣ng vß╗¢i m├áu cß╗ºa mß║½u chuß║⌐n.
+- Tr├ính ─æß╗â ß╗æng tiß║┐p x├║c vß╗¢i ├ính s├íng trong suß╗æt qu├í tr├¼nh n├áy.
+- Sau khi ho├án tß║Ñt ph├⌐p thß╗¡, rß╗¡a sß║ích ß╗æng chß╗⌐a mß║½u hai lß║ºn bß║▒ng n╞░ß╗¢c m├íy v├á ─æß╗ò ─æß║ºy
+axit clohydric ─æß║¡m ─æß║╖c v├áo ß╗æng.
+NGUß╗ÆN: SLIDE 2,3  https://www.shipserv.com/ShipServ/pages/profiles/215096/documents/WALL-WASH-TEST-KIT-(ENG).pdf
+Tß╗öNG Hß╗óP :
+─Éß╗æi vß╗¢i t├áu chß╗ƒ dß║ºu th├ánh phß║⌐m v├á h├│a chß║Ñt bß╗ìc s╞ín Epoxy (nh╞░ t├áu Dolphin 01) khi vß║¡n chuyß╗ân Dß║ºu trß║»ng (CPP), Dß║ºu ─æen (DPP) v├á Dß║ºu thß╗▒c vß║¡t, c├íc loß║íi h├│a chß║Ñt/thuß╗æc thß╗¡ cß║ºn sß╗¡ dß╗Ñng cho quy tr├¼nh kiß╗âm tra v├ích khoang (Wall Wash Test - WWT) v├á hiß╗çn t╞░ß╗úng/phß║ún ß╗⌐ng t╞░╞íng ß╗⌐ng cß╗Ñ thß╗â nh╞░ sau:
+1. Dung mß╗ôi lß║Ñy mß║½u chung
+H├│a chß║Ñt sß╗¡ dß╗Ñng: Cß╗ôn Methanol tinh khiß║┐t d├╣ng cho ph├▓ng th├¡ nghiß╗çm (Laboratory-grade Methanol)1more_horiz.
+Quy tr├¼nh: Phun xß╗ït trß╗▒c tiß║┐p Methanol l├¬n v├ích hß║ºm s╞ín Epoxy v├á d├╣ng phß╗àu/chai hß╗⌐ng dung dß╗ïch chß║úy xuß╗æng ─æß╗â h├▓a tan cß║╖n h├áng c┼⌐ c├▓n s├│t lß║íi1more_horiz.
+2. Thuß╗æc thß╗¡ & Phß║ún ß╗⌐ng cho nh├│m Dß║ºu trß║»ng (CPP: X─âng A92/A95, DO, Dß║ºu hß╗Åa, Jet A-1)
+─Éß╗â ─æß║úm bß║úo hß║ºm sß║ích kh├┤ng c├▓n vß║┐t dß║ºu gß╗æc hydrocarbon hay vß║┐t muß╗æi biß╗ân sau khi rß╗¡a hß║ºm, c├íc b├ái test sau ─æ╞░ß╗úc ├íp dß╗Ñng:
+Thß╗¡ nghiß╗çm Hydrocarbon (Hydrocarbon Test):
+H├│a chß║Ñt d├╣ng: N╞░ß╗¢c khß╗¡ kho├íng (DI Water / De-ionized water).
+Quy tr├¼nh & Hiß╗çn t╞░ß╗úng: Pha 25 ml mß║½u rß╗¡a v├ích (chß╗⌐a Methanol) vß╗¢i 75 ml n╞░ß╗¢c khß╗¡ kho├íng, lß║»c ─æß╗üu v├á ─æß╗æi chiß║┐u vß╗¢i mß║½u trß║»ng (25 ml Methanol + 75 ml n╞░ß╗¢c khß╗¡ kho├íng) d╞░ß╗¢i ├ính ─æ├¿n pin tr├¬n nß╗ün m├áu ─æen5more_horiz.
+Phß║ún ß╗⌐ng / Kß║┐t quß║ú:
+─Éß║ít (Sß║ích ho├án to├án): Dung dß╗ïch trong suß╗æt7.
+C├│ cß║╖n vß║┐t nhß║╣: Dung dß╗ïch xuß║Ñt hiß╗çn ├ính sß║»c xanh nhß║ít trong suß╗æt.
+Kh├┤ng ─æß║ít (C├▓n cß║╖n hydrocarbon): Dung dß╗ïch chuyß╗ân sang m├áu trß║»ng ─æß╗Ñc dß║íng sß╗»a hoß║╖c xuß║Ñt hiß╗çn lß╗¢p bß╗ìt nß╗òi l├¬n tr├¬n do hydrocarbon kh├┤ng tan trong n╞░ß╗¢c.
+Thß╗¡ nghiß╗çm Clorua (Chloride Test - Kiß╗âm tra muß╗æi biß╗ân d╞░):
+H├│a chß║Ñt d├╣ng: Dung dß╗ïch Bß║íc Nitrat 10% ( 10%) v├á N╞░ß╗¢c khß╗¡ kho├íng (DI Water).
+Phß║ún ß╗⌐ng h├│a hß╗ìc: Ion Bß║íc () tß╗½  phß║ún ß╗⌐ng vß╗¢i ion Clorua () cß╗ºa muß╗æi ─æß╗ìng tr├¬n v├ích hß║ºm tß║ío th├ánh kß║┐t tß╗ºa Bß║íc Clorua () m├áu trß║»ng ─æß╗Ñc:
+Hiß╗çn t╞░ß╗úng / Kß║┐t quß║ú:
+─Éß║ít (H├ám l╞░ß╗úng Clorua < 2 ppm): Dung dß╗ïch giß╗» nguy├¬n ─æß╗Ö trong suß╗æt.
+Kh├┤ng ─æß║ít (C├▓n d╞░ muß╗æi biß╗ân): Dung dß╗ïch xuß║Ñt hiß╗çn ─æß╗Ö ─æß╗Ñc trß║»ng.
+Thß╗¡ nghiß╗çm M├╣i & Cß║úm quan (Odour & Appearance Test):
+Vß║¡t liß╗çu: Giß║Ñy lß╗ìc (Filter Paper) v├á mß║½u Methanol chuß║⌐n 9more horiz.
+Hiß╗çn t╞░ß╗úng: Nh├║ng giß║Ñy lß╗ìc v├áo mß║½u v├á ngß╗¡i ngay ─æß╗â ph├ít hiß╗çn m├╣i d╞░ thß╗½a cß╗ºa x─âng/DO/dß║ºu hß╗Åa c├▓n b├ím trong hß║ºm. Xoay b├¼nh mß║½u kiß╗âm tra hß║ít l╞í lß╗¡ng (vß║úy s╞ín Epoxy, gß╗ë sß║»t) tr├¬n nß╗ün trß║»ng 13 more horiz.
+Thß╗¡ nghiß╗çm Hß║Ñp thß╗Ñ Quang phß╗ò UV (UV Test):
+Thiß║┐t bß╗ï & Dung mß╗ôi ─æß╗æi chiß║┐u: M├íy quang phß╗ò (Spectrometer) v├á Methanol tinh khiß║┐t.
+Hiß╗çn t╞░ß╗úng: Mß║½u ─æ╞░ß╗úc chiß║┐u ├ính s├íng UV; nß║┐u c├▓n cß║╖n vß╗çt hydrocarbon, c├íc ph├ón tß╗¡ sß║╜ hß║Ñp thß╗Ñ ├ính s├íng ß╗ƒ b╞░ß╗¢c s├│ng nhß║Ñt ─æß╗ïnh v├á hiß╗ân thß╗ï chß╗ë sß╗æ tr├¬n m├íy.
+3. Thuß╗æc thß╗¡ & Phß║ún ß╗⌐ng cho nh├│m Dß║ºu thß╗▒c vß║¡t (Dß║ºu cß╗ì, Dß║ºu ─æß║¡u n├ánh)
+Dß║ºu thß╗▒c vß║¡t th╞░ß╗¥ng chß╗⌐a c├íc chß║Ñt kh├┤ng bay h╞íi (NVM) c├│ thß╗â g├óy ─æß╗Ñc giß║ú khi thß╗¡ nghiß╗çm:
+Thß╗¡ nghiß╗çm Chß║Ñt kh├┤ng bay h╞íi (NVM Test):
+Ph╞░╞íng ph├íp: L├ám bay h╞íi mß╗Öt l╞░ß╗úng mß║½u rß╗¡a v├ích nhß║Ñt ─æß╗ïnh v├á ─æem c├ón phß║ºn cß║╖n c├▓n lß║íi.
+Hiß╗çn t╞░ß╗úng: Khß╗æi l╞░ß╗úng cß║╖n thu ─æ╞░ß╗úc ─æß║íi diß╗çn cho h├ám l╞░ß╗úng NVM cß╗ºa dß║ºu thß╗▒c vß║¡t c├▓n ─æß╗ìng tr├¬n v├ích hß║ºm; nß║┐u v╞░ß╗út mß╗⌐c quy ─æß╗ïnh cß╗ºa chß╗º h├áng/ng╞░ß╗¥i thu├¬ t├áu th├¼ kh├┤ng ─æß║ít.
+Thß╗¡ nghiß╗çm Clorua ph├ón biß╗çt ─æß╗Ñc do Dß║ºu thß╗▒c vß║¡t (Chloride Test with Nitric Acid):
+H├│a chß║Ñt d├╣ng: Axit Nitric () v├á Dung dß╗ïch Bß║íc Nitrat 10% ( 10%).
+Quy tr├¼nh & Hiß╗çn t╞░ß╗úng: Khi kiß╗âm tra hß║ºm tß╗½ng chß╗ƒ dß║ºu thß╗▒c vß║¡t, cß║╖n NVM c├│ thß╗â g├óy ─æß╗Ñc giß║ú vß╗¢i 12. Kß╗╣ thuß║¡t vi├¬n cho th├¬m 2 giß╗ìt Axit Nitric () v├áo mß║½u tr╞░ß╗¢c khi th├¬m  10%:
+Nß║┐u ─æß╗Ö ─æß╗Ñc biß║┐n mß║Ñt: ─Éß╗Ö ─æß╗Ñc ban ─æß║ºu l├á do cß║╖n dß║ºu thß╗▒c vß║¡t (NVM).
+Nß║┐u vß║½n c├▓n ─æß╗Ö ─æß╗Ñc: X├íc nhß║¡n ch├¡nh x├íc hß║ºm c├▓n ─æß╗ìng muß╗æi Clorua tß╗½ n╞░ß╗¢c biß╗ân.
+4. Thuß╗æc thß╗¡ kiß╗âm tra ─æß╗Ö tinh khiß║┐t cao / Tß║íp chß║Ñt hß╗»u c╞í (khi chuyß╗ân ─æß╗òi h├áng h├│a)
+Thß╗¡ nghiß╗çm thß╗¥i gian phai m├áu Permanganate (Permanganate Fade Time Test - PTT / PMTT):
+H├│a chß║Ñt d├╣ng: Dung dß╗ïch Kali Pemanganat ( / Thuß╗æc t├¡m) v├á Dung dß╗ïch chuß║⌐n m├áu Platinum Cobalt (Pt-Co).
+─Éiß╗üu kiß╗çn: Giß╗» nhiß╗çt ─æß╗Ö ß╗æng nghiß╗çm cß╗æ ─æß╗ïnh ß╗ƒ 15┬░C ┬▒ 1┬░C.
+Phß║ún ß╗⌐ng h├│a hß╗ìc & Hiß╗çn t╞░ß╗úng:  l├á chß║Ñt oxy h├│a mß║ính m├áu t├¡m ─æß║¡m. Khi gß║╖p c├íc tß║íp chß║Ñt hß╗»u c╞í dß╗à bß╗ï oxy h├│a (cß║╖n nhi├¬n liß╗çu, chß║Ñt bß╗ï khß╗¡),  bß╗ï ti├¬u thß╗Ñ v├á chuyß╗ân m├áu theo chuß╗ùi:
+─É├ính gi├í: Ghi lß║íi thß╗¥i gian m├áu sß║»c chuyß╗ân ─æß╗òi tr├╣ng vß╗¢i dung dß╗ïch chuß║⌐n m├áu Pt-Co.
+─Éß║ít: Thß╗¥i gian duy tr├¼ m├áu k├⌐o d├ái > 50 ph├║t.
+Kh├┤ng ─æß║ít: M├áu thuß╗æc t├¡m phai nhanh th├ánh m├áu v├áng nhß║ít chß╗ë sau v├ái ph├║t (do c├▓n cß║╖n hß╗»u c╞í).
+Thß╗¡ nghiß╗çm M├áu rß╗¡a Axit (Acid Wash Colour Test - ├íp dß╗Ñng nß║┐u hß║ºm c├│ cß║╖n hydrocarbon th╞ím):
+H├│a chß║Ñt d├╣ng: Axit Sunfuric ─æß║¡m ─æß║╖c ( 96% hoß║╖c 78%)
+Hiß╗çn t╞░ß╗úng: Lß║»c 7 ml  vß╗¢i 21 ml mß║½u trong 40ΓÇô50 gi├óy. Axit phß║ún ß╗⌐ng vß╗¢i cß║╖n tß║ío m├áu ß╗ƒ lß╗¢p axit b├¬n d╞░ß╗¢i. So s├ính m├áu lß╗¢p axit vß╗¢i bß╗Ö m├áu chuß║⌐n tß╗½ 0 ─æß║┐n 14 tr├¬n nß╗ün trß║»ng.
+5. L╞░u ├╜ ─æß║╖c biß╗çt ─æß╗æi vß╗¢i hß║ºm s╞ín Epoxy cß╗ºa t├áu Dolphin 01
+T├¡nh chß║Ñt h├║t b├ím m├╣i & cß║╖n: Bß╗ü mß║╖t s╞ín Epoxy c├│ xu h╞░ß╗¢ng thß║⌐m thß║Ñu/hß║Ñp thß╗Ñ cß║╖n dß║ºu th╞ím v├á m├╣i cß╗ºa c├íc loß║íi h├áng tr╞░ß╗¢c ─æ├│ (nh╞░ x─âng, dß║ºu hß╗Åa).
+Giß║úi ph├íp hß╗ù trß╗ú: B├¬n cß║ính c├íc b├ái test h├│a chß║Ñt tr├¬n, cß║ºn ├íp dß╗Ñng quß║ít th├┤ng gi├│ c╞░ß╗íng bß╗⌐c ß╗ƒ nhiß╗çt ─æß╗Ö cao ─æß╗â giß║úi ph├│ng (desorb) cß║╖n dß║ºu b├ím s├óu trong s╞ín Epoxy tr╞░ß╗¢c khi lß║Ñy mß║½u rß╗¡a v├ích.
