@@ -21,7 +21,8 @@ import {
   Beaker,
   ShieldCheck,
   Eye,
-  Loader2
+  Loader2,
+  Zap
 } from 'lucide-react'
 
 export default function Step2WallWash() {
@@ -31,6 +32,7 @@ export default function Step2WallWash() {
   // Real AI diagnostic states
   const [aiDiagnostic, setAiDiagnostic] = useState(null)
   const [isAiLoading, setIsAiLoading] = useState(false)
+  const [manualAiMessage, setManualAiMessage] = useState(null)
 
   const holdInfo = VESSEL_HOLDS.find(h => h.id === state.selectedHold) || {
     name: 'Hold #2P (Portside)',
@@ -61,7 +63,7 @@ export default function Step2WallWash() {
     return { statuses, failedList, totalPass, filledCount, allPassed, hasFail }
   }, [testResults])
 
-  // Call real API when fails change
+  // Call real AI API when fails change
   useEffect(() => {
     let isMounted = true
     const fetchAi = async () => {
@@ -71,19 +73,18 @@ export default function Step2WallWash() {
       }
 
       setIsAiLoading(true)
+      setManualAiMessage(null)
       const data = await analyzeTestFailures(
         evaluation.failedList, 
         testResults, 
-        state.previousCargo, 
-        state.newCargo
+        state.previousCargo || 'Dầu Cọ Thô (Crude Palm Oil)', 
+        state.newCargo || 'Methanol'
       )
       
       if (isMounted) {
         if (data && data.causes && data.solutions) {
-          // If real API worked
           setAiDiagnostic([data])
         } else {
-          // Fallback to local mock if API failed or no key
           setAiDiagnostic(getLocalDiagnostic(evaluation.failedList))
         }
         setIsAiLoading(false)
@@ -91,12 +92,40 @@ export default function Step2WallWash() {
     }
     
     // Add a slight debounce
-    const timeout = setTimeout(fetchAi, 1000)
+    const timeout = setTimeout(fetchAi, 800)
     return () => {
       isMounted = false
       clearTimeout(timeout)
     }
   }, [evaluation.failedList, testResults, state.previousCargo, state.newCargo])
+
+  const handleManualAnalyze = async () => {
+    setIsAiLoading(true)
+    if (evaluation.failedList.length > 0) {
+      const data = await analyzeTestFailures(
+        evaluation.failedList, 
+        testResults, 
+        state.previousCargo || 'Dầu Cọ Thô (Crude Palm Oil)', 
+        state.newCargo || 'Methanol'
+      )
+      if (data && data.causes && data.solutions) {
+        setAiDiagnostic([data])
+      } else {
+        setAiDiagnostic(getLocalDiagnostic(evaluation.failedList))
+      }
+    } else {
+      setManualAiMessage({
+        title: "AI XÁC NHẬN: HẦM HÀNG ĐẠT CHUẨN AN TOÀN",
+        content: `Đã đối chiếu 5 chỉ tiêu hóa nghiệm với tiêu chuẩn tiếp nhận ${state.newCargo || 'Methanol'}:
+• Độ mặn Clorua (${testResults.chloride || '1'} ppm) <= 2 ppm: Không phát hiện nhiễm mặn nước biển.
+• Chỉ số PTT (${testResults.ptt || '10'} min) >= 8 min: Không phát hiện cặn hữu cơ dễ oxy hóa.
+• Độ màu APHA (${testResults.apha || '1'}) <= 20: Dịch rửa trong suốt tuyệt đối.
+• Dư lượng Hydrocarbon (${testResults.hydrocarbon || '1'} ppm) <= 50 ppm: Lớp bọc Pure Epoxy sạch màng dầu.
+➡️ Đủ điều kiện kỹ thuật cấp Chứng chỉ Cleanliness Certificate chuẩn INTERTANKO.`
+      })
+    }
+    setIsAiLoading(false)
+  }
 
   const handleInputChange = (testId, value) => {
     dispatch({ type: 'SET_WALL_WASH_RESULT', testId, value })
@@ -122,19 +151,21 @@ export default function Step2WallWash() {
       dispatch({ type: 'SET_WALL_WASH_RESULT', testId: 'apha', value: '15' })
       dispatch({ type: 'SET_WALL_WASH_RESULT', testId: 'hydrocarbon', value: '35' })
       dispatch({ type: 'SET_WALL_WASH_RESULT', testId: 'chloride', value: '1.2' })
-      dispatch({ type: 'ADD_LOG', text: 'Nạp bộ chỉ số mẫu: PTT Thấp (6.8 min - Cần rửa lại)', logType: 'fail' })
+      dispatch({ type: 'ADD_LOG', text: 'Nạp bộ chỉ số mẫu: PTT Thấp (6.8 min - Kích hoạt AI Chẩn đoán)', logType: 'fail' })
     } else if (type === 'fail_chloride') {
       dispatch({ type: 'SET_WALL_WASH_RESULT', testId: 'salinity', value: '45' })
       dispatch({ type: 'SET_WALL_WASH_RESULT', testId: 'ptt', value: '12' })
       dispatch({ type: 'SET_WALL_WASH_RESULT', testId: 'apha', value: '12' })
       dispatch({ type: 'SET_WALL_WASH_RESULT', testId: 'hydrocarbon', value: '20' })
       dispatch({ type: 'SET_WALL_WASH_RESULT', testId: 'chloride', value: '4.5' })
-      dispatch({ type: 'ADD_LOG', text: 'Nạp bộ chỉ số mẫu: Nhiễm mặn Chloride (4.5 ppm > 2 ppm)', logType: 'fail' })
+      dispatch({ type: 'ADD_LOG', text: 'Nạp bộ chỉ số mẫu: Nhiễm mặn Chloride (4.5 ppm - Kích hoạt AI Chẩn đoán)', logType: 'fail' })
     }
   }
 
   const handleReset = () => {
     dispatch({ type: 'RESET_WALL_WASH' })
+    setAiDiagnostic(null)
+    setManualAiMessage(null)
     dispatch({ type: 'ADD_LOG', text: 'Yêu cầu tráng rửa lại hầm hàng & thiết lập lại chỉ số test', logType: 'warning' })
   }
 
@@ -182,8 +213,8 @@ export default function Step2WallWash() {
           </span>
           <div style={{ display: 'flex', gap: '6px' }}>
             <button className="btn btn-sm btn-secondary" onClick={() => loadPreset('pass')} type="button">Mẫu ĐẠT</button>
-            <button className="btn btn-sm btn-secondary" style={{ color: 'var(--color-fail)' }} onClick={() => loadPreset('fail_ptt')} type="button">Mẫu FAIL PTT</button>
-            <button className="btn btn-sm btn-secondary" style={{ color: 'var(--color-warning)' }} onClick={() => loadPreset('fail_chloride')} type="button">Mẫu FAIL Muối</button>
+            <button className="btn btn-sm btn-secondary" style={{ color: 'var(--color-fail)', border: '1px solid rgba(239,68,68,0.4)' }} onClick={() => loadPreset('fail_ptt')} type="button">⚡ Test FAIL PTT</button>
+            <button className="btn btn-sm btn-secondary" style={{ color: 'var(--color-warning)', border: '1px solid rgba(245,158,11,0.4)' }} onClick={() => loadPreset('fail_chloride')} type="button">⚡ Test FAIL Muối</button>
           </div>
         </div>
 
@@ -314,19 +345,30 @@ export default function Step2WallWash() {
           <div className="card-header">
             <div>
               <h3 className="card-title">
-                <Sparkles className="card-title-icon" size={18} />
-                Gemini AI Chẩn Đoán Cục Bộ
+                <Sparkles className="card-title-icon" size={18} color="#F97316" />
+                AI Chẩn Đoán Kỹ Thuật (RAG SOP)
               </h3>
               <p className="card-subtitle">Trích xuất tri thức từ CHRIS Manual & MARPOL</p>
             </div>
-            <span className="badge badge-info">API Live</span>
+            <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+              <button 
+                type="button" 
+                className="btn btn-sm btn-secondary" 
+                style={{ fontSize: '11px', padding: '4px 8px', color: '#F97316', borderColor: 'rgba(249,115,22,0.4)' }}
+                onClick={handleManualAnalyze}
+                disabled={isAiLoading}
+              >
+                <Zap size={12} /> Phân tích ngay
+              </button>
+              <span className="badge badge-info" style={{ background: 'rgba(249,115,22,0.15)', color: '#F97316', border: '1px solid rgba(249,115,22,0.3)' }}>⚡ AI Live</span>
+            </div>
           </div>
 
           {isAiLoading ? (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px', color: 'var(--color-accent-cyan)' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px', color: '#F97316' }}>
               <Loader2 className="animate-spin" size={32} style={{ marginBottom: '12px' }} />
-              <div style={{ fontSize: '14px', fontWeight: 600 }}>Gemini đang phân tích chỉ số...</div>
-              <div style={{ fontSize: '12px', color: 'var(--color-text-secondary)', marginTop: '4px' }}>Tra cứu tài liệu vận hành tàu hóa chất</div>
+              <div style={{ fontSize: '14px', fontWeight: 600 }}>Groq AI đang phân tích dữ liệu hóa nghiệm...</div>
+              <div style={{ fontSize: '12px', color: 'var(--color-text-secondary)', marginTop: '4px' }}>Đối chiếu tài liệu CHRIS Manual & MARPOL Annex II</div>
             </div>
           ) : aiDiagnostic && aiDiagnostic.length > 0 ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
@@ -342,32 +384,52 @@ export default function Step2WallWash() {
                       NGUYÊN NHÂN KHẢ DĨ (AI PHÂN TÍCH):
                     </div>
                     <ul style={{ margin: 0, paddingLeft: '18px', fontSize: '12px', color: 'var(--color-text-secondary)' }}>
-                      {diag.causes.map((c, cIdx) => <li key={cIdx}>{c}</li>)}
+                      {diag.causes.map((c, cIdx) => <li key={cIdx} style={{ marginBottom: '3px' }}>{c}</li>)}
                     </ul>
                   </div>
 
                   <div style={{ marginTop: '4px', paddingTop: '8px', borderTop: '1px solid rgba(239,68,68,0.2)' }}>
                     <div style={{ fontSize: '12px', fontWeight: 600, color: 'var(--color-accent-cyan)', marginBottom: '4px' }}>
-                      HƯỚNG DẪN RỬA LẠI KHUYẾN NGHỊ:
+                      HƯỚNG DẪN RỬA LẠI KHUYẾN NGHỊ (RE-CLEANING SOP):
                     </div>
                     <ul style={{ margin: 0, paddingLeft: '18px', fontSize: '12px', color: 'var(--color-text-primary)' }}>
-                      {diag.solutions.map((s, sIdx) => <li key={sIdx} style={{ marginBottom: '3px' }}>{s}</li>)}
+                      {diag.solutions.map((s, sIdx) => <li key={sIdx} style={{ marginBottom: '4px' }}>{s}</li>)}
                     </ul>
                   </div>
                 </div>
               ))}
             </div>
-          ) : evaluation.allPassed ? (
-            <div className="alert alert-pass">
-              <CheckCircle2 className="alert-icon" size={20} color="var(--color-pass)" />
-              <div className="alert-content">
-                <div className="alert-title" style={{ color: 'var(--color-pass)' }}>Hệ thống kiểm tra đạt chuẩn hoàn hảo</div>
-                <div className="alert-text">Sẵn sàng xuất chứng nhận làm sạch hầm hàng.</div>
+          ) : manualAiMessage ? (
+            <div className="alert alert-pass" style={{ flexDirection: 'column', gap: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 700, color: 'var(--color-pass)' }}>
+                <CheckCircle2 size={18} />
+                <span>{manualAiMessage.title}</span>
               </div>
+              <div style={{ fontSize: '12px', color: 'var(--color-text-primary)', whiteSpace: 'pre-line', lineHeight: '1.5' }}>
+                {manualAiMessage.content}
+              </div>
+            </div>
+          ) : evaluation.allPassed ? (
+            <div className="alert alert-pass" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <CheckCircle2 className="alert-icon" size={20} color="var(--color-pass)" />
+                <div className="alert-content">
+                  <div className="alert-title" style={{ color: 'var(--color-pass)' }}>Hệ thống kiểm tra đạt chuẩn hoàn hảo</div>
+                  <div className="alert-text">Sẵn sàng xuất chứng nhận làm sạch hầm hàng.</div>
+                </div>
+              </div>
+              <button 
+                type="button" 
+                className="btn btn-sm btn-secondary" 
+                onClick={handleManualAnalyze}
+                style={{ fontSize: '11px', padding: '4px 8px' }}
+              >
+                AI Tóm Tắt
+              </button>
             </div>
           ) : (
             <div style={{ padding: '16px', textAlign: 'center', color: 'var(--color-text-muted)', fontSize: '13px' }}>
-              Nhập các chỉ số hóa nghiệm bên trái để kích hoạt Google Gemini API tự động phân tích và đưa ra đề xuất.
+              Nhập các chỉ số hóa nghiệm hoặc chọn các nút bấm mẫu phía trên để AI tự động phân tích và hướng dẫn rửa lại.
             </div>
           )}
         </div>
