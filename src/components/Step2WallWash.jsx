@@ -193,17 +193,69 @@ export default function Step2WallWash() {
           <span className="badge badge-info">{holdInfo.name}</span>
         </div>
 
-        <div style={{ marginBottom: 'var(--space-lg)', padding: '12px', background: 'var(--color-bg-input)', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border)' }}>
-          <div style={{ fontSize: '12px', fontWeight: 600, color: 'var(--color-text-secondary)', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Beaker size={14} color="var(--color-accent-cyan)" />
-            DỤNG CỤ & THUỐC THỬ ĐÃ CHUẨN BỊ:
+        <div className="equipment-instructions-grid">
+          {/* Left column: Dụng Cụ Đo */}
+          <div className="equipment-column">
+            <div className="equipment-column-header">
+              <Beaker size={14} color="var(--color-accent-cyan)" />
+              <span>DỤNG CỤ & THUỐC THỬ</span>
+            </div>
+            <div className="equipment-list">
+              <div className="equipment-item">
+                <span className="equipment-dot" style={{ background: '#3A86FF' }}></span>
+                <span>Methanol Spectro 99.8%</span>
+              </div>
+              <div className="equipment-item">
+                <span className="equipment-dot" style={{ background: '#00E5FF' }}></span>
+                <span>Ống Nessler 50ml</span>
+              </div>
+              <div className="equipment-item">
+                <span className="equipment-dot" style={{ background: '#F59E0B' }}></span>
+                <span>Dung dịch AgNO3 0.1N</span>
+              </div>
+              <div className="equipment-item">
+                <span className="equipment-dot" style={{ background: '#7B61FF' }}></span>
+                <span>Thuốc tím KMnO4 0.1g/L</span>
+              </div>
+              <div className="equipment-item">
+                <span className="equipment-dot" style={{ background: '#10B981' }}></span>
+                <span>Bình xịt PTFE 500ml</span>
+              </div>
+              <div className="equipment-item">
+                <span className="equipment-dot" style={{ background: '#EF4444' }}></span>
+                <span>Găng tay Nitrile (không bột)</span>
+              </div>
+            </div>
           </div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-            <span className="badge badge-neutral">Methanol Spectro 99.8%</span>
-            <span className="badge badge-neutral">Ống Nessler 50ml</span>
-            <span className="badge badge-neutral">Dung dịch AgNO3 0.1N</span>
-            <span className="badge badge-neutral">Thuốc tím KMnO4 0.1g/L</span>
-            <span className="badge badge-neutral">Bình xịt PTFE 500ml</span>
+
+          {/* Right column: Hướng Dẫn Cách Test */}
+          <div className="instructions-column">
+            <div className="equipment-column-header">
+              <Info size={14} color="var(--color-pass)" />
+              <span>HƯỚNG DẪN THAO TÁC TEST</span>
+            </div>
+            <div className="instructions-steps">
+              <div className="instruction-step">
+                <span className="instruction-number">1</span>
+                <span>Phun 200ml Methanol lên vách hầm từ trên xuống dưới theo đường thẳng đứng</span>
+              </div>
+              <div className="instruction-step">
+                <span className="instruction-number">2</span>
+                <span>Hứng dịch rửa bằng khay inox sạch tại đáy vách — đảm bảo không chạm tay trần</span>
+              </div>
+              <div className="instruction-step">
+                <span className="instruction-number">3</span>
+                <span>Đổ dịch rửa vào ống Nessler, thêm thuốc thử tương ứng cho từng chỉ tiêu</span>
+              </div>
+              <div className="instruction-step">
+                <span className="instruction-number">4</span>
+                <span>So sánh màu / đo thời gian đổi màu / ghi giá trị đo được</span>
+              </div>
+              <div className="instruction-step">
+                <span className="instruction-number">5</span>
+                <span>Nhập kết quả vào bảng chỉ số bên dưới để hệ thống tự động đánh giá</span>
+              </div>
+            </div>
           </div>
         </div>
 

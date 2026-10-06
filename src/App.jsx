@@ -2,6 +2,7 @@ import { useApp } from './context/AppContext'
 import Sidebar from './components/Sidebar'
 import Header from './components/Header'
 import Stepper from './components/Stepper'
+import Dashboard from './components/Dashboard'
 import Step1CargoInit from './components/Step1CargoInit'
 import Step2WallWash from './components/Step2WallWash'
 import Step2WaterWhite from './components/Step2WaterWhite'
@@ -12,7 +13,23 @@ import './App.css'
 function MainContent() {
   const { state } = useApp()
   
-  // Render current step dynamically
+  // Dashboard view
+  if (state.currentView === 'dashboard') {
+    return (
+      <div className="app-layout">
+        <Sidebar />
+        <main className="app-main">
+          <Header />
+          <div className="app-content">
+            <Dashboard />
+          </div>
+        </main>
+        <AICopilotDrawer />
+      </div>
+    )
+  }
+
+  // Inspection view - render current step
   const renderStep = () => {
     switch (state.currentStep) {
       case 1:

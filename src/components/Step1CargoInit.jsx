@@ -1,10 +1,14 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useApp } from '../context/AppContext'
 import { CARGO_ITEMS, CARGO_GROUPS, VESSEL_HOLDS, checkCompatibility } from '../data/cargoData'
-import { Package, ShieldCheck, ShieldAlert, ArrowRight, Sparkles, AlertTriangle, Layers, Droplets, Flame } from 'lucide-react'
+import SearchableSelect from './SearchableSelect'
+import { Package, ShieldCheck, ShieldAlert, ArrowRight, Sparkles, AlertTriangle, Layers, Droplets, Flame, Plus, X } from 'lucide-react'
 
 export default function Step1CargoInit() {
   const { state, dispatch } = useApp()
+  const [showAddHold, setShowAddHold] = useState(false)
+  const [newHoldName, setNewHoldName] = useState('')
+  const [newHoldCapacity, setNewHoldCapacity] = useState('')
 
   // Initialize defaults if empty
   useEffect(() => {
@@ -46,11 +50,26 @@ export default function Step1CargoInit() {
     dispatch({ type: 'SET_METHOD', method: result.method })
   }
 
+  const handleAddHold = () => {
+    if (!newHoldName.trim()) return
+    dispatch({
+      type: 'ADD_CUSTOM_HOLD',
+      name: newHoldName.trim(),
+      capacity: newHoldCapacity.trim() || 'Tùy chỉnh'
+    })
+    setNewHoldName('')
+    setNewHoldCapacity('')
+    setShowAddHold(false)
+  }
+
   const prevItem = CARGO_ITEMS.find(c => c.id === state.previousCargo)
   const newItem = CARGO_ITEMS.find(c => c.id === state.newCargo)
   const prevGroup = prevItem ? CARGO_GROUPS[prevItem.group] : null
   const newGroup = newItem ? CARGO_GROUPS[newItem.group] : null
   const compat = state.compatibility
+
+  // Merge default holds with custom holds
+  const allHolds = [...VESSEL_HOLDS, ...(state.customHolds || [])]
 
   const handleStartInspection = () => {
     if (!compat?.allowed) {
@@ -77,31 +96,19 @@ export default function Step1CargoInit() {
           <span className="badge badge-info">Dolphin 01 • Epoxy</span>
         </div>
 
-        {/* Previous cargo */}
+        {/* Previous cargo - Searchable */}
         <div className="form-group">
           <label className="form-label" htmlFor="prev-cargo-select">
             1. Lô Hàng Vừa Dỡ (Chuyến Trước) <span style={{ color: 'var(--color-fail)' }}>*</span>
           </label>
-          <select
+          <SearchableSelect
             id="prev-cargo-select"
-            className="form-select"
+            options={CARGO_ITEMS}
+            groups={CARGO_GROUPS}
             value={state.previousCargo}
             onChange={handlePrevCargoChange}
-          >
-            {Object.keys(CARGO_GROUPS).map(groupKey => {
-              const group = CARGO_GROUPS[groupKey]
-              const items = CARGO_ITEMS.filter(c => c.group === groupKey)
-              return (
-                <optgroup key={groupKey} label={group.name}>
-                  {items.map(item => (
-                    <option key={item.id} value={item.id}>
-                      {item.name}
-                    </option>
-                  ))}
-                </optgroup>
-              )
-            })}
-          </select>
+            placeholder="Tìm kiếm lô hàng..."
+          />
           {prevGroup && (
             <div style={{ marginTop: '6px', fontSize: '12px', color: 'var(--color-text-secondary)', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               <span className="badge badge-neutral">Nhóm: {prevGroup.type}</span>
@@ -110,31 +117,19 @@ export default function Step1CargoInit() {
           )}
         </div>
 
-        {/* New cargo */}
+        {/* New cargo - Searchable */}
         <div className="form-group">
           <label className="form-label" htmlFor="new-cargo-select">
             2. Lô Hàng Sắp Nhận (Chuyến Kế Tiếp) <span style={{ color: 'var(--color-accent-cyan)' }}>*</span>
           </label>
-          <select
+          <SearchableSelect
             id="new-cargo-select"
-            className="form-select"
+            options={CARGO_ITEMS}
+            groups={CARGO_GROUPS}
             value={state.newCargo}
             onChange={handleNewCargoChange}
-          >
-            {Object.keys(CARGO_GROUPS).map(groupKey => {
-              const group = CARGO_GROUPS[groupKey]
-              const items = CARGO_ITEMS.filter(c => c.group === groupKey)
-              return (
-                <optgroup key={groupKey} label={group.name}>
-                  {items.map(item => (
-                    <option key={item.id} value={item.id}>
-                      {item.name}
-                    </option>
-                  ))}
-                </optgroup>
-              )
-            })}
-          </select>
+            placeholder="Tìm kiếm lô hàng..."
+          />
           {newGroup && (
             <div style={{ marginTop: '6px', fontSize: '12px', color: 'var(--color-text-secondary)', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               <span className="badge badge-info">Nhóm: {newGroup.type}</span>
@@ -143,23 +138,70 @@ export default function Step1CargoInit() {
           )}
         </div>
 
-        {/* Hold Selection */}
+        {/* Hold Selection with custom hold option */}
         <div className="form-group">
           <label className="form-label" htmlFor="hold-select">
             3. Hầm Hàng Đang Xử Lý
           </label>
-          <select
-            id="hold-select"
-            className="form-select"
-            value={state.selectedHold}
-            onChange={(e) => dispatch({ type: 'SET_FIELD', field: 'selectedHold', value: e.target.value })}
-          >
-            {VESSEL_HOLDS.map(hold => (
-              <option key={hold.id} value={hold.id}>
-                {hold.name} (Dung tích: {hold.capacity})
-              </option>
-            ))}
-          </select>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+            <div style={{ flex: 1 }}>
+              <SearchableSelect
+                id="hold-select"
+                options={allHolds.map(h => ({ id: h.id, name: `${h.name} (${h.capacity})`, group: h.id.startsWith('custom_') ? 'CUSTOM' : 'DEFAULT' }))}
+                groups={{
+                  DEFAULT: { name: 'Hầm Mặc Định — Dolphin 01' },
+                  CUSTOM: { name: '🏷️ Hầm Tùy Chỉnh' }
+                }}
+                value={state.selectedHold}
+                onChange={(e) => dispatch({ type: 'SET_FIELD', field: 'selectedHold', value: e.target.value })}
+                placeholder="Chọn hầm hàng..."
+              />
+            </div>
+            <button 
+              type="button" 
+              className="btn btn-secondary" 
+              style={{ height: '42px', padding: '0 12px', whiteSpace: 'nowrap' }}
+              onClick={() => setShowAddHold(!showAddHold)}
+            >
+              <Plus size={16} /> Thêm hầm
+            </button>
+          </div>
+          
+          {/* Add custom hold form */}
+          {showAddHold && (
+            <div style={{ 
+              marginTop: '8px', padding: '12px', background: 'var(--color-bg-input)', 
+              borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border)',
+              display: 'flex', gap: '8px', alignItems: 'flex-end'
+            }}>
+              <div style={{ flex: 1 }}>
+                <label style={{ fontSize: '11px', color: 'var(--color-text-secondary)', display: 'block', marginBottom: '4px' }}>Tên hầm *</label>
+                <input 
+                  type="text" 
+                  className="form-input" 
+                  placeholder="VD: Hold #5P Custom"
+                  value={newHoldName}
+                  onChange={(e) => setNewHoldName(e.target.value)}
+                  style={{ height: '36px' }}
+                />
+              </div>
+              <div style={{ width: '120px' }}>
+                <label style={{ fontSize: '11px', color: 'var(--color-text-secondary)', display: 'block', marginBottom: '4px' }}>Dung tích</label>
+                <input 
+                  type="text" 
+                  className="form-input" 
+                  placeholder="1,500 m³"
+                  value={newHoldCapacity}
+                  onChange={(e) => setNewHoldCapacity(e.target.value)}
+                  style={{ height: '36px' }}
+                />
+              </div>
+              <button className="btn btn-primary btn-sm" onClick={handleAddHold} style={{ height: '36px' }}>Thêm</button>
+              <button className="btn btn-secondary btn-sm" onClick={() => setShowAddHold(false)} style={{ height: '36px' }}>
+                <X size={14} />
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Voyage Route */}
