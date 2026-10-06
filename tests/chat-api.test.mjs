@@ -57,8 +57,9 @@ test('missing key, method and missing knowledge have distinct errors', async () 
 test('provider failure is not misreported as missing API key', async () => {
   const handler = createChatHandler({ env: { GROQ_API_KEY: 'test-only' }, loadIndex: () => index, createGroq: groqStub(async () => { throw Object.assign(new Error('SECRET SHOULD NOT BE RETURNED'), { status: 401 }) }) })
   const res = await call(handler, { userMessage: 'hello' })
-  assert.equal(res.statusCode, 502)
-  assert.equal(res.body.error, 'AI_UNAVAILABLE')
+  assert.equal(res.statusCode, 503)
+  assert.equal(res.body.error, 'AI_AUTH_FAILED')
+  assert.deepEqual(res.body.providers, [{ provider: 'Groq', status: 401 }])
   assert.doesNotMatch(JSON.stringify(res.body), /SECRET/)
 })
 

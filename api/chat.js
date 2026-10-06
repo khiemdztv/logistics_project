@@ -88,7 +88,7 @@ export function createChatHandler({
         if (completion.choices?.[0]?.finish_reason === 'length') throw new Error('TRUNCATED_RESPONSE')
         return res.status(200).json(providerResult(completion.choices?.[0]?.message?.content, body.isDiagnostic, `Groq · ${model}`, request.sources))
       } catch (error) {
-        errors.push(error)
+        errors.push({ provider: 'Groq', status: error.status })
         console.warn('Groq request failed:', error.status || error.name)
       }
     }
@@ -106,12 +106,15 @@ export function createChatHandler({
         if (result.response.candidates?.[0]?.finishReason === 'MAX_TOKENS') throw new Error('TRUNCATED_RESPONSE')
         return res.status(200).json(providerResult(result.response.text(), body.isDiagnostic, `Gemini · ${modelName}`, request.sources))
       } catch (error) {
-        errors.push(error)
+        errors.push({ provider: 'Gemini', status: error.status })
         console.warn('Gemini request failed:', error.status || error.name)
       }
     }
-    if (errors.some(error => error.status === 429)) return res.status(429).json({ error: 'RATE_LIMITED', message: 'AI đang hết hạn mức hoặc có quá nhiều yêu cầu. Hãy thử lại sau.' })
-    return res.status(502).json({ error: 'AI_UNAVAILABLE', message: 'Không nhận được câu trả lời từ nhà cung cấp AI. Hãy kiểm tra API key và trạng thái dịch vụ.' })
+    const providers = errors.map(({ provider, status }) => ({ provider, status: Number.isInteger(status) ? status : null }))
+    if (errors.some(error => error.status === 429)) return res.status(429).json({ error: 'RATE_LIMITED', message: 'AI đang hết hạn mức hoặc có quá nhiều yêu cầu. Hãy thử lại sau.', providers })
+    if (errors.every(error => [401, 403].includes(error.status))) return res.status(503).json({ error: 'AI_AUTH_FAILED', message: 'Nhà cung cấp từ chối API key hoặc quyền dùng model. Kiểm tra khóa trong Vercel rồi redeploy.', providers })
+    if (errors.some(error => error.status === 413)) return res.status(502).json({ error: 'AI_CONTEXT_TOO_LARGE', message: 'Yêu cầu vượt giới hạn ngữ cảnh của nhà cung cấp. Hãy rút ngắn câu hỏi hoặc bắt đầu hội thoại mới.', providers })
+    return res.status(502).json({ error: 'AI_UNAVAILABLE', message: 'Không nhận được câu trả lời từ nhà cung cấp AI. Hãy kiểm tra API key và trạng thái dịch vụ.', providers })
   }
 }
 

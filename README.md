@@ -20,7 +20,7 @@ npm run dev
 - Biến `VITE_GROQ_API_KEY` / `VITE_GEMINI_API_KEY` cũ vẫn được backend đọc để giữ tương thích. Nên chuyển sang tên không có `VITE_`; frontend không đọc khóa triển khai và không gọi provider trực tiếp.
 - `vercel.json` đóng gói `public/rag_context.txt` và `public/rag_reference.json` vào function. Chọn root directory là thư mục chứa `package.json` này.
 
-Chat trả `{ reply, model, mode, sources }`; chẩn đoán trả `{ title, causes, solutions, model, mode, sources }`. Lỗi phân biệt `NO_API_KEY` (503), `KNOWLEDGE_UNAVAILABLE` (503), `RATE_LIMITED` (429) và `AI_UNAVAILABLE` (502). Nếu provider lỗi, giao diện hiển thị nguyên nhân và nội dung tra cứu cục bộ với `mode: local`, không gắn nhãn Groq.
+Chat trả `{ reply, model, mode, sources }`; chẩn đoán trả `{ title, causes, solutions, model, mode, sources }`. Lỗi phân biệt `NO_API_KEY` (503), `KNOWLEDGE_UNAVAILABLE` (503), `RATE_LIMITED` (429), `AI_AUTH_FAILED` (503), `AI_CONTEXT_TOO_LARGE` (502) và `AI_UNAVAILABLE` (502). Chỉ trả tên provider/mã HTTP, không trả lỗi thô có thể chứa key hoặc dữ liệu yêu cầu. Nếu provider lỗi, giao diện hiển thị nguyên nhân và nội dung tra cứu cục bộ với `mode: local`, không gắn nhãn Groq.
 
 ## Kho tài liệu và truy xuất
 
