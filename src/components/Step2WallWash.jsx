@@ -15,19 +15,15 @@ import {
   ArrowLeft,
   ArrowRight,
   RotateCcw,
-  Sparkles,
   Camera,
   Info,
   Beaker,
-  ShieldCheck,
-  Eye,
-  Loader2,
-  Zap
+  Loader2
 } from 'lucide-react'
 
 export default function Step2WallWash() {
   const { state, dispatch } = useApp()
-  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0)
+  const selectedPhotoIndex = 0
   
   // Real AI diagnostic states
   const [aiDiagnostic, setAiDiagnostic] = useState(null)
@@ -100,6 +96,7 @@ export default function Step2WallWash() {
   }, [evaluation.failedList, testResults, state.previousCargo, state.newCargo])
 
   const handleManualAnalyze = async () => {
+    if (evaluation.filledCount !== 5 || isAiLoading) return
     setIsAiLoading(true)
     if (evaluation.failedList.length > 0) {
       const data = await analyzeTestFailures(
@@ -115,13 +112,8 @@ export default function Step2WallWash() {
       }
     } else {
       setManualAiMessage({
-        title: "AI XÁC NHẬN: HẦM HÀNG ĐẠT CHUẨN AN TOÀN",
-        content: `Đã đối chiếu 5 chỉ tiêu hóa nghiệm với tiêu chuẩn tiếp nhận ${state.newCargo || 'Methanol'}:
-• Độ mặn Clorua (${testResults.chloride || '1'} ppm) <= 2 ppm: Không phát hiện nhiễm mặn nước biển.
-• Chỉ số PTT (${testResults.ptt || '10'} min) >= 8 min: Không phát hiện cặn hữu cơ dễ oxy hóa.
-• Độ màu APHA (${testResults.apha || '1'}) <= 20: Dịch rửa trong suốt tuyệt đối.
-• Dư lượng Hydrocarbon (${testResults.hydrocarbon || '1'} ppm) <= 50 ppm: Lớp bọc Pure Epoxy sạch màng dầu.
-➡️ Đủ điều kiện kỹ thuật cấp Chứng chỉ Cleanliness Certificate chuẩn INTERTANKO.`
+        title: 'Các chỉ số đạt ngưỡng cấu hình',
+        content: `Đã đối chiếu 5 chỉ số với ngưỡng đang cấu hình trên web:\n${Object.entries(WALL_WASH_THRESHOLDS).map(([id, test]) => `• ${test.name}: ${testResults[id]} ${test.unit} (${test.comparison} ${test.max ?? test.min}) — Đạt`).join('\n')}\nCó thể chuyển sang bước tổng hợp báo cáo.`
       })
     }
     setIsAiLoading(false)
@@ -184,7 +176,7 @@ export default function Step2WallWash() {
           <div>
             <h2 className="card-title">
               <FlaskConical className="card-title-icon" size={20} />
-              Quy Trình & Kết Quả Wall Wash Standard
+              Kiểm tra Wall Wash
             </h2>
             <p className="card-subtitle">
               Đo lường 5 chỉ số độ tinh khiết hóa học dịch rửa bề mặt hầm hàng
@@ -259,14 +251,14 @@ export default function Step2WallWash() {
           </div>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-md)' }}>
+        <div className="inspection-toolbar">
           <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-text-secondary)' }}>
-            CHỈ SỐ KIỂM TRA HÓA NGHIỆM:
+            Chỉ số hóa nghiệm
           </span>
           <div style={{ display: 'flex', gap: '6px' }}>
-            <button className="btn btn-sm btn-secondary" onClick={() => loadPreset('pass')} type="button">Mẫu ĐẠT</button>
-            <button className="btn btn-sm btn-secondary" style={{ color: 'var(--color-fail)', border: '1px solid rgba(239,68,68,0.4)' }} onClick={() => loadPreset('fail_ptt')} type="button">⚡ Test FAIL PTT</button>
-            <button className="btn btn-sm btn-secondary" style={{ color: 'var(--color-warning)', border: '1px solid rgba(245,158,11,0.4)' }} onClick={() => loadPreset('fail_chloride')} type="button">⚡ Test FAIL Muối</button>
+            <button className="btn btn-sm btn-secondary" onClick={() => loadPreset('pass')} type="button">Mẫu đạt</button>
+            <button className="btn btn-sm btn-secondary" style={{ color: 'var(--color-fail)', border: '1px solid rgba(239,68,68,0.4)' }} onClick={() => loadPreset('fail_ptt')} type="button">Mẫu PTT thấp</button>
+            <button className="btn btn-sm btn-secondary" style={{ color: 'var(--color-warning)', border: '1px solid rgba(245,158,11,0.4)' }} onClick={() => loadPreset('fail_chloride')} type="button">Mẫu nhiễm mặn</button>
           </div>
         </div>
 
@@ -316,7 +308,7 @@ export default function Step2WallWash() {
           </table>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 'var(--space-md)', borderTop: '1px solid var(--color-border)' }}>
+        <div className="inspection-actions">
           <button className="btn btn-secondary" onClick={() => dispatch({ type: 'SET_STEP', step: 1 })}>
             <ArrowLeft size={18} /> <span>Quay Lại Bước 1</span>
           </button>
@@ -393,33 +385,29 @@ export default function Step2WallWash() {
         </div>
 
         {/* AI CHẨN ĐOÁN & ĐỀ XUẤT KHẮC PHỤC PANEL */}
-        <div className="card" style={{ borderColor: evaluation.hasFail ? 'var(--color-fail-border)' : 'var(--color-border)' }}>
+        <div className="card diagnostic-card" style={{ borderColor: evaluation.hasFail ? 'var(--color-fail-border)' : 'var(--color-border)' }}>
           <div className="card-header">
             <div>
               <h3 className="card-title">
-                <Sparkles className="card-title-icon" size={18} color="#F97316" />
-                AI Chẩn Đoán Kỹ Thuật (RAG SOP)
+                Phân tích kết quả
               </h3>
-              <p className="card-subtitle">Trích xuất tri thức từ CHRIS Manual & MARPOL</p>
+              <p className="card-subtitle">Đối chiếu chỉ số với ngưỡng cấu hình và tài liệu tham khảo</p>
             </div>
-            <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+            <div className="diagnostic-header-actions">
               <button 
                 type="button" 
                 className="btn btn-sm btn-secondary" 
-                style={{ fontSize: '11px', padding: '4px 8px', color: '#F97316', borderColor: 'rgba(249,115,22,0.4)' }}
                 onClick={handleManualAnalyze}
-                disabled={isAiLoading}
+                disabled={isAiLoading || evaluation.filledCount !== 5}
               >
-                <Zap size={12} /> Phân tích ngay
+                Phân tích lại
               </button>
-              <span className="badge badge-info" style={{ background: 'rgba(249,115,22,0.15)', color: '#F97316', border: '1px solid rgba(249,115,22,0.3)' }}>
-                {aiDiagnostic?.[0]?.mode === 'local' ? 'Tra cứu cục bộ' : aiDiagnostic?.[0]?.model || 'AI + tài liệu'}
-              </span>
+
             </div>
           </div>
 
           {isAiLoading ? (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px', color: '#F97316' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '24px', color: 'var(--color-text-secondary)' }}>
               <Loader2 className="animate-spin" size={32} style={{ marginBottom: '12px' }} />
               <div style={{ fontSize: '14px', fontWeight: 600 }}>Đang phân tích kết quả kiểm tra...</div>
               <div style={{ fontSize: '12px', color: 'var(--color-text-secondary)', marginTop: '4px' }}>Đối chiếu số liệu, ngưỡng trên web và tài liệu liên quan</div>
@@ -468,7 +456,7 @@ export default function Step2WallWash() {
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <CheckCircle2 className="alert-icon" size={20} color="var(--color-pass)" />
                 <div className="alert-content">
-                  <div className="alert-title" style={{ color: 'var(--color-pass)' }}>Hệ thống kiểm tra đạt chuẩn hoàn hảo</div>
+                  <div className="alert-title" style={{ color: 'var(--color-pass)' }}>Tất cả chỉ số đạt ngưỡng cấu hình</div>
                   <div className="alert-text">Sẵn sàng xuất chứng nhận làm sạch hầm hàng.</div>
                 </div>
               </div>
@@ -478,14 +466,15 @@ export default function Step2WallWash() {
                 onClick={handleManualAnalyze}
                 style={{ fontSize: '11px', padding: '4px 8px' }}
               >
-                AI Tóm Tắt
+                Xem tóm tắt
               </button>
             </div>
           ) : (
             <div style={{ padding: '16px', textAlign: 'center', color: 'var(--color-text-muted)', fontSize: '13px' }}>
-              Nhập các chỉ số hóa nghiệm hoặc chọn các nút bấm mẫu phía trên để AI tự động phân tích và hướng dẫn rửa lại.
+              Nhập chỉ số hóa nghiệm để đánh giá. Kết quả chưa đạt sẽ được phân tích kèm hướng xử lý tham khảo.
             </div>
           )}
+          {aiDiagnostic?.[0]?.mode && <p className="diagnostic-provider">{aiDiagnostic[0].mode === 'local' ? 'Tra cứu cục bộ · AI chưa kết nối' : `Phân tích với ${aiDiagnostic[0].model || 'AI'}`}</p>}
         </div>
       </div>
     </div>

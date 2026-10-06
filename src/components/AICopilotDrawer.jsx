@@ -1,34 +1,26 @@
 import { useState, useRef, useEffect } from 'react'
 import { useApp } from '../context/AppContext'
-import { Sparkles, X, Send, BookOpen, Bot, Loader2, Zap } from 'lucide-react'
+import { MessageCircle, X, Send, Loader2 } from 'lucide-react'
 import { chatWithCopilot } from '../services/aiService'
 
 function renderFormattedMarkdown(text) {
   if (!text) return ''
-  
-  // Clean string
-  let html = text
-    // Replace HTML brackets
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    // Bold: **text**
-    .replace(/\*\*(.+?)\*\*/g, '<strong style="color: var(--color-accent-cyan, #00E5FF); font-weight: 700;">$1</strong>')
-    // Italic: *text*
+  return text
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*([^*\n]+?)\*/g, '<em>$1</em>')
-    // Inline code: `code`
-    .replace(/`([^`]+)`/g, '<code style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 11px;">$1</code>')
-    // Bullet list items (- item or • item)
-    .replace(/^\s*[-•*]\s+(.+)$/gm, '<div style="display: flex; gap: 6px; margin: 4px 0;"><span style="color: var(--color-accent-cyan, #00E5FF);">•</span><span>$1</span></div>')
-    // Numbered lists (1. item)
-    .replace(/^\s*(\d+)\.\s+(.+)$/gm, '<div style="display: flex; gap: 6px; margin: 4px 0;"><span style="color: var(--color-accent-cyan, #00E5FF); font-weight: 600;">$1.</span><span>$2</span></div>')
-    // Double line breaks
-    .replace(/\n\n/g, '<div style="height: 8px;"></div>')
-    // Single line break
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/^\s*[-•*]\s+(.+)$/gm, '<div class="ai-markdown-item"><span class="ai-markdown-marker">•</span><span>$1</span></div>')
+    .replace(/^\s*(\d+)\.\s+(.+)$/gm, '<div class="ai-markdown-item"><span class="ai-markdown-marker">$1.</span><span>$2</span></div>')
     .replace(/\n/g, '<br/>')
-
-  return html
 }
+
+const suggestedPrompts = [
+  'Hàng methanol cần bao nhiêu test hóa chất?',
+  'Lý thuyết về việc dọn hầm là gì?',
+  'Quy trình chuẩn rửa hầm sau khi chở CPO?',
+  'Phải làm gì khi PTT chỉ đạt 6.5 phút?'
+]
 
 export default function AICopilotDrawer() {
   const { state, dispatch } = useApp()
@@ -36,215 +28,115 @@ export default function AICopilotDrawer() {
   const [isLoading, setIsLoading] = useState(false)
   const sendingRef = useRef(false)
   const messagesEndRef = useRef(null)
-
+  const inputRef = useRef(null)
+  const triggerRef = useRef(null)
   const isOpen = state.aiChatOpen
   const messages = state.aiMessages
 
-  // Auto scroll to bottom on new message
   useEffect(() => {
-    if (isOpen && messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+    if (isOpen) inputRef.current?.focus()
+    const onEscape = (event) => {
+      if (isOpen && event.key === 'Escape') {
+        dispatch({ type: 'TOGGLE_AI_CHAT' })
+        requestAnimationFrame(() => triggerRef.current?.focus())
+      }
     }
+    document.addEventListener('keydown', onEscape)
+    return () => document.removeEventListener('keydown', onEscape)
+  }, [isOpen, dispatch])
+
+  useEffect(() => {
+    if (isOpen) messagesEndRef.current?.scrollIntoView({
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
+    })
   }, [messages, isOpen, isLoading])
 
-  const suggestedPrompts = [
-    'Hàng methanol cần bao nhiêu test hóa chất?',
-    'Lý thuyết về việc dọn hầm là gì?',
-    'Quy trình chuẩn rửa hầm sau khi chở CPO?',
-    'Phải làm gì khi PTT chỉ đạt 6.5 phút?'
-  ]
-
   const handleSend = async (customPrompt) => {
-    const textToSend = typeof customPrompt === 'string' ? customPrompt : inputText
-    if (!textToSend.trim() || sendingRef.current) return
+    const textToSend = (typeof customPrompt === 'string' ? customPrompt : inputText).trim()
+    if (!textToSend || sendingRef.current) return
     sendingRef.current = true
-
     setInputText('')
-    
-    // Add user message
-    const newMsg = { role: 'user', content: textToSend }
-    dispatch({ type: 'ADD_AI_MESSAGE', message: newMsg })
-
+    dispatch({ type: 'ADD_AI_MESSAGE', message: { role: 'user', content: textToSend } })
     setIsLoading(true)
-
     try {
-      // Call Groq / AI + RAG Engine
-      const aiResponse = await chatWithCopilot(textToSend, messages, {
-        previousCargo: state.previousCargo,
-        newCargo: state.newCargo,
-        holdName: state.holdName,
-        selectedHold: state.selectedHold,
-        selectedMethod: state.selectedMethod,
-        currentStep: state.currentStep,
+      const response = await chatWithCopilot(textToSend, messages, {
+        previousCargo: state.previousCargo, newCargo: state.newCargo,
+        holdName: state.holdName, selectedHold: state.selectedHold,
+        selectedMethod: state.selectedMethod, currentStep: state.currentStep,
         wallWashResults: state.wallWashResults,
       })
-      
-      dispatch({
-        type: 'ADD_AI_MESSAGE',
-        message: { 
-          role: 'assistant', 
-          content: aiResponse.reply,
-          mode: aiResponse.mode,
-          warning: aiResponse.warning,
-          sources: aiResponse.sources,
-          source: aiResponse.mode === 'ai' ? `${aiResponse.model} · Tài liệu RAG` : 'Tra cứu tài liệu cục bộ · AI chưa kết nối'
-        }
-      })
+      dispatch({ type: 'ADD_AI_MESSAGE', message: {
+        role: 'assistant', content: response.reply, mode: response.mode,
+        warning: response.warning, sources: response.sources,
+        source: response.mode === 'ai' ? `${response.model} · Tài liệu RAG` : 'Tra cứu tài liệu cục bộ · AI chưa kết nối'
+      } })
     } catch (error) {
-      dispatch({
-        type: 'ADD_AI_MESSAGE',
-        message: { 
-          role: 'assistant', 
-          content: `Không thể xử lý câu hỏi: ${error.message}`,
-          mode: 'error'
-        }
-      })
+      dispatch({ type: 'ADD_AI_MESSAGE', message: {
+        role: 'assistant', content: `Không thể xử lý câu hỏi: ${error.message}`, mode: 'error'
+      } })
     } finally {
       setIsLoading(false)
       sendingRef.current = false
+      requestAnimationFrame(() => inputRef.current?.focus())
     }
   }
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && !e.nativeEvent.isComposing) handleSend()
+  const closePanel = () => {
+    dispatch({ type: 'TOGGLE_AI_CHAT' })
+    requestAnimationFrame(() => triggerRef.current?.focus())
   }
 
-  const handlePromptClick = (prompt) => {
-    handleSend(prompt)
-  }
-
-  if (!isOpen) {
-    return (
-      <button 
-        className="ai-fab" 
-        onClick={() => dispatch({ type: 'TOGGLE_AI_CHAT' })}
-        title="Dolphin AI Copilot - Cố vấn Hàng hải Chuyên sâu"
-      >
-        <Sparkles size={24} />
-      </button>
-    )
-  }
+  if (!isOpen) return (
+    <button ref={triggerRef} className="ai-fab" onClick={() => dispatch({ type: 'TOGGLE_AI_CHAT' })}
+      aria-expanded={false} aria-controls="copilot-panel" aria-label="Mở trợ lý Dolphin Copilot">
+      <MessageCircle size={18} aria-hidden="true" /><span>Trợ lý</span>
+    </button>
+  )
 
   return (
-    <div className="ai-panel">
+    <section className="ai-panel" id="copilot-panel" role="dialog" aria-labelledby="copilot-title">
       <div className="ai-panel-header">
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '32px', height: '32px', borderRadius: '8px', background: 'var(--color-accent-gradient)', color: '#0B132B' }}>
-          <Bot size={20} />
+        <div className="ai-panel-heading">
+          <h2 className="ai-panel-title" id="copilot-title">Dolphin Copilot</h2>
+          <p className="ai-panel-subtitle">Hỏi đáp hàng hải & hỗ trợ thao tác</p>
         </div>
-        <div className="ai-panel-title">Dolphin Maritime Copilot</div>
-        <button className="ai-panel-close" onClick={() => dispatch({ type: 'TOGGLE_AI_CHAT' })}>
-          <X size={18} />
-        </button>
+        <button className="ai-panel-close" onClick={closePanel} aria-label="Đóng trợ lý"><X size={18} /></button>
       </div>
-
-      <div className="ai-panel-messages">
-        <div style={{ fontSize: '11px', textAlign: 'center', color: 'var(--color-text-muted)', marginBottom: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
-          <span style={{ color: '#F97316', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-            <Zap size={12} fill="#F97316" /> Trợ lý hỏi đáp · Tài liệu Dolphin TankOps
-          </span>
-        </div>
-        
+      <div className="ai-panel-messages" role="log" aria-label="Hội thoại với trợ lý" aria-busy={isLoading}>
         {messages.map((msg, idx) => (
           <div key={idx} className={`ai-message ${msg.role}`}>
-            {msg.role === 'assistant' && (
-              <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '6px', color: '#F97316' }}>
-                <Sparkles size={14} />
-                <span style={{ fontSize: '11px', fontWeight: 600 }}>Dolphin Maritime AI</span>
-              </div>
-            )}
-            
-            {msg.warning && (
-              <div role="status" style={{ fontSize: '11px', color: 'var(--color-warning, #FBBF24)', marginBottom: '8px' }}>
-                {msg.warning}
-              </div>
-            )}
-
-            <div 
-              style={{ lineHeight: '1.6', fontSize: '13px' }}
-              dangerouslySetInnerHTML={{ 
-                __html: renderFormattedMarkdown(msg.content)
-              }} 
-            />
-            
-            {msg.source && (
-              <div className="ai-source" style={{ marginTop: '8px', fontSize: '10px', color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <BookOpen size={12} style={{ color: '#F97316' }} />
-                <span>{msg.source}</span>
-              </div>
-            )}
-            {msg.sources?.length > 0 && (
-              <details style={{ marginTop: '6px', fontSize: '10px', color: 'var(--color-text-muted)' }}>
-                <summary style={{ cursor: 'pointer' }}>Tài liệu tham khảo</summary>
-                <ol style={{ margin: '6px 0', paddingLeft: '18px' }}>
-                  {msg.sources.map((source, i) => <li key={source.id || i}>[{i + 1}] {source.source} · {source.title}</li>)}
-                </ol>
+            {msg.role === 'assistant' && <p className="ai-message-label">Dolphin Copilot</p>}
+            {msg.warning && <p role="status" className="ai-message-warning">{msg.warning}</p>}
+            <div className="ai-message-body" dangerouslySetInnerHTML={{ __html: renderFormattedMarkdown(msg.content) }} />
+            {(msg.source || msg.sources?.length > 0) && (
+              <details className="ai-source">
+                <summary>{msg.mode === 'local' ? 'Tra cứu cục bộ & nguồn tham khảo' : 'Nguồn tham khảo'}</summary>
+                {msg.source && <p className="ai-source-provider">{msg.source}</p>}
+                {msg.sources?.length > 0 && <ol>
+                  {msg.sources.map((source, i) => <li key={source.id || i}>{source.source} · {source.title}</li>)}
+                </ol>}
               </details>
             )}
           </div>
         ))}
-
-        {isLoading && (
-          <div className="ai-message assistant" style={{ opacity: 0.85 }}>
-            <div style={{ display: 'flex', gap: '8px', alignItems: 'center', color: '#F97316' }}>
-              <Loader2 size={16} className="animate-spin" />
-              <span style={{ fontSize: '12px' }}>Đang tìm tài liệu và soạn câu trả lời...</span>
-            </div>
-          </div>
-        )}
-        
-        {/* Suggestion Prompts if only 1 message (greeting) */}
-        {messages.length === 1 && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '12px' }}>
-            <div style={{ fontSize: '11px', color: 'var(--color-text-secondary)', fontWeight: 600 }}>CÂU HỎI NHANH CHO SĨ QUAN:</div>
-            {suggestedPrompts.map((prompt, idx) => (
-              <button 
-                key={idx}
-                type="button"
-                style={{
-                  textAlign: 'left',
-                  padding: '8px 12px',
-                  background: 'var(--color-bg-input)',
-                  border: '1px solid var(--color-border)',
-                  borderRadius: '12px',
-                  color: 'var(--color-text-primary)',
-                  fontSize: '12px',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  lineHeight: '1.4'
-                }}
-                onClick={() => handlePromptClick(prompt)}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = '#F97316'
-                  e.currentTarget.style.background = 'rgba(249, 115, 22, 0.08)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--color-border)'
-                  e.currentTarget.style.background = 'var(--color-bg-input)'
-                }}
-              >
-                ⚡ {prompt}
-              </button>
-            ))}
-          </div>
-        )}
-        
+        {isLoading && <div className="ai-loading" role="status">
+          <Loader2 size={16} className="animate-spin" aria-hidden="true" />Đang tìm tài liệu và soạn câu trả lời…
+        </div>}
+        {messages.length === 1 && <div className="ai-suggestions">
+          <p>Bạn có thể hỏi</p>
+          {suggestedPrompts.map(prompt => <button key={prompt} type="button" className="ai-suggestion"
+            disabled={isLoading} onClick={() => handleSend(prompt)}>{prompt}</button>)}
+        </div>}
         <div ref={messagesEndRef} />
       </div>
-
-      <div className="ai-panel-input">
-        <input 
-          type="text" 
-          placeholder="Hỏi AI về tính năng web, lý thuyết làm sạch, chuẩn MARPOL..." 
-          value={inputText}
-          onChange={(e) => setInputText(e.target.value)}
-          onKeyDown={handleKeyDown}
-          disabled={isLoading}
-          maxLength={4000}
-        />
-        <button onClick={() => handleSend()} disabled={!inputText.trim() || isLoading}>
-          {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
+      <form className="ai-panel-input" onSubmit={event => { event.preventDefault(); handleSend() }}>
+        <input ref={inputRef} type="text" aria-label="Câu hỏi cho trợ lý" placeholder="Nhập câu hỏi của bạn…"
+          value={inputText} onChange={event => setInputText(event.target.value)} disabled={isLoading} maxLength={4000}
+          onKeyDown={event => { if (event.key === 'Enter' && event.nativeEvent.isComposing) event.preventDefault() }} />
+        <button type="submit" disabled={!inputText.trim() || isLoading} aria-label="Gửi câu hỏi">
+          <Send size={16} aria-hidden="true" />
         </button>
-      </div>
-    </div>
+      </form>
+    </section>
   )
 }

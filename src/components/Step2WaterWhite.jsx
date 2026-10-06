@@ -3,14 +3,10 @@ import { useApp } from '../context/AppContext'
 import { WATER_WHITE_AREAS, VESSEL_HOLDS } from '../data/cargoData'
 import {
   Layers,
-  CheckCircle2,
-  XCircle,
   AlertTriangle,
   ArrowLeft,
   ArrowRight,
   RotateCcw,
-  Sparkles,
-  Camera,
   Eye,
   ShieldCheck,
   Check
@@ -100,7 +96,7 @@ export default function Step2WaterWhite() {
         </div>
 
         {/* 4 Core Inspection Criteria */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px', marginBottom: 'var(--space-lg)' }}>
+        <div className="inspection-criteria">
           <div style={{ padding: '8px', background: 'var(--color-bg-input)', borderRadius: 'var(--radius-md)', textAlign: 'center', border: '1px solid var(--color-border)' }}>
             <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--color-accent-cyan)' }}>SẠCH BỀ MẶT</div>
             <div style={{ fontSize: '10px', color: 'var(--color-text-muted)' }}>Không cặn dầu/bẩn</div>
@@ -120,9 +116,9 @@ export default function Step2WaterWhite() {
         </div>
 
         {/* Quick fill buttons */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-md)' }}>
+        <div className="inspection-toolbar">
           <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-text-secondary)' }}>
-            DANH SÁCH 7 KHU VỰC KẾT CẤU:
+            Các khu vực cần kiểm tra
           </span>
           <div style={{ display: 'flex', gap: '6px' }}>
             <button
@@ -159,7 +155,6 @@ export default function Step2WaterWhite() {
                 }}
                 onClick={() => setSelectedAreaId(area.id)}
               >
-                <div style={{ fontSize: '16px', marginRight: '4px' }}>{area.icon}</div>
                 <div className="checklist-area-name">
                   <span style={{ color: 'var(--color-text-muted)', marginRight: '6px' }}>#{idx + 1}</span>
                   {area.name}
@@ -202,7 +197,7 @@ export default function Step2WaterWhite() {
         </div>
 
         {/* Actions Footer */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 'var(--space-md)', borderTop: '1px solid var(--color-border)' }}>
+        <div className="inspection-actions">
           <button
             className="btn btn-secondary"
             onClick={() => dispatch({ type: 'SET_STEP', step: 1 })}
@@ -299,8 +294,7 @@ export default function Step2WaterWhite() {
           <div className="card-header">
             <div>
               <h3 className="card-title">
-                <Sparkles className="card-title-icon" size={18} />
-                Đánh Giá Tổng Thể Hầm Hàng
+                Tổng hợp kiểm tra hầm hàng
               </h3>
               <p className="card-subtitle">Tiến độ kiểm tra cảm quan</p>
             </div>

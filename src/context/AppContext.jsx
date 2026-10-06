@@ -110,7 +110,7 @@ const initialState = {
   aiMessages: [
     {
       role: 'assistant',
-      content: 'Xin chào! Tôi là AI Maritime Copilot. Tôi có thể giúp bạn tra cứu quy trình rửa hầm, hóa chất kiểm tra, hoặc giải đáp thắc mắc về tiêu chuẩn MARPOL/FOSFA. Hãy đặt câu hỏi!',
+      content: 'Chào bạn, mình là Dolphin Copilot. Bạn cần tra cứu về hàng hóa, kiểm tra hầm hay cách sử dụng web? Hãy cho mình biết câu hỏi và thông tin ca làm việc nếu có.',
     }
   ],
 }

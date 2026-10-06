@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useApp } from '../context/AppContext'
 import { CARGO_ITEMS, CARGO_GROUPS, VESSEL_HOLDS, checkCompatibility } from '../data/cargoData'
 import SearchableSelect from './SearchableSelect'
-import { Package, ShieldCheck, ShieldAlert, ArrowRight, Sparkles, AlertTriangle, Layers, Droplets, Flame, Plus, X } from 'lucide-react'
+import { ArrowRight, Plus, X } from 'lucide-react'
 
 export default function Step1CargoInit() {
   const { state, dispatch } = useApp()
@@ -86,8 +86,7 @@ export default function Step1CargoInit() {
         <div className="card-header">
           <div>
             <h2 className="card-title">
-              <Package className="card-title-icon" size={20} />
-              Thông Tin Lô Hàng & Hầm Chứa
+              Thông tin hàng hóa & hầm chứa
             </h2>
             <p className="card-subtitle">
               Nhập chi tiết chuyến hàng trước và chuyến kế tiếp để phân tích tương thích
@@ -99,7 +98,7 @@ export default function Step1CargoInit() {
         {/* Previous cargo - Searchable */}
         <div className="form-group">
           <label className="form-label" htmlFor="prev-cargo-select">
-            1. Lô Hàng Vừa Dỡ (Chuyến Trước) <span style={{ color: 'var(--color-fail)' }}>*</span>
+            Hàng vừa dỡ <span style={{ color: 'var(--color-fail)' }}>*</span>
           </label>
           <SearchableSelect
             id="prev-cargo-select"
@@ -120,7 +119,7 @@ export default function Step1CargoInit() {
         {/* New cargo - Searchable */}
         <div className="form-group">
           <label className="form-label" htmlFor="new-cargo-select">
-            2. Lô Hàng Sắp Nhận (Chuyến Kế Tiếp) <span style={{ color: 'var(--color-accent-cyan)' }}>*</span>
+            Hàng sắp nhận <span style={{ color: 'var(--color-accent-cyan)' }}>*</span>
           </label>
           <SearchableSelect
             id="new-cargo-select"
@@ -141,7 +140,7 @@ export default function Step1CargoInit() {
         {/* Hold Selection with custom hold option */}
         <div className="form-group">
           <label className="form-label" htmlFor="hold-select">
-            3. Hầm Hàng Đang Xử Lý
+            Hầm hàng cần kiểm tra
           </label>
           <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
             <div style={{ flex: 1 }}>
@@ -150,7 +149,7 @@ export default function Step1CargoInit() {
                 options={allHolds.map(h => ({ id: h.id, name: `${h.name} (${h.capacity})`, group: h.id.startsWith('custom_') ? 'CUSTOM' : 'DEFAULT' }))}
                 groups={{
                   DEFAULT: { name: 'Hầm Mặc Định — Dolphin 01' },
-                  CUSTOM: { name: '🏷️ Hầm Tùy Chỉnh' }
+                  CUSTOM: { name: 'Hầm tùy chỉnh' }
                 }}
                 value={state.selectedHold}
                 onChange={(e) => dispatch({ type: 'SET_FIELD', field: 'selectedHold', value: e.target.value })}
@@ -169,11 +168,7 @@ export default function Step1CargoInit() {
           
           {/* Add custom hold form */}
           {showAddHold && (
-            <div style={{ 
-              marginTop: '8px', padding: '12px', background: 'var(--color-bg-input)', 
-              borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border)',
-              display: 'flex', gap: '8px', alignItems: 'flex-end'
-            }}>
+            <div className="custom-hold-form">
               <div style={{ flex: 1 }}>
                 <label style={{ fontSize: '11px', color: 'var(--color-text-secondary)', display: 'block', marginBottom: '4px' }}>Tên hầm *</label>
                 <input 
@@ -207,7 +202,7 @@ export default function Step1CargoInit() {
         {/* Voyage Route */}
         <div className="form-group">
           <label className="form-label" htmlFor="route-input">
-            4. Hải Trình & Cảng Nhận Hàng
+            Hải trình & cảng nhận hàng
           </label>
           <input
             id="route-input"
@@ -222,7 +217,7 @@ export default function Step1CargoInit() {
         {/* Additional Notes */}
         <div className="form-group" style={{ marginBottom: 0 }}>
           <label className="form-label" htmlFor="notes-textarea">
-            5. Ghi Chú Của Đại Phó / Giám Sát Hầm
+            Ghi chú của đại phó / giám sát hầm
           </label>
           <textarea
             id="notes-textarea"
@@ -239,8 +234,7 @@ export default function Step1CargoInit() {
         <div className="card-header">
           <div>
             <h2 className="card-title">
-              <Sparkles className="card-title-icon" size={20} />
-              Phân Tích Tương Thích & Đề Xuất Quy Trình
+              Tương thích & quy trình làm sạch
             </h2>
             <p className="card-subtitle">
               Hệ thống tự động tra cứu CSDL FOSFA Banned List và tiêu chuẩn MARPOL
@@ -251,18 +245,11 @@ export default function Step1CargoInit() {
         {/* Compatibility Result Banner */}
         {compat && (
           <div className={`compat-result ${compat.allowed ? 'allowed' : 'forbidden'}`}>
-            <div className="compat-result-icon">
-              {compat.allowed ? (
-                <ShieldCheck size={32} color="var(--color-pass)" />
-              ) : (
-                <ShieldAlert size={32} color="var(--color-fail)" />
-              )}
-            </div>
             <div>
               <div className="compat-result-text" style={{ color: compat.allowed ? 'var(--color-pass)' : 'var(--color-fail)' }}>
                 {compat.allowed
-                  ? 'ĐƯỢC PHÉP XẾP HÀNG NỐI TIẾP'
-                  : 'CẤM XẾP NỐI TIẾP THEO QUY ĐỊNH QUỐC TẾ!'}
+                  ? 'Được phép xếp hàng nối tiếp'
+                  : 'Không được phép xếp hàng nối tiếp'}
               </div>
               <div className="compat-result-note">
                 {compat.allowed
@@ -277,14 +264,11 @@ export default function Step1CargoInit() {
         {compat && compat.notes.length > 0 && (
           <div style={{ marginBottom: 'var(--space-lg)' }}>
             <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-text-secondary)', marginBottom: '8px' }}>
-              CHỈ DẪN KỸ THUẬT QUAN TRỌNG:
+              Lưu ý kỹ thuật
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {compat.notes.map((note, idx) => (
-                <div key={idx} className="alert alert-info" style={{ padding: '10px 14px' }}>
-                  <AlertTriangle size={18} color="var(--color-warning)" style={{ flexShrink: 0, marginTop: '2px' }} />
-                  <span style={{ fontSize: '13px', color: 'var(--color-text-primary)' }}>{note}</span>
-                </div>
+                <div key={idx} className="technical-note">{note.replace(/^(?:\p{Extended_Pictographic}|\uFE0F|\u200D|\s)+/u, '')}</div>
               ))}
             </div>
           </div>
@@ -293,43 +277,41 @@ export default function Step1CargoInit() {
         {/* Test Method Selection */}
         <div style={{ marginBottom: 'var(--space-xl)' }}>
           <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-text-secondary)', marginBottom: '8px' }}>
-            PHƯƠNG PHÁP KIỂM TRA ĐỀ XUẤT:
+            Phương pháp kiểm tra
           </div>
 
-          <div className="method-selector">
+          <div className="method-selector" role="group" aria-label="Phương pháp kiểm tra">
             {/* Wall Wash Option */}
-            <div
+            <button type="button" aria-pressed={state.selectedMethod === 'WALL_WASH'}
               className={`method-option ${state.selectedMethod === 'WALL_WASH' ? 'selected' : ''} ${compat?.method === 'WALL_WASH' ? 'recommended' : ''}`}
               onClick={() => dispatch({ type: 'SET_METHOD', method: 'WALL_WASH' })}
             >
               <div className="method-radio" />
               <div>
                 <div className="method-name" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Droplets size={18} color="var(--color-accent-cyan)" />
-                  WALL WASH STANDARD (Kiểm Tra Bằng Hóa Chất)
+                  Wall Wash · Kiểm tra bằng hóa chất
                 </div>
                 <div className="method-desc">
                   Thực hiện phun dung môi (Methanol/Acetone), hứng dịch rửa và kiểm tra 5 chỉ tiêu hóa nghiệm: Độ mặn, PTT, APHA, Hydrocarbon, Chloride. Bắt buộc cho hàng tinh khiết.
                 </div>
               </div>
-            </div>
+            </button>
 
             {/* Water White Option */}
-            <div
+            <button type="button" aria-pressed={state.selectedMethod === 'WATER_WHITE'}
               className={`method-option ${state.selectedMethod === 'WATER_WHITE' ? 'selected' : ''} ${compat?.method === 'WATER_WHITE' ? 'recommended' : ''}`}
               onClick={() => dispatch({ type: 'SET_METHOD', method: 'WATER_WHITE' })}
             >
               <div className="method-radio" />
               <div>
                 <div className="method-name" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Layers size={18} color="var(--color-pass)" />
-                  WATER WHITE STANDARD (Kiểm Tra Cảm Quan Mắt Thường)
+                  Water White · Kiểm tra cảm quan
                 </div>
                 <div className="method-desc">
                   Kiểm tra cảm quan theo tiêu chuẩn SẠCH - KHÔ - KHÔNG MÙI - KHÔNG DỊ VẬT trên 7 vùng kết cấu hầm. Áp dụng cho các mặt hàng dầu thô, dầu nhiên liệu hoặc hàng thông thường.
                 </div>
               </div>
-            </div>
+            </button>
           </div>
         </div>
 
@@ -337,7 +319,7 @@ export default function Step1CargoInit() {
         {prevGroup && (
           <div className="wash-procedure">
             <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-text-secondary)', marginBottom: '12px' }}>
-              QUY TRÌNH RỬA HẦM TIÊU CHUẨN (HẢI TRÌNH):
+              Các bước làm sạch tham khảo
             </div>
             {prevGroup.cleaning.map((stepDesc, idx) => (
               <div key={idx} className="wash-step">
@@ -359,7 +341,7 @@ export default function Step1CargoInit() {
             disabled={!compat?.allowed}
             id="start-inspection-btn"
           >
-            <span>Tiến Hành Kiểm Tra Hầm Hàng</span>
+            <span>Bắt đầu kiểm tra</span>
             <ArrowRight size={20} />
           </button>
         </div>

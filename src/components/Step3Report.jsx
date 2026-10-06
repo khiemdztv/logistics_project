@@ -1,23 +1,15 @@
 import { useApp } from '../context/AppContext'
 import {
   CARGO_ITEMS,
-  CARGO_GROUPS,
   VESSEL_HOLDS,
   WALL_WASH_THRESHOLDS,
   WATER_WHITE_AREAS
 } from '../data/cargoData'
 import {
-  FileText,
   Printer,
-  Download,
   RotateCcw,
   CheckCircle2,
-  Anchor,
-  Calendar,
-  Clock,
-  Award,
-  ShieldCheck,
-  UserCheck
+  Clock
 } from 'lucide-react'
 
 export default function Step3Report() {
@@ -54,10 +46,10 @@ export default function Step3Report() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xl)' }}>
       {/* Top action toolbar */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div className="report-toolbar">
         <div>
-          <h2 style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 800, color: 'var(--color-text-primary)' }}>
-            Biên Bản Điện Tử & Chứng Nhận Làm Sạch Hầm Hàng
+          <h2 className="report-title">
+            Báo cáo kiểm tra hầm hàng
           </h2>
           <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)' }}>
             Mã chứng chỉ: CERT-D01-{new Date().getFullYear()}-0892 • Lưu trữ bảo chứng số
@@ -78,13 +70,13 @@ export default function Step3Report() {
       </div>
 
       {/* Printable Certificate Document Sheet */}
+      <div className="certificate-viewport" role="region" aria-label="Bản xem trước báo cáo" tabIndex={0}>
       <div
-        className="card"
+        className="card certificate-sheet"
         id="certificate-print-sheet"
         style={{
           background: '#FFFFFF',
           color: '#0B132B',
-          padding: '40px',
           boxShadow: 'var(--shadow-lg)',
           borderRadius: 'var(--radius-lg)'
         }}
@@ -292,7 +284,7 @@ export default function Step3Report() {
                 {WATER_WHITE_AREAS.map((area, idx) => (
                   <tr key={area.id} style={{ background: idx % 2 === 0 ? '#FFFFFF' : '#F9FAFB' }}>
                     <td style={{ padding: '8px 12px', border: '1px solid #E5E7EB', fontWeight: 600 }}>
-                      {area.icon} {area.name}
+                      {area.name}
                     </td>
                     <td style={{ padding: '8px 12px', border: '1px solid #E5E7EB', color: '#555' }}>
                       Sạch cặn - Khô ráo - Không mùi - Không gỉ vảy
@@ -369,6 +361,8 @@ export default function Step3Report() {
             <div style={{ fontSize: '11px', color: '#666' }}>Thuyền trưởng M/T Dolphin 01</div>
           </div>
         </div>
+      </div>
+
       </div>
 
       {/* Operational Logs History Card */}
