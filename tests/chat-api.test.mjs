@@ -32,7 +32,9 @@ test('Groq receives a single question with selected sources, actual session and 
   assert.equal(sent.messages.filter(message => message.role === 'user' && message.content === query).length, 1)
   assert.match(sent.messages[0].content, /4 phép kiểm tra/)
   assert.match(sent.messages[0].content, /"ptt":"6.5"/)
-  assert.equal(sent.max_completion_tokens, 1200)
+  assert.equal(sent.model, 'openai/gpt-oss-120b')
+  assert.equal(sent.max_completion_tokens, 3072)
+  assert.equal(sent.include_reasoning, false)
 })
 
 test('invalid requests and malformed diagnostics return 400 before calling a provider', async () => {
@@ -108,4 +110,18 @@ test('Gemini fallback handles both chat and diagnostics with the same selected e
   assert.equal(diagnostic.statusCode, 200)
   assert.equal(options.generationConfig.responseMimeType, 'application/json')
   assert.equal(diagnostic.body.title, validDiagnostic.title)
+})
+
+test('deprecated custom Groq model returning 404 automatically migrates to the supported default', async () => {
+  const models = []
+  const handler = createChatHandler({ env: { GROQ_API_KEY: 'test-only', GROQ_MODEL: 'llama-3.3-70b-versatile' }, loadIndex: () => index,
+    createGroq: groqStub(async payload => {
+      models.push(payload.model)
+      if (payload.model === 'llama-3.3-70b-versatile') throw Object.assign(new Error('Retired'), { status: 404 })
+      return complete('Câu trả lời từ model đang hỗ trợ.')
+    }) })
+  const res = await call(handler, { userMessage: 'Methanol cần bao nhiêu test?' })
+  assert.equal(res.statusCode, 200)
+  assert.deepEqual(models, ['llama-3.3-70b-versatile', 'openai/gpt-oss-120b'])
+  assert.match(res.body.model, /gpt-oss-120b/)
 })

@@ -79,14 +79,24 @@ export function createChatHandler({
     const errors = []
     if (groqKey) {
       try {
-        const model = env.GROQ_MODEL || GROQ_MODEL
-        const completion = await createGroq(groqKey).chat.completions.create({
-          model, messages: request.messages, temperature: body.isDiagnostic ? 0.15 : 0.35,
-          max_completion_tokens: body.isDiagnostic ? 1000 : 1200,
-          ...(body.isDiagnostic ? { response_format: { type: 'json_object' } } : {}),
-        })
-        if (completion.choices?.[0]?.finish_reason === 'length') throw new Error('TRUNCATED_RESPONSE')
-        return res.status(200).json(providerResult(completion.choices?.[0]?.message?.content, body.isDiagnostic, `Groq · ${model}`, request.sources))
+        const groq = createGroq(groqKey)
+        const models = [...new Set([env.GROQ_MODEL || GROQ_MODEL, GROQ_MODEL])]
+        for (const model of models) {
+          try {
+            const reasoningModel = model.startsWith('openai/gpt-oss-')
+            const completion = await groq.chat.completions.create({
+              model, messages: request.messages, temperature: body.isDiagnostic ? 0.15 : 0.35,
+              max_completion_tokens: reasoningModel ? 3072 : body.isDiagnostic ? 1000 : 1200,
+              ...(reasoningModel ? { reasoning_effort: 'low', include_reasoning: false } : {}),
+              ...(body.isDiagnostic ? { response_format: { type: 'json_object' } } : {}),
+            })
+            if (completion.choices?.[0]?.finish_reason === 'length') throw new Error('TRUNCATED_RESPONSE')
+            return res.status(200).json(providerResult(completion.choices?.[0]?.message?.content, body.isDiagnostic, `Groq · ${model}`, request.sources))
+          } catch (error) {
+            if (error.status === 404 && model !== models.at(-1)) continue
+            throw error
+          }
+        }
       } catch (error) {
         errors.push({ provider: 'Groq', status: error.status })
         console.warn('Groq request failed:', error.status || error.name)
@@ -94,10 +104,10 @@ export function createChatHandler({
     }
     if (geminiKey) {
       try {
-        const modelName = env.GEMINI_MODEL || 'gemini-2.5-flash'
+        const modelName = env.GEMINI_MODEL || 'gemini-3.8-flash'
         const model = createGemini(geminiKey).getGenerativeModel({
           model: modelName, systemInstruction: request.messages[0].content,
-          generationConfig: { maxOutputTokens: 2400, temperature: 0.35, thinkingConfig: { thinkingBudget: 0 }, ...(body.isDiagnostic ? { responseMimeType: 'application/json' } : {}) },
+          generationConfig: { maxOutputTokens: 3072, temperature: 0.35, ...(body.isDiagnostic ? { responseMimeType: 'application/json' } : {}) },
         }, { timeout: 18000 })
         const contents = request.messages.slice(1).map(message => ({
           role: message.role === 'assistant' ? 'model' : 'user', parts: [{ text: message.content }],
@@ -113,6 +123,7 @@ export function createChatHandler({
     const providers = errors.map(({ provider, status }) => ({ provider, status: Number.isInteger(status) ? status : null }))
     if (errors.some(error => error.status === 429)) return res.status(429).json({ error: 'RATE_LIMITED', message: 'AI đang hết hạn mức hoặc có quá nhiều yêu cầu. Hãy thử lại sau.', providers })
     if (errors.every(error => [401, 403].includes(error.status))) return res.status(503).json({ error: 'AI_AUTH_FAILED', message: 'Nhà cung cấp từ chối API key hoặc quyền dùng model. Kiểm tra khóa trong Vercel rồi redeploy.', providers })
+    if (errors.every(error => error.status === 404)) return res.status(503).json({ error: 'AI_MODEL_UNAVAILABLE', message: 'Model AI không khả dụng cho tài khoản hiện tại. Kiểm tra GROQ_MODEL / GEMINI_MODEL trên Vercel.', providers })
     if (errors.some(error => error.status === 413)) return res.status(502).json({ error: 'AI_CONTEXT_TOO_LARGE', message: 'Yêu cầu vượt giới hạn ngữ cảnh của nhà cung cấp. Hãy rút ngắn câu hỏi hoặc bắt đầu hội thoại mới.', providers })
     return res.status(502).json({ error: 'AI_UNAVAILABLE', message: 'Không nhận được câu trả lời từ nhà cung cấp AI. Hãy kiểm tra API key và trạng thái dịch vụ.', providers })
   }

@@ -16,7 +16,7 @@ npm run dev
 ## AI trên Vercel
 
 - Đặt `GROQ_API_KEY` trong **Settings → Environment Variables**, chọn **Production** (và Preview nếu cần), rồi redeploy. Không commit API key.
-- `GEMINI_API_KEY` là provider dự phòng tùy chọn. Model mặc định: `llama-3.3-70b-versatile` / `gemini-2.5-flash`; có thể đổi qua `GROQ_MODEL` / `GEMINI_MODEL`.
+- `GEMINI_API_KEY` là provider dự phòng tùy chọn. Model mặc định: `openai/gpt-oss-120b` / `gemini-3.8-flash`; có thể đổi qua `GROQ_MODEL` / `GEMINI_MODEL`. Nếu model Groq tùy chỉnh trả 404, thử lại với GPT-OSS 120B. Llama 3.3 cũ đã ngừng phục vụ Free/Developer từ 16/8/2026 theo [thông báo Groq](https://console.groq.com/docs/deprecations).
 - Biến `VITE_GROQ_API_KEY` / `VITE_GEMINI_API_KEY` cũ vẫn được backend đọc để giữ tương thích. Nên chuyển sang tên không có `VITE_`; frontend không đọc khóa triển khai và không gọi provider trực tiếp.
 - `vercel.json` đóng gói `public/rag_context.txt` và `public/rag_reference.json` vào function. Chọn root directory là thư mục chứa `package.json` này.
 
