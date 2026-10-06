@@ -83,3 +83,10 @@ test('unavailable original documents never produce a fabricated methanol answer'
   const reply = localChatReply('Methanol cần bao nhiêu test?', buildKnowledgeIndex())
   assert.doesNotMatch(reply.reply, /4 phép kiểm tra hóa học chính/)
 })
+
+test('treatment recipe detection handles Vietnamese duration units', () => {
+  assert.ok(hasTreatmentRecipe('Rửa nóng trong 2–3 giờ.'))
+  assert.ok(hasTreatmentRecipe('Pha dung dịch 1.5%'))
+  assert.ok(hasTreatmentRecipe('Rửa ở 80°C'))
+  assert.ok(!hasTreatmentRecipe('Kiểm tra lại PTT ≥ 8 phút theo ngưỡng web.'))
+})
