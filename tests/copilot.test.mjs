@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { getKnowledgeIndex } from '../api/chat.js'
-import { buildKnowledgeIndex, buildChatRequest, buildDiagnosticRequest, localChatReply, sanitizeAppContext, sanitizeHistory, retrieveKnowledge, normalizeText } from '../lib/copilot.js'
+import { buildKnowledgeIndex, buildChatRequest, buildDiagnosticRequest, localChatReply, sanitizeAppContext, sanitizeHistory, retrieveKnowledge, normalizeText, hasTreatmentRecipe } from '../lib/copilot.js'
 
 const index = getKnowledgeIndex()
 
@@ -65,6 +65,7 @@ test('diagnostics use RAG and the same thresholds as the web, and resolve cargo 
   assert.match(request.messages.at(-1).content, /Dầu Cọ Thô/)
   assert.ok(request.sources.length)
   assert.ok(request.chunks.some(chunk => /SỰ CỐ|Sự cố/.test(chunk.title) && /PTT/.test(chunk.title)))
+  assert.ok(request.chunks.every(chunk => !hasTreatmentRecipe(chunk.text)))
   assert.match(request.messages[0].content, /Chỉ trả JSON/)
 })
 

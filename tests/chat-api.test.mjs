@@ -125,3 +125,10 @@ test('deprecated custom Groq model returning 404 automatically migrates to the s
   assert.deepEqual(models, ['llama-3.3-70b-versatile', 'openai/gpt-oss-120b'])
   assert.match(res.body.model, /gpt-oss-120b/)
 })
+
+test('diagnostic output cannot turn unverified project recipes into operating instructions', async () => {
+  const handler = createChatHandler({ env: { GROQ_API_KEY: 'test-only' }, loadIndex: () => index,
+    createGroq: groqStub(async () => complete(JSON.stringify({ ...validDiagnostic, solutions: ['Dùng hóa chất 2% ở 80°C.'] }))) })
+  const res = await call(handler, { isDiagnostic: true, diagnosticData: { failedTests: ['ptt'], allResults: { ptt: '6.5' }, previousCargo: 'palm_oil_crude', newCargo: 'methanol' } })
+  assert.equal(res.statusCode, 502)
+})

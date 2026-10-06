@@ -2,7 +2,7 @@ import Groq from 'groq-sdk'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import fs from 'node:fs'
 import path from 'node:path'
-import { buildKnowledgeIndex, buildChatRequest, buildDiagnosticRequest, GROQ_MODEL, MAX_MESSAGE_LENGTH, isValidDiagnostic } from '../lib/copilot.js'
+import { buildKnowledgeIndex, buildChatRequest, buildDiagnosticRequest, GROQ_MODEL, MAX_MESSAGE_LENGTH, isValidDiagnostic, hasTreatmentRecipe } from '../lib/copilot.js'
 import { WALL_WASH_THRESHOLDS } from '../src/data/cargoData.js'
 
 let cachedIndex
@@ -39,6 +39,7 @@ function providerResult(content, diagnostic, model, sources) {
   if (!diagnostic) return { reply: content.trim(), model, mode: 'ai', sources }
   const parsed = JSON.parse(content)
   if (!isValidDiagnostic(parsed)) throw new Error('INVALID_DIAGNOSTIC')
+  if (parsed.solutions.some(hasTreatmentRecipe)) throw new Error('UNVERIFIED_TREATMENT_RECIPE')
   return { title: parsed.title, causes: parsed.causes, solutions: parsed.solutions, model, mode: 'ai', sources }
 }
 
