@@ -34,6 +34,7 @@ export default function AICopilotDrawer() {
   const { state, dispatch } = useApp()
   const [inputText, setInputText] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const sendingRef = useRef(false)
   const messagesEndRef = useRef(null)
 
   const isOpen = state.aiChatOpen
@@ -47,7 +48,7 @@ export default function AICopilotDrawer() {
   }, [messages, isOpen, isLoading])
 
   const suggestedPrompts = [
-    'Tôi chưa hiểu gì về web này, giải thích đi',
+    'Hàng methanol cần bao nhiêu test hóa chất?',
     'Lý thuyết về việc dọn hầm là gì?',
     'Quy trình chuẩn rửa hầm sau khi chở CPO?',
     'Phải làm gì khi PTT chỉ đạt 6.5 phút?'
@@ -55,7 +56,8 @@ export default function AICopilotDrawer() {
 
   const handleSend = async (customPrompt) => {
     const textToSend = typeof customPrompt === 'string' ? customPrompt : inputText
-    if (!textToSend.trim() || isLoading) return
+    if (!textToSend.trim() || sendingRef.current) return
+    sendingRef.current = true
 
     setInputText('')
     
@@ -67,14 +69,25 @@ export default function AICopilotDrawer() {
 
     try {
       // Call Groq / AI + RAG Engine
-      const aiResponse = await chatWithCopilot(textToSend, [...messages, newMsg])
+      const aiResponse = await chatWithCopilot(textToSend, messages, {
+        previousCargo: state.previousCargo,
+        newCargo: state.newCargo,
+        holdName: state.holdName,
+        selectedHold: state.selectedHold,
+        selectedMethod: state.selectedMethod,
+        currentStep: state.currentStep,
+        wallWashResults: state.wallWashResults,
+      })
       
       dispatch({
         type: 'ADD_AI_MESSAGE',
         message: { 
           role: 'assistant', 
-          content: aiResponse,
-          source: '⚡ Groq Llama 3.3 70B (Siêu tốc) + RAG Knowledge'
+          content: aiResponse.reply,
+          mode: aiResponse.mode,
+          warning: aiResponse.warning,
+          sources: aiResponse.sources,
+          source: aiResponse.mode === 'ai' ? `${aiResponse.model} · Tài liệu RAG` : 'Tra cứu tài liệu cục bộ · AI chưa kết nối'
         }
       })
     } catch (error) {
@@ -82,16 +95,18 @@ export default function AICopilotDrawer() {
         type: 'ADD_AI_MESSAGE',
         message: { 
           role: 'assistant', 
-          content: `Lỗi kết nối AI: ${error.message}`
+          content: `Không thể xử lý câu hỏi: ${error.message}`,
+          mode: 'error'
         }
       })
     } finally {
       setIsLoading(false)
+      sendingRef.current = false
     }
   }
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') handleSend()
+    if (e.key === 'Enter' && !e.nativeEvent.isComposing) handleSend()
   }
 
   const handlePromptClick = (prompt) => {
@@ -125,7 +140,7 @@ export default function AICopilotDrawer() {
       <div className="ai-panel-messages">
         <div style={{ fontSize: '11px', textAlign: 'center', color: 'var(--color-text-muted)', marginBottom: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
           <span style={{ color: '#F97316', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-            <Zap size={12} fill="#F97316" /> Groq Llama 3.3 70B (Siêu tốc + RAG)
+            <Zap size={12} fill="#F97316" /> Trợ lý hỏi đáp · Tài liệu Dolphin TankOps
           </span>
         </div>
         
@@ -138,7 +153,12 @@ export default function AICopilotDrawer() {
               </div>
             )}
             
-            {/* Robust Markdown Rendering */}
+            {msg.warning && (
+              <div role="status" style={{ fontSize: '11px', color: 'var(--color-warning, #FBBF24)', marginBottom: '8px' }}>
+                {msg.warning}
+              </div>
+            )}
+
             <div 
               style={{ lineHeight: '1.6', fontSize: '13px' }}
               dangerouslySetInnerHTML={{ 
@@ -152,6 +172,14 @@ export default function AICopilotDrawer() {
                 <span>{msg.source}</span>
               </div>
             )}
+            {msg.sources?.length > 0 && (
+              <details style={{ marginTop: '6px', fontSize: '10px', color: 'var(--color-text-muted)' }}>
+                <summary style={{ cursor: 'pointer' }}>Tài liệu tham khảo</summary>
+                <ol style={{ margin: '6px 0', paddingLeft: '18px' }}>
+                  {msg.sources.map((source, i) => <li key={source.id || i}>[{i + 1}] {source.source} · {source.title}</li>)}
+                </ol>
+              </details>
+            )}
           </div>
         ))}
 
@@ -159,7 +187,7 @@ export default function AICopilotDrawer() {
           <div className="ai-message assistant" style={{ opacity: 0.85 }}>
             <div style={{ display: 'flex', gap: '8px', alignItems: 'center', color: '#F97316' }}>
               <Loader2 size={16} className="animate-spin" />
-              <span style={{ fontSize: '12px' }}>Groq đang suy luận siêu tốc từ dữ liệu RAG...</span>
+              <span style={{ fontSize: '12px' }}>Đang tìm tài liệu và soạn câu trả lời...</span>
             </div>
           </div>
         )}
@@ -211,6 +239,7 @@ export default function AICopilotDrawer() {
           onChange={(e) => setInputText(e.target.value)}
           onKeyDown={handleKeyDown}
           disabled={isLoading}
+          maxLength={4000}
         />
         <button onClick={() => handleSend()} disabled={!inputText.trim() || isLoading}>
           {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}

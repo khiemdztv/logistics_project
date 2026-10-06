@@ -1,0 +1,387 @@
+[
+  {
+    "id": "training-1",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "TÀI LIỆU VÀ CƠ SỞ DỮ LIỆU ĐẦU VÀO XÂY DỰNG WEBSITE TỐI ƯU HÓA QUY TRÌNH LÀM SẠCH HẦM HÀNG TÀU DOLPHIN 01",
+    "kind": "training",
+    "text": "TÀI LIỆU VÀ CƠ SỞ DỮ LIỆU ĐẦU VÀO XÂY DỰNG WEBSITE TỐI ƯU HÓA QUY TRÌNH LÀM SẠCH HẦM HÀNG TÀU DOLPHIN 01\n===================================================================================================="
+  },
+  {
+    "id": "training-2",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "I. CƠ SỞ DỮ LIỆU TRA CỨU HÓA CHẤT & QUY TRÌNH LÀM SẠCH (DATABASE CỐT LÕI)",
+    "kind": "training",
+    "text": "I. CƠ SỞ DỮ LIỆU TRA CỨU HÓA CHẤT & QUY TRÌNH LÀM SẠCH (DATABASE CỐT LÕI)\n----------------------------------------------------------------------"
+  },
+  {
+    "id": "training-3",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "1. Milbros Tank Cleaning Guide (Veson Nautical)",
+    "kind": "training",
+    "text": "1. Milbros Tank Cleaning Guide (Veson Nautical)\n   - Đường link: https://veson.com/products/milbros/\n   - Ứng dụng: Kho dữ liệu khổng lồ với hơn 14.600 mặt hàng lỏng và 550+ hóa chất làm sạch được IMO phê duyệt. Đây là hình mẫu lý tưởng để xây dựng cấu trúc API nhập \"Hàng cũ\" -> \"Hàng mới\" để tự động trả quy trình làm sạch."
+  },
+  {
+    "id": "training-4",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "2. Wilhelmsen Marine Products (Chemical Product Catalogue)",
+    "kind": "training",
+    "text": "2. Wilhelmsen Marine Products (Chemical Product Catalogue)\n   - Đường link: https://www.wilhelmsen.com/marine-products/\n   - Ứng dụng: Tra cứu danh mục hóa chất tẩy rửa chuyên dụng dòng UNITOR (Seaclean, Alkaclean, Enviroclean...). Hỗ trợ thuật toán tính toán vật tư tiêu hao trên website."
+  },
+  {
+    "id": "training-5",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "3. Marine Care Tank Cleaning Solutions",
+    "kind": "training",
+    "text": "3. Marine Care Tank Cleaning Solutions\n   - Đường link: https://www.marinecare.nl/\n   - Ứng dụng: Cung cấp giải pháp làm sạch cho tàu dầu/hóa chất, quy trình xử lý thực tế và các tài liệu kỹ thuật về liều lượng pha chế chất tẩy rửa cho từng nhóm hàng lỏng."
+  },
+  {
+    "id": "training-6",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "4. Jotun Cargo Resistance Guide (Ma trận tương thích lớp bọc)",
+    "kind": "training",
+    "text": "4. Jotun Cargo Resistance Guide (Ma trận tương thích lớp bọc)\n   - Đường link: https://www.jotun.com/\n   - Ứng dụng: Tài liệu sống còn để đối chiếu tính phản ứng giữa hóa chất chở/hóa chất tẩy rửa với lớp bọc hầm hàng (Epoxy, Zinc Silicate, Thép không gỉ)."
+  },
+  {
+    "id": "training-7",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "II. TIÊU CHUẨN QUỐC TẾ & BIỂU MẪU PHÁP LÝ (TỐI ƯU HÓA THỜI GIAN TRAO NOR)",
+    "kind": "training",
+    "text": "II. TIÊU CHUẨN QUỐC TẾ & BIỂU MẪU PHÁP LÝ (TỐI ƯU HÓA THỜI GIAN TRAO NOR)\n-----------------------------------------------------------------------"
+  },
+  {
+    "id": "training-8",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "1. INTERTANKO (Hiệp hội các chủ tàu dầu độc lập quốc tế)",
+    "kind": "training",
+    "text": "1. INTERTANKO (Hiệp hội các chủ tàu dầu độc lập quốc tế)\n   - Đường link: https://www.intertanko.com/\n   - Ứng dụng: Cung cấp các ấn phẩm tiêu chuẩn chuẩn hóa về độ sạch hầm hàng (Cargo Tank Cleanliness Standards). \n   - Biểu mẫu tham khảo: INTERTANKO Tank Cleanliness Certificate Template (Mẫu chứng chỉ tự kiểm tra độ sạch). Bạn có thể tìm cấu trúc form này trên các thư viện tài liệu mở như Scribd để lập trình tính năng tự xuất file PDF chứng nhận trên website."
+  },
+  {
+    "id": "training-9",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "2. FOSFA International (Hiệp hội các hoạt động thương mại dầu, hạt cải và chất béo)",
+    "kind": "training",
+    "text": "2. FOSFA International (Hiệp hội các hoạt động thương mại dầu, hạt cải và chất béo)\n   - Đường link: https://www.fosfa.org/\n   - Ứng dụng: Quản lý luồng vận chuyển dầu thực vật (Dầu cọ, dầu đậu nành...). Trang web này cung cấp danh mục bắt buộc bao gồm:\n     + FOSFA List of Acceptable Previous Cargoes (Danh mục hàng trước được chấp nhận).\n     + FOSFA List of Banned Immediate Previous Cargoes (Danh mục hàng trước bị cấm hoàn toàn trong 3 chuyến gần nhất)."
+  },
+  {
+    "id": "training-10",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "3. West P&I Club (Tổ chức bảo hiểm hàng hải quốc tế)",
+    "kind": "training",
+    "text": "3. West P&I Club (Tổ chức bảo hiểm hàng hải quốc tế)\n   - Đường link: https://www.westpandi.com/news-and-resources/loss-prevention-bulletins/cargo-tank-cleaning-and-preparation-onboard-tanker/\n   - Ứng dụng: Cung cấp các bài phân tích rủi ro, quy trình ghi chép Nhật ký làm hàng/Nhật ký dầu (Oil Record Book Part II) và quản lý quy trình nghiệm thu kỹ thuật."
+  },
+  {
+    "id": "training-11",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "4. International Maritime Organization (IMO) - MEPC Committee",
+    "kind": "training",
+    "text": "4. International Maritime Organization (IMO) - MEPC Committee\n   - Đường link: https://www.imo.org/\n   - Ứng dụng: Tra cứu các danh mục hóa chất và chất tẩy rửa mới nhất được phê duyệt theo Phụ lục II của Công ước MARPOL (Annex II Annex 10)."
+  },
+  {
+    "id": "training-12",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "III. CHI TIẾT MA TRẬN PHÂN LOẠI HÀNG HÓA VÀ PHƯƠNG PHÁP KIỂM TRA (WALL WASH TEST - WWT)",
+    "kind": "training",
+    "text": "III. CHI TIẾT MA TRẬN PHÂN LOẠI HÀNG HÓA VÀ PHƯƠNG PHÁP KIỂM TRA (WALL WASH TEST - WWT)\n------------------------------------------------------------------------------------"
+  },
+  {
+    "id": "training-13",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "1. Nhóm Hàng Dầu Thô (Crude Oil)",
+    "kind": "training",
+    "text": "1. Nhóm Hàng Dầu Thô (Crude Oil)\n   - Đặc tính: Độ nhớt cao, bám dính mạnh, nhiều cặn bùn paraffin/asphalt.\n   - Hóa chất tẩy rửa: Rửa bằng dầu thô (Crude Oil Washing - COW) áp lực cao trước để đánh tan cặn bùn, sau đó dùng chất tẩy gốc dung môi dầu mỏ (như Marclean Hydrocarbon Remover hoặc Seaclean).\n   - Phương pháp Test: Chủ yếu kiểm tra cảm quan (Visual Inspection) đảm bảo khô vách, không cặn dính, không mùi thừa. Đo các chỉ số an toàn khí: LEL (Khí cháy), O2, H2S."
+  },
+  {
+    "id": "training-14",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "2. Nhóm Dầu Thực Vật (Dầu cọ thô/tinh luyện, dầu đậu nành, dầu dừa)",
+    "kind": "training",
+    "text": "2. Nhóm Dầu Thực Vật (Dầu cọ thô/tinh luyện, dầu đậu nành, dầu dừa)\n   - Đặc tính: Dễ bị oxy hóa gây khô cứng bám chặt vách nếu gặp nhiệt độ cao quá sớm. Dễ ôi thiu, tạo mùi. Vận chuyển phổ biến nhất tuyến Đông Nam Á đi Trung Quốc/Ấn Độ.\n   - Hóa chất tẩy rửa: Rửa bằng nước lã/nước biển mát (dưới 40°C) để trôi hết dầu lỏng dư thừa trước. Sau đó dùng chất tẩy rửa tính KIỀM MẠNH (Alkaline Cleaner như Careclean Alkaline, Grato 50 hoặc Unitor Alkaclean) kết hợp nước nóng (75–85°C) để xà phòng hóa chất béo.\n   - Hóa chất & Phương pháp Test:\n     + Test Hydrocarbon (Water Miscibility / Water-shake test): Dùng Methanol thu mẫu quét vách, pha với nước cất theo tỷ lệ 1:10. Nếu bị đục trắng sữa là hầm còn bám dầu khoáng/dầu béo (Không đạt).\n     + Test Trị số Axit (Acid Value / FFA Test): Dùng dung dịch kiềm Kali Hydroxit (KOH) nhỏ giọt chuẩn độ vào mẫu thử với chất chỉ thị màu Phenolphthalein để kiểm tra nồng độ axit béo tự do còn sót lại.\n     + Test Thuốc Tím (Permanganate Time Test - PTT): Nhỏ dung dịch thuốc tím (KMnO4) 0.1% vào mẫu thử, màu hồng phải giữ tối thiểu 30–50 phút."
+  },
+  {
+    "id": "training-15",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "3. Nhóm Hóa Chất & Dung Môi Công Nghiệp (Hàng nội Á phổ biến: Benzene, Toluene, Xylene, MEG, IPA)",
+    "kind": "training",
+    "text": "3. Nhóm Hóa Chất & Dung Môi Công Nghiệp (Hàng nội Á phổ biến: Benzene, Toluene, Xylene, MEG, IPA)\n   - Đặc tính: Tính bay hơi cao nhưng đòi hỏi độ tinh khiết tuyệt đối cho chuyến sau (High-Purity Standard).\n   - Hóa chất tẩy rửa: Rửa nước ngọt/nước cất nóng. Nếu hàng trước khó tan, dùng dung môi trung gian như Methanol hoặc Acetone để xông/rửa (Solvent/Steaming Wash).\n   - Hóa chất & Phương pháp Test:\n     + Dung môi thu mẫu: Methanol hoặc Acetone độ tinh khiết cao phòng thí nghiệm (Lab-grade).\n     + Test Hydrocarbon thơm sót lại: Trộn mẫu với Axit Sunfuric đặc (H2SO4) thực hiện bài thử Acid Wash Color (ASTM D848). Đối chiếu bảng màu Hazen/APHA (Yêu cầu APHA <= 10).\n     + Test Chloride (Độ mặn tồn dư): Nhỏ dung dịch Bạc Nitrat (AgNO3) 5% kết hợp Axit Nitric (HNO3) vào mẫu WWT. Nếu xuất hiện hiện tượng đục nhẹ là hầm bị nhiễm mặn do nước biển (Yêu cầu Chloride < 2 ppm đến 5 ppm).\n     + Đo phổ tử ngoại (UV Scan): Dùng máy đo quang phổ quét bước sóng 220nm - 350nm. Đồ thị phải phẳng, không có đỉnh nhọn hấp thụ của tạp chất."
+  },
+  {
+    "id": "training-16",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "4. Nhóm Nhiên Liệu Hàng Không & Nhiên Liệu Sạch (Jet A-1, SAF, ULSD, Gasoline)",
+    "kind": "training",
+    "text": "4. Nhóm Nhiên Liệu Hàng Không & Nhiên Liệu Sạch (Jet A-1, SAF, ULSD, Gasoline)\n   - Đặc tính: Tiêu chuẩn cực kỳ khắt khe để tránh gây tắc nghẽn bộ lọc máy bay.\n   - Hóa chất tẩy rửa: Sử dụng chất tẩy rửa Hydrocarbon chuyên dụng (Unitor Seaclean Line) pha nước nóng để bóc tách màng dầu cũ.\n   - Hóa chất & Phương pháp Test: Dung môi Methanol/Acetone. Bài test độ màu APHA. Đặc biệt có bài Test Hàm lượng hạt (Particulate Matter / Millipore Test): Bơm dung dịch rửa vách qua đĩa màng lọc xốp 0.45 micron để cân hoặc soi kính hiển vi đếm số lượng hạt gỉ sắt, cặn thô."
+  },
+  {
+    "id": "training-17",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "5. Nhóm Năng Lượng Xanh & Nhiên Liệu Tương Lai (Green Ammonia, Bio-Methanol, E-Methanol)",
+    "kind": "training",
+    "text": "5. Nhóm Năng Lượng Xanh & Nhiên Liệu Tương Lai (Green Ammonia, Bio-Methanol, E-Methanol)\n   - Đặc tính: Yêu cầu độ ngậm nước siêu vi lượng cực thấp và kiểm soát chất xúc tác.\n   - Hóa chất tẩy rửa: Hệ thống phun rửa áp lực cao bằng nước cất siêu sạch để đảm bảo không lẫn ion kim loại.\n   - Hóa chất & Phương pháp Test:\n     + Thuốc thử Karl Fischer (Karl Fischer Titration): Đo hàm lượng nước siêu vi lượng tính bằng ppm.\n     + Test Độ dẫn điện (Conductivity Test): Sử dụng nước cất siêu sạch quét vách rồi nhúng bút đo điện tử. Nếu độ dẫn điện tăng cao chứng tỏ vách hầm còn sót ion muối hoặc chất tẩy rửa cũ."
+  },
+  {
+    "id": "training-18",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "6. Nhóm Hóa Chất Polymer Hóa (Styrene Monomer, Vinyl Acetate Monomer - VAM)",
+    "kind": "training",
+    "text": "6. Nhóm Hóa Chất Polymer Hóa (Styrene Monomer, Vinyl Acetate Monomer - VAM)\n   - Đặc tính: Dễ tự liên kết tạo thành nhựa polymer bám cứng vĩnh viễn vào vách hầm nếu gặp chất xúc tác.\n   - Hóa chất tẩy rửa: Rửa bằng dung môi trung gian như Acetone phòng thí nghiệm.\n   - Hóa chất & Phương pháp Test: Test Chất không bay hơi (Non-Volatile Matter - NVM): Cô cạn mẫu Wall Wash bằng nhiệt độ trên đĩa Petri rồi cân trọng lượng cặn còn lại. Tiêu chuẩn bắt buộc NVM < 10 ppm."
+  },
+  {
+    "id": "training-19",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "IV. CÁC TỪ KHÓA MỞ RỘNG TRA CỨU HỌC THUẬT (GOOGLE SCHOLAR)",
+    "kind": "training",
+    "text": "IV. CÁC TỪ KHÓA MỞ RỘNG TRA CỨU HỌC THUẬT (GOOGLE SCHOLAR)\n----------------------------------------------------------\nĐể gia tăng hàm lượng khoa học cho phần tài liệu tham khảo của đề tài, nhóm nghiên cứu có thể tìm kiếm chính xác các cụm từ khóa sau trên Google Scholar để tải về các bài báo cáo khoa học dạng PDF:"
+  },
+  {
+    "id": "training-20",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "1. \"Optimizing cargo tank cleaning process on chemical tankers\"",
+    "kind": "training",
+    "text": "1. \"Optimizing cargo tank cleaning process on chemical tankers\""
+  },
+  {
+    "id": "training-21",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "2. \"Wall Wash Test efficiency and cargo contamination risk\"",
+    "kind": "training",
+    "text": "2. \"Wall Wash Test efficiency and cargo contamination risk\""
+  },
+  {
+    "id": "training-22",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "3. \"Crude Oil Washing (COW) and Demurrage reduction in tanker operations\"",
+    "kind": "training",
+    "text": "3. \"Crude Oil Washing (COW) and Demurrage reduction in tanker operations\""
+  },
+  {
+    "id": "training-23",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "4. \"Tank cleanliness verification using Wash Water Analysis (WWA) and UV Spectrophotometry\"",
+    "kind": "training",
+    "text": "4. \"Tank cleanliness verification using Wash Water Analysis (WWA) and UV Spectrophotometry\""
+  },
+  {
+    "id": "training-24",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "5. \"ASTM D848 Standard Test Method for Acid Wash Color of Industrial Aromatic Hydrocarbons\"",
+    "kind": "training",
+    "text": "5. \"ASTM D848 Standard Test Method for Acid Wash Color of Industrial Aromatic Hydrocarbons\""
+  },
+  {
+    "id": "training-25",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "6. \"ASTM D1722 Standard Test Method for Water Miscibility of Water-Soluble Liquids\"",
+    "kind": "training",
+    "text": "6. \"ASTM D1722 Standard Test Method for Water Miscibility of Water-Soluble Liquids\""
+  },
+  {
+    "id": "training-26",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "V. Ý TƯỞNG MỞ RỘNG TÍNH NĂNG ĐỘT PHÁ CHO WEBSITE ĐỀ TÀI",
+    "kind": "training",
+    "text": "V. Ý TƯỞNG MỞ RỘNG TÍNH NĂNG ĐỘT PHÁ CHO WEBSITE ĐỀ TÀI\n------------------------------------------------------"
+  },
+  {
+    "id": "training-27",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "1. Ứng dụng giải pháp Công nghệ Wash Water Analysis (WWA): Tích hợp tài liệu hướng dẫn kỹ thuật kiểm tra nước xả đáy hầm",
+    "kind": "training",
+    "text": "1. Ứng dụng giải pháp Công nghệ Wash Water Analysis (WWA): Tích hợp tài liệu hướng dẫn kỹ thuật kiểm tra nước xả đáy hầm bằng máy đo quang phổ UV Spectrophotometer thay thế hoàn toàn việc thuyền viên phải xuống không gian kín hầm hàng lấy mẫu (giảm rủi ro ngạt khí và tiết kiệm thời gian giải phóng tàu)."
+  },
+  {
+    "id": "training-28",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "2. Module Chemical Calculator (Dự toán vật tư tự động): Lập trình thuật toán dựa trên diện tích hầm hàng (m2) để tự động",
+    "kind": "training",
+    "text": "2. Module Chemical Calculator (Dự toán vật tư tự động): Lập trình thuật toán dựa trên diện tích hầm hàng (m2) để tự động tính toán ra khối lượng nước ngọt, lượng dung môi Methanol quét vách và số lượng thùng chất tẩy rửa (Alkaline/Solvent) cần đặt mua cho tàu Dolphin 01."
+  },
+  {
+    "id": "training-29",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "3. Module Safety Matrix (Cảnh báo an toàn sĩ quan): Tự động trích xuất các thông số nguy hiểm từ MSDS của hàng hóa cũ để",
+    "kind": "training",
+    "text": "3. Module Safety Matrix (Cảnh báo an toàn sĩ quan): Tự động trích xuất các thông số nguy hiểm từ MSDS của hàng hóa cũ để hiển thị bảng nhắc nhở thuyền viên mặc bảo hộ lao động (PPE) phù hợp."
+  },
+  {
+    "id": "training-30",
+    "source": "Tai_lieu_va_Du_lieu_Web_Dolphin01 (1)_1.txt",
+    "title": "4. Yếu tố con người (Human Factor Constraint): Trang web cần đưa vào mục lưu ý bắt buộc thuyền viên phải sử dụng găng ta",
+    "kind": "training",
+    "text": "4. Yếu tố con người (Human Factor Constraint): Trang web cần đưa vào mục lưu ý bắt buộc thuyền viên phải sử dụng găng tay Nitrile chuyên dụng khi thực hiện WWT, vì mồ hôi tay có chứa muối, chỉ cần chạm nhẹ vào ống nghiệm sẽ làm sai lệch kết quả test Chloride (gây lỗi nhiễm mặn giả lập)."
+  },
+  {
+    "id": "training-31",
+    "source": "TỔNG HỢP CHẤT TEST.docx",
+    "title": "Xét nghiệm hydrocarbon (HC)",
+    "kind": "training",
+    "text": "Xét nghiệm hydrocarbon (HC)\n(Khả năng trộn lẫn)\nPhát hiện cặn hydrocarbon bằng phương pháp hòa tan: dung dịch rửa thành bồn được trộn với nước khử ion và lắc đều. Vì hydrocarbon không tan trong nước, nên bất kỳ lượng hydrocarbon nào có mặt sẽ hiện ra dưới dạng độ đục hoặc lớp bọt trên bề mặt khi quan sát dưới ánh sáng trong không gian tối. Mẫu trong suốt, không đục sẽ đạt yêu cầu; lớp bọt cho thấy lượng hydrocarbon đáng kể, thường là do hàng hóa tuần hoàn còn sót lại. Quá trình này được thực hiện trước khi tráng lại bằng nước ngọt lần cuối, để phát hiện sự cố hydrocarbon trước khi lãng phí lượng nước tráng tiếp theo."
+  },
+  {
+    "id": "training-32",
+    "source": "TỔNG HỢP CHẤT TEST.docx",
+    "title": "Thử nghiệm clorua",
+    "kind": "training",
+    "text": "Thử nghiệm clorua\n(Giới hạn < 2 ppm)\nPhương pháp này đo lường sự nhiễm bẩn clorua, thường do rửa bằng nước biển, bằng cách sử dụng bạc nitrat và axit nitric để tạo ra chỉ số độ đục so với tiêu chuẩn. Giới hạn chấp nhận thông thường là dưới 2 ppm. Sự không đạt yêu cầu về clorua thường cho thấy việc tráng rửa cuối cùng bằng nước ngọt hoặc nước khử ion sau khi rửa bằng nước biển chưa đầy đủ, và điều này rất quan trọng vì clorua gây ăn mòn và làm ô nhiễm hàng hóa nhạy cảm."
+  },
+  {
+    "id": "training-33",
+    "source": "TỔNG HỢP CHẤT TEST.docx",
+    "title": "Xét nghiệm thời gian permanganat (PTT / PMTT)",
+    "kind": "training",
+    "text": "Xét nghiệm thời gian permanganat (PTT / PMTT)\n(Thông thường > 50 phút)"
+  },
+  {
+    "id": "training-34",
+    "source": "TỔNG HỢP CHẤT TEST.docx",
+    "title": "Thử nghiệm này đánh giá các tạp chất có thể bị oxy hóa trong rượu và xeton. Kali permanganat được thêm vào mẫu trong bể ",
+    "kind": "training",
+    "text": "Thử nghiệm này đánh giá các tạp chất có thể bị oxy hóa trong rượu và xeton. Kali permanganat được thêm vào mẫu trong bể nước được kiểm soát nhiệt độ — khoảng 15°C đối với metanol, 25°C đối với axeton — và thời gian để màu phai được đo; thời gian chấp nhận thông thường là hơn năm mươi phút. Nó phát hiện các sản phẩm bị ức chế và chất hữu cơ, nhưng đáng chú ý là không phản ứng với hiđrocacbon, vì vậy nó bổ sung chứ không thay thế cho thử nghiệm hiđrocacbon. Màu phai nhanh thành màu vàng rơm là không đạt."
+  },
+  {
+    "id": "training-35",
+    "source": "TỔNG HỢP CHẤT TEST.docx",
+    "title": "Màu (APHA / Hazen)",
+    "kind": "training",
+    "text": "Màu (APHA / Hazen)\n(Khoảng 455 nm)\nMáy đo này so sánh màu sắc của mẫu với thang đo bạch kim-cobalt APHA (Hazen), vì sự nhiễm bẩn có màu cho thấy dư lượng ngay cả ở nồng độ thấp. Trên máy đo quang phổ, màu sắc được đọc ở khoảng 455 nm. Đối với hàng hóa trong suốt như nước, màu sắc chấp nhận được rất thấp, và mẫu có màu vàng nhạt sẽ không đáp ứng được tiêu chuẩn màu sắc nghiêm ngặt."
+  },
+  {
+    "id": "training-36",
+    "source": "TỔNG HỢP CHẤT TEST.docx",
+    "title": "Thị giác và khứu giác",
+    "kind": "training",
+    "text": "Thị giác và khứu giác\n(Kiểm tra cảm quan)\nMẫu được kiểm tra xem có các hạt lơ lửng hoặc tạp chất hay không và có mùi lạ dai dẳng nào không. Phương pháp đơn giản nhưng rất hữu ích: các hạt cho thấy quá trình rửa chưa hoàn toàn hoặc có cặn bám, và mùi còn sót lại cho thấy hàng hóa đã hấp thụ mà thiết bị kiểm tra có thể không phát hiện hết, đặc biệt là với lớp phủ epoxy có khả năng giữ mùi."
+  },
+  {
+    "id": "training-37",
+    "source": "TỔNG HỢP CHẤT TEST.docx",
+    "title": "Kỹ thuật lấy mẫu quyết định kết quả.",
+    "kind": "training",
+    "text": "Kỹ thuật lấy mẫu quyết định kết quả.\nKết quả kiểm tra bằng phương pháp rửa thành bể chỉ chính xác khi mẫu thử chính xác. Tất cả thiết bị — phễu, chai, ống nghiệm — đều được tráng bằng methanol khi đưa vào mỗi bể để tránh nhiễm chéo, vị trí lấy mẫu được chọn trên thành bể hoặc vách ngăn, và dung môi được phun từ độ cao ít nhất một mét so với phễu để nó chảy xuống một khu vực đại diện của thành bể vào trong chai. Ống Nessler được làm sạch bằng axit và tráng qua nước, nước khử ion và methanol trước khi sử dụng. Việc lấy mẫu cẩu thả dễ dẫn đến kết quả sai lệch cũng như kết quả đạt yêu cầu, vì vậy việc tuân thủ kỹ thuật sạch sẽ là một phần của thử nghiệm, chứ không phải là khâu chuẩn bị cho thử nghiệm."
+  },
+  {
+    "id": "training-38",
+    "source": "TỔNG HỢP CHẤT TEST.docx",
+    "title": "Đừng chạy theo kết quả kiểm tra thay vì tập trung vào sự sạch sẽ.",
+    "kind": "training",
+    "text": "Đừng chạy theo kết quả kiểm tra thay vì tập trung vào sự sạch sẽ.\nVì thử nghiệm permanganat có thể bị vượt qua bằng cách phun trước dung dịch kali permanganat vào bồn chứa để ngăn chặn phản ứng của người kiểm định, nên người ta thường có xu hướng thao túng kết quả thử nghiệm thay vì làm sạch bồn chứa. Đây là hành vi sai trái: nó tạo ra kết quả đạt yêu cầu trên một bồn chứa thực tế không sạch, và sự ô nhiễm mà nó che giấu sẽ gây ra khiếu nại lớn hơn nhiều so với chi phí làm sạch lại được tránh. Việc rửa thành bồn nhằm mục đích xác minh một bồn chứa thực sự sạch sẽ, và việc thao túng kết quả sẽ làm mất đi toàn bộ mục đích của tiêu chuẩn. Cách làm trung thực và tiết kiệm chi phí nhất là luôn luôn làm sạch theo tiêu chuẩn và để thử nghiệm xác nhận điều đó.\nNGUỒN:  MỤC 5 CỦA LINK https://marineinspection.app/article/cargo-tank-cleaning-procedures-standards-wall-wash-testing\nCÁC PHƯƠNG PHÁP KIỂM TRA VỚI BỘ DỤNG CỤ KIỂM TRA BỀ MẶT BỒN CHỨA (WALL WASH TEST KIT)"
+  },
+  {
+    "id": "training-39",
+    "source": "TỔNG HỢP CHẤT TEST.docx",
+    "title": "a) Kiểm tra Hydrocarbon đối với Methanol",
+    "kind": "training",
+    "text": "a) Kiểm tra Hydrocarbon đối với Methanol\nDo bề mặt bồn chứa hoặc thùng chứa Methanol phải hoàn toàn không dính hydrocarbon, cần thực hiện kiểm tra tại hiện trường. Nguyên lý của phép thử này là nếu hydrocarbon lẫn vào nước, dung dịch sẽ trở nên đục hoặc có màu trắng sữa.\nQuy trình:\n- Lau sạch 1 m² bề mặt bồn bằng bông gòn và Methanol không chứa hydrocarbon.\n- Sau khi lau, vắt kiệt miếng bông đã dùng vào ống Nessler cho đến khi thu được 15 ml mẫu Methanol.\n- Thêm 45 ml nước khử ion (DI water). (Lúc này bạn sẽ có tổng cộng 60 ml mẫu: 15 ml methanol + 45 ml nước cất/nước khử ion).\n- Lắc đều hỗn hợp và đợi từ 15 – 20 phút.\n- So sánh kết quả với một ống đối chứng chứa 60 ml nước khử ion.\n- Nếu mẫu không hoàn toàn trong suốt hoặc bị đục, nghĩa là vẫn còn hydrocarbon trên bề mặt bồn. Bạn phải lau lại toàn bộ bề mặt bồn và thực hiện lại phép thử hydrocarbon.\nLưu ý: Sử dụng găng tay nhựa và bao bọc giày (có sẵn trong bộ dụng cụ kiểm tra) trong suốt quá trình thực hiện để tránh làm nhiễm bẩn mẫu."
+  },
+  {
+    "id": "training-40",
+    "source": "TỔNG HỢP CHẤT TEST.docx",
+    "title": "b) Kiểm tra Chloride",
+    "kind": "training",
+    "text": "b) Kiểm tra Chloride\nNguyên lý của phép thử này là khi chloride trộn lẫn với dung dịch bạc nitrat (silver nitrate), nó sẽ tạo thành dung dịch bị đục.\nQuy trình:\nỐng nghiệm:\n- Lau sạch 1 m² bề mặt bồn bằng bông gòn đã thấm ướt nước cất.\n- Sau khi lau, vắt kiệt miếng bông đã dùng vào ống Nessler cho đến khi thu được 100 ml mẫu.\n- Bây giờ, bạn cần lọc 100 ml mẫu nước thu được. Để lọc mẫu, hãy lấy một ống Nessler rỗng, đặt phễu lên trên và lót giấy lọc vào trong phễu. - Sau khi lọc, đảm bảo có chính xác 100 ml mẫu nước khử ion (DI) trong ống Nessler.\n- Thêm 5 giọt dung dịch bạc nitrat vào 100 ml mẫu nước DI đã lọc.\n- Lắc ống Nessler trong vài phút.\nỐng đối chứng:\n- Chuẩn bị dung dịch đối chứng để so sánh với ống thử.\n- Đổ 99 ml nước DI vào một ống Nessler sạch.\n- Thêm 1 ml dung dịch chuẩn clorua (1 mg clorua trên mỗi 1 ml).\n- Thêm 5 giọt dung dịch bạc nitrat.\n- Lắc ống đối chứng trong vài phút.\nSo sánh ống thử và ống đối chứng: (1 ml dung dịch chuẩn clorua tương ứng với 1 mg clorua trên 1 m²)\n- Khi độ đục của ống thử thấp hơn độ đục của ống đối chứng: hàm lượng clorua trên bề mặt bồn chứa thấp hơn 1 mg trên 1 m².\n- Nếu độ đục của ống thử cao hơn độ đục của ống đối chứng: hàm lượng clorua trên bề mặt bồn chứa cao hơn 1 mg trên 1 m².\n- Nếu độ đục của ống thử bằng độ đục của ống đối chứng: hàm lượng clorua trên bề mặt bồn chứa là 1 mg trên 1 m².\n- Khi đã biết tổng diện tích và thể tích của bồn chứa, bạn có thể tính toán lượng Methanol cần thiết để rửa trôi clorua khỏi bề mặt thành bồn.\nLưu ý: Sử dụng găng tay nhựa và bao bọc giày trong suốt quá trình thử nghiệm (có sẵn trong bộ dụng cụ thử nghiệm rửa thành bồn) để tránh làm nhiễm bẩn mẫu."
+  },
+  {
+    "id": "training-41",
+    "source": "TỔNG HỢP CHẤT TEST.docx",
+    "title": "c) ​​Thử nghiệm thời gian Permanganat",
+    "kind": "training",
+    "text": "c) ​​Thử nghiệm thời gian Permanganat\nPhạm vi áp dụng:\nPhương pháp này dùng để phát hiện sự hiện diện của các tạp chất trong rượu (alcohol) hoặc ketone có khả năng khử kali permanganat.\nÁp dụng cho Methanol, Ethanol, Propanol, Butanol, Acetone, Methyl Ethyl Ketone và Methyl Isobutyl Ketone. Tóm tắt phương pháp:\nCác chất phản ứng với kali permanganat trong dung dịch trung tính sẽ khử nó thành mangan dioxit,\nlàm dung dịch chuyển sang màu vàng.\nTrong phép thử thời gian permanganat, thời gian phản ứng của kali permanganat được đo đạc. Nói cách khác,\nngười ta đo khoảng thời gian từ lúc dung dịch chuyển từ màu hồng cam sang vàng cam.\nMàu của dung dịch thử nghiệm sẽ chuyển từ hồng cam sang vàng cam.\nDụng cụ:\n- Ống đong (có nút thủy tinh, loại cao, dung tích 50 ml).\n- Bể ổn nhiệt, có khả năng duy trì nhiệt độ ở mức 15,0 ± 0,5 ºC hoặc 25,0 ± 0,5 ºC.\n- Pipet có khả năng lấy chính xác 2 ml dung dịch.\n- Đồng hồ hoặc đồng hồ bấm giờ.\nThuốc thử:\n- Dung dịch Kali Permanganat: hòa tan 0,1 mg bột Kali Permanganat vào 0,5 lít nước.\nQuy trình:\n- Cho mẫu cần thử vào ống đong 50 ml có nút thủy tinh (đổ vượt quá vạch mức) và đặt ống vào\nbể ổn nhiệt (15 ºC đối với Methanol hoặc 25 ºC đối với Acetone).\n- Khi mẫu đã đạt đến nhiệt độ của bể (khoảng 5 phút), dùng pipet thêm 2 ml\ndung dịch kali permanganat vào.\n- Đậy nút ống, đảo ngược ống một lần để trộn đều các thành phần, rồi đặt lại vào bể ổn nhiệt.\n- Xác định khoảng thời gian từ lúc thêm KMnO₄ cho đến khi màu sắc của mẫu trùng với màu của mẫu chuẩn.\n- Tránh để ống tiếp xúc với ánh sáng trong suốt quá trình này.\n- Sau khi hoàn tất phép thử, rửa sạch ống chứa mẫu hai lần bằng nước máy và đổ đầy\naxit clohydric đậm đặc vào ống.\nNGUỒN: SLIDE 2,3  https://www.shipserv.com/ShipServ/pages/profiles/215096/documents/WALL-WASH-TEST-KIT-(ENG).pdf\nTỔNG HỢP :\nĐối với tàu chở dầu thành phẩm và hóa chất bọc sơn Epoxy (như tàu Dolphin 01) khi vận chuyển Dầu trắng (CPP), Dầu đen (DPP) và Dầu thực vật, các loại hóa chất/thuốc thử cần sử dụng cho quy trình kiểm tra vách khoang (Wall Wash Test - WWT) và hiện tượng/phản ứng tương ứng cụ thể như sau:"
+  },
+  {
+    "id": "training-42",
+    "source": "TỔNG HỢP CHẤT TEST.docx",
+    "title": "1. Dung mồi lấy mẫu chung",
+    "kind": "training",
+    "text": "1. Dung mồi lấy mẫu chung\nHóa chất sử dụng: Cồn Methanol tinh khiết dùng cho phòng thí nghiệm (Laboratory-grade Methanol)1more_horiz.\nQuy trình: Phun xịt trực tiếp Methanol lên vách hầm sơn Epoxy và dùng phễu/chai hứng dung dịch chảy xuống để hòa tan cặn hàng cũ còn sót lại1more_horiz."
+  },
+  {
+    "id": "training-43",
+    "source": "TỔNG HỢP CHẤT TEST.docx",
+    "title": "2. Thuốc thử & Phản ứng cho nhóm Dầu trắng (CPP: Xăng A92/A95, DO, Dầu hỏa, Jet A-1)",
+    "kind": "training",
+    "text": "2. Thuốc thử & Phản ứng cho nhóm Dầu trắng (CPP: Xăng A92/A95, DO, Dầu hỏa, Jet A-1)\nĐể đảm bảo hầm sạch không còn vết dầu gốc hydrocarbon hay vết muối biển sau khi rửa hầm, các bài test sau được áp dụng:"
+  },
+  {
+    "id": "training-44",
+    "source": "TỔNG HỢP CHẤT TEST.docx",
+    "title": "Thử nghiệm Hydrocarbon (Hydrocarbon Test):",
+    "kind": "training",
+    "text": "Thử nghiệm Hydrocarbon (Hydrocarbon Test):\nHóa chất dùng: Nước khử khoáng (DI Water / De-ionized water).\nQuy trình & Hiện tượng: Pha 25 ml mẫu rửa vách (chứa Methanol) với 75 ml nước khử khoáng, lắc đều và đối chiếu với mẫu trắng (25 ml Methanol + 75 ml nước khử khoáng) dưới ánh đèn pin trên nền màu đen5more_horiz.\nPhản ứng / Kết quả:\nĐạt (Sạch hoàn toàn): Dung dịch trong suốt7.\nCó cặn vết nhẹ: Dung dịch xuất hiện ánh sắc xanh nhạt trong suốt.\nKhông đạt (Còn cặn hydrocarbon): Dung dịch chuyển sang màu trắng đục dạng sữa hoặc xuất hiện lớp bọt nổi lên trên do hydrocarbon không tan trong nước."
+  },
+  {
+    "id": "training-45",
+    "source": "TỔNG HỢP CHẤT TEST.docx",
+    "title": "Thử nghiệm Clorua (Chloride Test - Kiểm tra muối biển dư):",
+    "kind": "training",
+    "text": "Thử nghiệm Clorua (Chloride Test - Kiểm tra muối biển dư):\nHóa chất dùng: Dung dịch Bạc Nitrat 10% (AgNO3 10%) và Nước khử khoáng (DI Water).\nPhản ứng hóa học: Ion Bạc (Ag+) từ AgNO3 phản ứng với ion Clorua (Cl-) của muối đọng trên vách hầm tạo thành kết tủa Bạc Clorua (AgCl) màu trắng đục:\nAg++Cl-→AgCl↓(dạng đục trắng)\n\nHiện tượng / Kết quả:\nĐạt (Hàm lượng Clorua < 2 ppm): Dung dịch giữ nguyên độ trong suốt.\nKhông đạt (Còn dư muối biển): Dung dịch xuất hiện độ đục trắng."
+  },
+  {
+    "id": "training-46",
+    "source": "TỔNG HỢP CHẤT TEST.docx",
+    "title": "Thử nghiệm Mùi & Cảm quan (Odour & Appearance Test):",
+    "kind": "training",
+    "text": "Thử nghiệm Mùi & Cảm quan (Odour & Appearance Test):\nVật liệu: Giấy lọc (Filter Paper) và mẫu Methanol chuẩn 9more horiz.\nHiện tượng: Nhúng giấy lọc vào mẫu và ngửi ngay để phát hiện mùi dư thừa của xăng/DO/dầu hỏa còn bám trong hầm. Xoay bình mẫu kiểm tra hạt lơ lửng (vảy sơn Epoxy, gỉ sắt) trên nền trắng 13 more horiz."
+  },
+  {
+    "id": "training-47",
+    "source": "TỔNG HỢP CHẤT TEST.docx",
+    "title": "Thử nghiệm Hấp thụ Quang phổ UV (UV Test):",
+    "kind": "training",
+    "text": "Thử nghiệm Hấp thụ Quang phổ UV (UV Test):\nThiết bị & Dung mồi đối chiếu: Máy quang phổ (Spectrometer) và Methanol tinh khiết.\nHiện tượng: Mẫu được chiếu ánh sáng UV; nếu còn cặn vệt hydrocarbon, các phân tử sẽ hấp thụ ánh sáng ở bước sóng nhất định và hiển thị chỉ số trên máy."
+  },
+  {
+    "id": "training-48",
+    "source": "TỔNG HỢP CHẤT TEST.docx",
+    "title": "3. Thuốc thử & Phản ứng cho nhóm Dầu thực vật (Dầu cọ, Dầu đậu nành)",
+    "kind": "training",
+    "text": "3. Thuốc thử & Phản ứng cho nhóm Dầu thực vật (Dầu cọ, Dầu đậu nành)\nDầu thực vật thường chứa các chất không bay hơi (NVM) có thể gây đục giả khi thử nghiệm:"
+  },
+  {
+    "id": "training-49",
+    "source": "TỔNG HỢP CHẤT TEST.docx",
+    "title": "Thử nghiệm Chất không bay hơi (NVM Test):",
+    "kind": "training",
+    "text": "Thử nghiệm Chất không bay hơi (NVM Test):\nPhương pháp: Làm bay hơi một lượng mẫu rửa vách nhất định và đem cân phần cặn còn lại.\nHiện tượng: Khối lượng cặn thu được đại diện cho hàm lượng NVM của dầu thực vật còn đọng trên vách hầm; nếu vượt mức quy định của chủ hàng/người thuê tàu thì không đạt."
+  },
+  {
+    "id": "training-50",
+    "source": "TỔNG HỢP CHẤT TEST.docx",
+    "title": "Thử nghiệm Clorua phân biệt đục do Dầu thực vật (Chloride Test with Nitric Acid):",
+    "kind": "training",
+    "text": "Thử nghiệm Clorua phân biệt đục do Dầu thực vật (Chloride Test with Nitric Acid):\nHóa chất dùng: Axit Nitric (HNO3) và Dung dịch Bạc Nitrat 10% (AgNO3 10%).\nQuy trình & Hiện tượng: Khi kiểm tra hầm từng chở dầu thực vật, cặn NVM có thể gây đục giả với AgNO312. Kỹ thuật viên cho thêm 2 giọt Axit Nitric (HNO3) vào mẫu trước khi thêm AgNO3 10%:\nNếu độ đục biến mất: Độ đục ban đầu là do cặn dầu thực vật (NVM).\nNếu vẫn còn độ đục: Xác nhận chính xác hầm còn đọng muối Clorua từ nước biển."
+  },
+  {
+    "id": "training-51",
+    "source": "TỔNG HỢP CHẤT TEST.docx",
+    "title": "4. Thuốc thử kiểm tra độ tinh khiết cao / Tạp chất hữu cơ (khi chuyển đổi hàng hóa)",
+    "kind": "training",
+    "text": "4. Thuốc thử kiểm tra độ tinh khiết cao / Tạp chất hữu cơ (khi chuyển đổi hàng hóa)"
+  },
+  {
+    "id": "training-52",
+    "source": "TỔNG HỢP CHẤT TEST.docx",
+    "title": "Thử nghiệm thời gian phai màu Permanganate (Permanganate Fade Time Test - PTT / PMTT):",
+    "kind": "training",
+    "text": "Thử nghiệm thời gian phai màu Permanganate (Permanganate Fade Time Test - PTT / PMTT):\nHóa chất dùng: Dung dịch Kali Pemanganat (KMnO4 / Thuốc tím) và Dung dịch chuẩn màu Platinum Cobalt (Pt-Co).\nĐiều kiện: Giữ nhiệt độ ống nghiệm cố định ở 15°C ± 1°C.\nPhản ứng hóa học & Hiện tượng: KMnO4 là chất oxy hóa mạnh màu tím đậm. Khi gặp các tạp chất hữu cơ dễ bị oxy hóa (cặn nhiên liệu, chất bị khử), KMnO4 bị tiêu thụ và chuyển màu theo chuỗi:\nTímđậm(DeepPurple)→Hồngcáhồi(SalmonPink)→Vàngnhạt(PaleWateryYellow)\nĐánh giá: Ghi lại thời gian màu sắc chuyển đổi trùng với dung dịch chuẩn màu Pt-Co.\nĐạt: Thời gian duy trì màu kéo dài > 50 phút.\nKhông đạt: Màu thuốc tím phai nhanh thành màu vàng nhạt chỉ sau vài phút (do còn cặn hữu cơ)."
+  },
+  {
+    "id": "training-53",
+    "source": "TỔNG HỢP CHẤT TEST.docx",
+    "title": "Thử nghiệm Màu rửa Axit (Acid Wash Colour Test - áp dụng nếu hầm có cặn hydrocarbon thơm):",
+    "kind": "training",
+    "text": "Thử nghiệm Màu rửa Axit (Acid Wash Colour Test - áp dụng nếu hầm có cặn hydrocarbon thơm):\nHóa chất dùng: Axit Sunfuric đậm đặc (H2SO4 96% hoặc 78%)\nHiện tượng: Lắc 7 ml H2SO4 với 21 ml mẫu trong 40–50 giây. Axit phản ứng với cặn tạo màu ở lớp axit bên dưới. So sánh màu lớp axit với bộ màu chuẩn từ 0 đến 14 trên nền trắng."
+  },
+  {
+    "id": "training-54",
+    "source": "TỔNG HỢP CHẤT TEST.docx",
+    "title": "5. Lưu ý đặc biệt đối với hầm sơn Epoxy của tàu Dolphin 01",
+    "kind": "training",
+    "text": "5. Lưu ý đặc biệt đối với hầm sơn Epoxy của tàu Dolphin 01\nTính chất hút bám mùi & cặn: Bề mặt sơn Epoxy có xu hướng thẩm thấu/hấp thụ cặn dầu thơm và mùi của các loại hàng trước đó (như xăng, dầu hỏa).\nGiải pháp hỗ trợ: Bên cạnh các bài test hóa chất trên, cần áp dụng quạt thông gió cưỡng bức ở nhiệt độ cao để giải phóng (desorb) cặn dầu bám sâu trong sơn Epoxy trước khi lấy mẫu rửa vách."
+  },
+  {
+    "id": "methanol-test-overview",
+    "source": "TỔNG HỢP CHẤT TEST.docx — tóm tắt biên tập",
+    "title": "Methanol / Metanol: cần bao nhiêu test hóa chất Wall Wash?",
+    "kind": "training",
+    "text": "Tài liệu tổng hợp của project mô tả 4 phép kiểm tra hóa học chính: Hydrocarbon (Water Miscibility), Chloride, Permanganate Time Test (PTT/PMTT), và màu APHA/Hazen; cùng kiểm tra cảm quan. Với methanol, Hydrocarbon và PTT được mô tả riêng trong phần bộ Wall Wash Test Kit. NVM, UV và phép thử bổ sung được thảo luận theo loại tạp chất/hàng trước và yêu cầu chủ hàng. Đây là bộ kiểm tra tham khảo để giải thích, không phải specification nghiệm thu bắt buộc cho mọi lô methanol. Số ô trên web và số phép thử trong tài liệu có thể khác nhau."
+  }
+]

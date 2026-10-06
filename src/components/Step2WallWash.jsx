@@ -412,15 +412,17 @@ export default function Step2WallWash() {
               >
                 <Zap size={12} /> Phân tích ngay
               </button>
-              <span className="badge badge-info" style={{ background: 'rgba(249,115,22,0.15)', color: '#F97316', border: '1px solid rgba(249,115,22,0.3)' }}>⚡ AI Live</span>
+              <span className="badge badge-info" style={{ background: 'rgba(249,115,22,0.15)', color: '#F97316', border: '1px solid rgba(249,115,22,0.3)' }}>
+                {aiDiagnostic?.[0]?.mode === 'local' ? 'Tra cứu cục bộ' : aiDiagnostic?.[0]?.model || 'AI + tài liệu'}
+              </span>
             </div>
           </div>
 
           {isAiLoading ? (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px', color: '#F97316' }}>
               <Loader2 className="animate-spin" size={32} style={{ marginBottom: '12px' }} />
-              <div style={{ fontSize: '14px', fontWeight: 600 }}>Groq AI đang phân tích dữ liệu hóa nghiệm...</div>
-              <div style={{ fontSize: '12px', color: 'var(--color-text-secondary)', marginTop: '4px' }}>Đối chiếu tài liệu CHRIS Manual & MARPOL Annex II</div>
+              <div style={{ fontSize: '14px', fontWeight: 600 }}>Đang phân tích kết quả kiểm tra...</div>
+              <div style={{ fontSize: '12px', color: 'var(--color-text-secondary)', marginTop: '4px' }}>Đối chiếu số liệu, ngưỡng trên web và tài liệu liên quan</div>
             </div>
           ) : aiDiagnostic && aiDiagnostic.length > 0 ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
@@ -433,7 +435,7 @@ export default function Step2WallWash() {
 
                   <div>
                     <div style={{ fontSize: '12px', fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: '4px' }}>
-                      NGUYÊN NHÂN KHẢ DĨ (AI PHÂN TÍCH):
+                      {diag.mode === 'local' ? 'NGUYÊN NHÂN CẦN KIỂM CHỨNG (GỢI Ý CỤC BỘ):' : 'NGUYÊN NHÂN KHẢ DĨ (AI PHÂN TÍCH):'}
                     </div>
                     <ul style={{ margin: 0, paddingLeft: '18px', fontSize: '12px', color: 'var(--color-text-secondary)' }}>
                       {diag.causes.map((c, cIdx) => <li key={cIdx} style={{ marginBottom: '3px' }}>{c}</li>)}
