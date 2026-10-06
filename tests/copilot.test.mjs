@@ -64,6 +64,7 @@ test('diagnostics use RAG and the same thresholds as the web, and resolve cargo 
   assert.match(request.messages.at(-1).content, /ngưỡng web ≥ 8/)
   assert.match(request.messages.at(-1).content, /Dầu Cọ Thô/)
   assert.ok(request.sources.length)
+  assert.ok(request.chunks.some(chunk => /SỰ CỐ|Sự cố/.test(chunk.title) && /PTT/.test(chunk.title)))
   assert.match(request.messages[0].content, /Chỉ trả JSON/)
 })
 
