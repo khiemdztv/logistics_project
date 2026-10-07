@@ -17,9 +17,9 @@ export default function Step2WaterWhite() {
   const [selectedAreaId, setSelectedAreaId] = useState('ceiling')
   const [notes, setNotes] = useState('')
 
-  const holdInfo = VESSEL_HOLDS.find(h => h.id === state.selectedHold) || {
-    name: 'Hold #2P (Portside)',
-    capacity: '1,200 m³'
+  const holdInfo = [...state.customHolds, ...VESSEL_HOLDS].find(h => h.id === state.selectedHold) || {
+    name: 'Chưa chọn hầm',
+    capacity: 'Chưa khai báo'
   }
 
   const checklist = state.waterWhiteChecklist
@@ -269,7 +269,7 @@ export default function Step2WaterWhite() {
               {selectedArea?.name}
             </div>
             <div style={{ fontSize: '13px', color: 'var(--color-text-secondary)', textAlign: 'center', marginTop: '6px', maxWidth: '300px' }}>
-              Kiểm tra tình trạng sơn Epoxy, các góc gân gia cường, giếng hút khô cặn và đường ống hoa tiêu.
+              Kiểm tra tình trạng lớp phủ, các góc gân gia cường, giếng hút khô cặn và đường ống hoa tiêu.
             </div>
 
             <div style={{ marginTop: '16px', display: 'flex', gap: '8px' }}>
@@ -345,7 +345,7 @@ export default function Step2WaterWhite() {
                   Hầm Hàng Đạt Chuẩn Water White 7/7 Vị Trí
                 </div>
                 <div className="alert-text">
-                  Bề mặt sơn Epoxy sáng bóng, khô ráo, hoàn toàn không có mùi hàng cũ. Đủ điều kiện nhận hàng nối tiếp an toàn.
+                  Các khu vực đã được đánh dấu đạt tiêu chí kiểm tra cảm quan. Có thể chuyển sang bước tổng hợp báo cáo.
                 </div>
               </div>
             </div>

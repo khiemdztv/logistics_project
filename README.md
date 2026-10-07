@@ -1,6 +1,16 @@
 # Dolphin TankOps
 
-Ứng dụng React/Vite hỗ trợ sinh viên logistics mô phỏng kiểm tra và làm sạch hầm hàng Dolphin 01.
+Ứng dụng React/Vite hỗ trợ sinh viên logistics mô phỏng kiểm tra và làm sạch hầm hàng, quản lý nhiều tàu và các ca làm việc tương ứng.
+
+## Đội tàu và ca làm việc
+
+- **Thêm tàu** lưu tên tàu, IMO (7 chữ số), trọng tải DWT, quốc tịch và lớp phủ hầm tùy chọn. Một IMO chỉ có một hồ sơ tàu trong danh sách.
+- **Tạo ca mới** mở form đặt tên ca (tùy chọn), chọn tàu đã lưu hoặc thêm tàu mới. Tên ca mặc định gồm tên tàu. Thông tin tàu xuất hiện trên thẻ ca, màn kiểm tra và báo cáo/PDF.
+- Menu ba chấm trên thẻ ca có **Sửa tên ca & tàu**. Mỗi ca lưu một bản thông tin tàu riêng; cập nhật hồ sơ để dùng cho ca mới không thay đổi ca cũ. Nhân bản và đặt lại kết quả giữ liên kết tàu.
+- Ca cũ được chuyển sang hồ sơ Dolphin 01 của bản trước, giữ dữ liệu kiểm tra. Quốc tịch trước đây chưa được lưu nên hiển thị “Chưa khai báo”; có thể bổ sung từ form sửa ca.
+- Hầm có sẵn là mẫu Dolphin 01. Tàu khác có thể thêm hầm với tên/dung tích riêng; hầm tùy chỉnh được gắn với tàu và được dùng trong báo cáo.
+
+Dữ liệu vẫn lưu trong **localStorage của trình duyệt** (`dolphin_vessels`, `dolphin_sessions`, `dolphin_custom_holds`), chưa đồng bộ giữa nhân viên hoặc thiết bị. Kho tài liệu và ngưỡng kiểm tra vẫn là cấu hình mô phỏng của project, không được tự thay đổi theo thông tin đăng ký tàu.
 
 ## Chạy local
 

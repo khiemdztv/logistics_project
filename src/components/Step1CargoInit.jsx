@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react'
 import { useApp } from '../context/AppContext'
 import { CARGO_ITEMS, CARGO_GROUPS, VESSEL_HOLDS, checkCompatibility } from '../data/cargoData'
 import SearchableSelect from './SearchableSelect'
+import { DEFAULT_VESSEL, getSessionVessel } from '../data/vesselData.js'
 import { ArrowRight, Plus, X } from 'lucide-react'
 
 export default function Step1CargoInit() {
   const { state, dispatch } = useApp()
+  const vessel = getSessionVessel(state)
   const [showAddHold, setShowAddHold] = useState(false)
   const [newHoldName, setNewHoldName] = useState('')
   const [newHoldCapacity, setNewHoldCapacity] = useState('')
@@ -18,26 +20,26 @@ export default function Step1CargoInit() {
     if (!state.newCargo) {
       dispatch({ type: 'SET_FIELD', field: 'newCargo', value: 'methanol' })
     }
-    if (!state.selectedHold) {
+    if (!state.selectedHold && state.vesselId === DEFAULT_VESSEL.id) {
       dispatch({ type: 'SET_FIELD', field: 'selectedHold', value: 'hold_2p' })
     }
-  }, [])
+  }, [state.previousCargo, state.newCargo, state.selectedHold, state.vesselId, dispatch])
 
   // Auto calculate compatibility whenever cargo changes
   useEffect(() => {
     if (state.previousCargo && state.newCargo) {
-      const result = checkCompatibility(state.previousCargo, state.newCargo)
+      const result = checkCompatibility(state.previousCargo, state.newCargo, vessel.coating)
       dispatch({ type: 'SET_COMPATIBILITY', data: result })
       if (!state.selectedMethod) {
         dispatch({ type: 'SET_METHOD', method: result.method })
       }
     }
-  }, [state.previousCargo, state.newCargo])
+  }, [state.previousCargo, state.newCargo, vessel.coating, state.selectedMethod, dispatch])
 
   const handlePrevCargoChange = (e) => {
     const val = e.target.value
     dispatch({ type: 'SET_FIELD', field: 'previousCargo', value: val })
-    const result = checkCompatibility(val, state.newCargo)
+    const result = checkCompatibility(val, state.newCargo, vessel.coating)
     dispatch({ type: 'SET_COMPATIBILITY', data: result })
     dispatch({ type: 'SET_METHOD', method: result.method })
   }
@@ -45,7 +47,7 @@ export default function Step1CargoInit() {
   const handleNewCargoChange = (e) => {
     const val = e.target.value
     dispatch({ type: 'SET_FIELD', field: 'newCargo', value: val })
-    const result = checkCompatibility(state.previousCargo, val)
+    const result = checkCompatibility(state.previousCargo, val, vessel.coating)
     dispatch({ type: 'SET_COMPATIBILITY', data: result })
     dispatch({ type: 'SET_METHOD', method: result.method })
   }
@@ -69,7 +71,7 @@ export default function Step1CargoInit() {
   const compat = state.compatibility
 
   // Merge default holds with custom holds
-  const allHolds = [...VESSEL_HOLDS, ...(state.customHolds || [])]
+  const allHolds = [...VESSEL_HOLDS, ...(state.customHolds || []).filter(hold => (hold.vesselId || DEFAULT_VESSEL.id) === state.vesselId)]
 
   const handleStartInspection = () => {
     if (!compat?.allowed) {
@@ -92,7 +94,7 @@ export default function Step1CargoInit() {
               Nhập chi tiết chuyến hàng trước và chuyến kế tiếp để phân tích tương thích
             </p>
           </div>
-          <span className="badge badge-info">Dolphin 01 • Epoxy</span>
+          <span className="badge badge-info">{vessel.name}</span>
         </div>
 
         {/* Previous cargo - Searchable */}
@@ -148,7 +150,7 @@ export default function Step1CargoInit() {
                 id="hold-select"
                 options={allHolds.map(h => ({ id: h.id, name: `${h.name} (${h.capacity})`, group: h.id.startsWith('custom_') ? 'CUSTOM' : 'DEFAULT' }))}
                 groups={{
-                  DEFAULT: { name: 'Hầm Mặc Định — Dolphin 01' },
+                  DEFAULT: { name: 'Hầm mẫu — Dolphin 01' },
                   CUSTOM: { name: 'Hầm tùy chỉnh' }
                 }}
                 value={state.selectedHold}
@@ -165,6 +167,7 @@ export default function Step1CargoInit() {
               <Plus size={16} /> Thêm hầm
             </button>
           </div>
+          {vessel.id !== DEFAULT_VESSEL.id && <p className="form-help">Hầm có sẵn là mẫu Dolphin 01. Bạn có thể thêm hầm theo tên và dung tích của tàu {vessel.name}.</p>}
           
           {/* Add custom hold form */}
           {showAddHold && (
@@ -338,7 +341,7 @@ export default function Step1CargoInit() {
           <button
             className="btn btn-primary btn-lg"
             onClick={handleStartInspection}
-            disabled={!compat?.allowed}
+            disabled={!compat?.allowed || !state.selectedHold}
             id="start-inspection-btn"
           >
             <span>Bắt đầu kiểm tra</span>

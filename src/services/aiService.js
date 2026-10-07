@@ -58,8 +58,9 @@ export async function chatWithCopilot(userMessage, chatHistory = [], appContext 
   }
 }
 
-export async function analyzeTestFailures(failedTests, allResults, previousCargo, newCargo) {
-  const diagnosticData = { failedTests, allResults, previousCargo, newCargo }
+export async function analyzeTestFailures(failedTests, allResults, previousCargo, newCargo, vessel) {
+  const diagnosticData = { failedTests, allResults, previousCargo, newCargo,
+    ...(vessel ? { vessel: sanitizeAppContext({ vessel }).vessel } : {}) }
   try {
     const data = await requestAI({ isDiagnostic: true, diagnosticData })
     if (!isValidDiagnostic(data)) throw new Error('INVALID_DIAGNOSTIC')

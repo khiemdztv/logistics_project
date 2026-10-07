@@ -7,6 +7,7 @@ import {
   VESSEL_HOLDS
 } from '../data/cargoData'
 import { analyzeTestFailures } from '../services/aiService'
+import { getSessionVessel } from '../data/vesselData.js'
 import {
   FlaskConical,
   CheckCircle2,
@@ -23,6 +24,7 @@ import {
 
 export default function Step2WallWash() {
   const { state, dispatch } = useApp()
+  const vessel = getSessionVessel(state)
   const selectedPhotoIndex = 0
   
   // Real AI diagnostic states
@@ -30,9 +32,9 @@ export default function Step2WallWash() {
   const [isAiLoading, setIsAiLoading] = useState(false)
   const [manualAiMessage, setManualAiMessage] = useState(null)
 
-  const holdInfo = VESSEL_HOLDS.find(h => h.id === state.selectedHold) || {
-    name: 'Hold #2P (Portside)',
-    capacity: '1,200 m³'
+  const holdInfo = [...state.customHolds, ...VESSEL_HOLDS].find(h => h.id === state.selectedHold) || {
+    name: 'Chưa chọn hầm',
+    capacity: 'Chưa khai báo'
   }
 
   // Evaluate tests
@@ -74,7 +76,7 @@ export default function Step2WallWash() {
         evaluation.failedList, 
         testResults, 
         state.previousCargo || 'Dầu Cọ Thô (Crude Palm Oil)', 
-        state.newCargo || 'Methanol'
+        state.newCargo || 'Methanol', state.vessel
       )
       
       if (isMounted) {
@@ -93,7 +95,7 @@ export default function Step2WallWash() {
       isMounted = false
       clearTimeout(timeout)
     }
-  }, [evaluation.failedList, testResults, state.previousCargo, state.newCargo])
+  }, [evaluation.failedList, testResults, state.previousCargo, state.newCargo, state.vessel])
 
   const handleManualAnalyze = async () => {
     if (evaluation.filledCount !== 5 || isAiLoading) return
@@ -103,7 +105,7 @@ export default function Step2WallWash() {
         evaluation.failedList, 
         testResults, 
         state.previousCargo || 'Dầu Cọ Thô (Crude Palm Oil)', 
-        state.newCargo || 'Methanol'
+        state.newCargo || 'Methanol', vessel
       )
       if (data && data.causes && data.solutions) {
         setAiDiagnostic([data])
@@ -372,7 +374,7 @@ export default function Step2WallWash() {
             </svg>
 
             <div style={{ position: 'relative', zIndex: 2, display: 'flex', justifyContent: 'space-between' }}>
-              <span className="badge badge-info">Lớp bọc: Pure Epoxy</span>
+              <span className="badge badge-info">Lớp phủ: {vessel.coating || 'chưa khai báo'}</span>
               <span className={`badge ${evaluation.hasFail ? 'badge-fail' : 'badge-pass'}`}>
                 {evaluation.hasFail ? 'Phát hiện vị trí cần tráng rửa' : 'Bề mặt sạch chuẩn'}
               </span>

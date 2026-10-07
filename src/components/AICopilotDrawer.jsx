@@ -64,6 +64,7 @@ export default function AICopilotDrawer() {
         holdName: state.holdName, selectedHold: state.selectedHold,
         selectedMethod: state.selectedMethod, currentStep: state.currentStep,
         wallWashResults: state.wallWashResults,
+        ...(state.currentView === 'inspection' ? { vessel: state.vessel, sessionName: state.sessionName } : {}),
       })
       dispatch({ type: 'ADD_AI_MESSAGE', message: {
         role: 'assistant', content: response.reply, mode: response.mode,

@@ -1,4 +1,6 @@
 import { useApp } from '../context/AppContext'
+import { useState } from 'react'
+import { getSessionVessel, formatDwt } from '../data/vesselData.js'
 import {
   CARGO_ITEMS,
   VESSEL_HOLDS,
@@ -14,12 +16,15 @@ import {
 
 export default function Step3Report() {
   const { state, dispatch } = useApp()
+  const vessel = getSessionVessel(state)
+  const [reportDate] = useState(() => new Date(state.endTime || Date.now()))
+  const certificateId = `CERT-${vessel.imo || 'NA'}-${state.currentSessionId?.toUpperCase() || 'PREVIEW'}`
 
   const prevItem = CARGO_ITEMS.find(c => c.id === state.previousCargo) || { name: 'Crude Palm Oil' }
   const newItem = CARGO_ITEMS.find(c => c.id === state.newCargo) || { name: 'Methanol' }
-  const holdInfo = VESSEL_HOLDS.find(h => h.id === state.selectedHold) || {
-    name: 'Hold #2P (Portside)',
-    capacity: '1,200 m³'
+  const holdInfo = [...state.customHolds, ...VESSEL_HOLDS].find(h => h.id === state.selectedHold) || {
+    name: 'Chưa chọn hầm',
+    capacity: 'Chưa khai báo'
   }
 
   const handlePrint = () => {
@@ -27,18 +32,16 @@ export default function Step3Report() {
   }
 
   const handleNewInspection = () => {
-    if (confirm('Bạn có chắc chắn muốn khởi tạo phiên kiểm tra mới? Dữ liệu hiện tại sẽ được lưu trữ vào nhật ký lưu trữ.')) {
-      dispatch({ type: 'RESET_ALL' })
-    }
+    dispatch({ type: 'GO_DASHBOARD' })
   }
 
-  const currentDate = new Date().toLocaleDateString('vi-VN', {
+  const currentDate = reportDate.toLocaleDateString('vi-VN', {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric'
   })
 
-  const currentTime = new Date().toLocaleTimeString('vi-VN', {
+  const currentTime = reportDate.toLocaleTimeString('vi-VN', {
     hour: '2-digit',
     minute: '2-digit'
   })
@@ -52,14 +55,14 @@ export default function Step3Report() {
             Báo cáo kiểm tra hầm hàng
           </h2>
           <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)' }}>
-            Mã chứng chỉ: CERT-D01-{new Date().getFullYear()}-0892 • Lưu trữ bảo chứng số
+            {state.sessionName || 'Ca kiểm tra hầm hàng'} · {certificateId}
           </p>
         </div>
 
         <div style={{ display: 'flex', gap: 'var(--space-md)' }}>
           <button className="btn btn-secondary" onClick={handleNewInspection}>
             <RotateCcw size={18} />
-            <span>Kiểm Tra Hầm Mới</span>
+            <span>Về danh sách ca</span>
           </button>
 
           <button className="btn btn-primary" onClick={handlePrint} id="print-report-btn">
@@ -153,7 +156,7 @@ export default function Step3Report() {
             (TANK CLEANLINESS & WALL WASH INSPECTION CERTIFICATE)
           </div>
           <div style={{ fontSize: '12px', color: '#444', marginTop: '6px' }}>
-            Tuân thủ Công ước MARPOL Annex II, FOSFA Code of Practice & Hướng dẫn Vận hành Dolphin 01
+            Tổng hợp số liệu kiểm tra của tàu {vessel.name}
           </div>
         </div>
 
@@ -168,17 +171,23 @@ export default function Step3Report() {
         >
           <tbody>
             <tr>
+              <td style={{ padding: '8px 12px', background: '#F8F9FA', fontWeight: 700, border: '1px solid #E0E0E0' }}>Trọng tải (DWT):</td>
+              <td style={{ padding: '8px 12px', border: '1px solid #E0E0E0' }}>{formatDwt(vessel.dwt)} DWT</td>
+              <td style={{ padding: '8px 12px', background: '#F8F9FA', fontWeight: 700, border: '1px solid #E0E0E0' }}>Quốc tịch:</td>
+              <td style={{ padding: '8px 12px', border: '1px solid #E0E0E0' }}>{vessel.nationality || 'Chưa khai báo'}</td>
+            </tr>
+            <tr>
               <td style={{ padding: '8px 12px', background: '#F8F9FA', fontWeight: 700, width: '22%', border: '1px solid #E0E0E0' }}>
                 Tên Tàu (Vessel Name):
               </td>
               <td style={{ padding: '8px 12px', width: '28%', border: '1px solid #E0E0E0', fontWeight: 600 }}>
-                M/T DOLPHIN 01
+                {vessel.name}
               </td>
               <td style={{ padding: '8px 12px', background: '#F8F9FA', fontWeight: 700, width: '22%', border: '1px solid #E0E0E0' }}>
-                Số IMO / Hô Hiệu:
+                Số IMO:
               </td>
               <td style={{ padding: '8px 12px', width: '28%', border: '1px solid #E0E0E0' }}>
-                9876543 / 3WDL2
+                {vessel.imo || 'Chưa khai báo'}
               </td>
             </tr>
             <tr>
@@ -192,7 +201,7 @@ export default function Step3Report() {
                 Lớp Phủ Hầm (Coating):
               </td>
               <td style={{ padding: '8px 12px', border: '1px solid #E0E0E0' }}>
-                Pure Epoxy Coating
+                {vessel.coating || 'Chưa khai báo'}
               </td>
             </tr>
             <tr>
@@ -313,7 +322,7 @@ export default function Step3Report() {
             KẾT LUẬN GIÁM ĐỊNH (SURVEYOR DECLARATION):
           </div>
           <div style={{ fontSize: '13px', color: '#14532D', lineHeight: 1.6 }}>
-            Căn cứ vào kết quả kiểm nghiệm hiện trường, hầm hàng <strong>{holdInfo.name}</strong> của tàu <strong>DOLPHIN 01</strong> đã hoàn thành các bước súc rửa bằng hóa chất chuyên dụng, khử mùi và tráng rửa nước ngọt ion hóa. Bề mặt sơn phủ Epoxy không còn dấu vết của lô hàng trước ({prevItem.name}). Hầm hàng chính thức được chứng nhận <strong>ĐỦ ĐIỀU KIỆN TIẾP NHẬN LÔ HÀNG {newItem.name.toUpperCase()}</strong>.
+            Báo cáo ghi nhận kết quả kiểm tra hầm <strong>{holdInfo.name}</strong> của tàu <strong>{vessel.name}</strong> trong ca <strong>{state.sessionName || 'kiểm tra hầm hàng'}</strong>, khi chuyển từ {prevItem.name} sang {newItem.name}. Các chỉ số và trạng thái được trình bày trong bảng kết quả phía trên.
           </div>
         </div>
 
@@ -326,11 +335,11 @@ export default function Step3Report() {
             <div style={{ fontSize: '11px', color: '#888' }}>(Chief Officer / Duty Officer)</div>
             <div style={{ height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <span style={{ fontFamily: 'cursive', fontSize: '20px', color: '#1E40AF', transform: 'rotate(-5deg)' }}>
-                Nguyen Van Hai
+                …………………………
               </span>
             </div>
-            <div style={{ fontSize: '13px', fontWeight: 700, color: '#111' }}>Nguyễn Văn Hải</div>
-            <div style={{ fontSize: '11px', color: '#666' }}>Đại phó Tàu Dolphin 01</div>
+            <div style={{ fontSize: '11px', color: '#666' }}>(Ký, ghi rõ họ tên)</div>
+            <div style={{ fontSize: '11px', color: '#666' }}>Đại phó tàu {vessel.name}</div>
           </div>
 
           <div style={{ textAlign: 'center' }}>
@@ -340,25 +349,24 @@ export default function Step3Report() {
             <div style={{ fontSize: '11px', color: '#888' }}>(Independent Cargo Surveyor)</div>
             <div style={{ height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <span style={{ fontFamily: 'cursive', fontSize: '20px', color: '#1E40AF', transform: 'rotate(-3deg)' }}>
-                David J. Miller
+                …………………………
               </span>
             </div>
-            <div style={{ fontSize: '13px', fontWeight: 700, color: '#111' }}>David J. Miller</div>
-            <div style={{ fontSize: '11px', color: '#666' }}>SGS / Intertek Maritime</div>
+            <div style={{ fontSize: '11px', color: '#666' }}>(Ký, ghi rõ họ tên)</div>
           </div>
 
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontSize: '12px', fontWeight: 700, color: '#666', textTransform: 'uppercase' }}>
               THUYỀN TRƯỞNG TÀU
             </div>
-            <div style={{ fontSize: '11px', color: '#888' }}>(Master of Dolphin 01)</div>
+            <div style={{ fontSize: '11px', color: '#888' }}>(Master of {vessel.name})</div>
             <div style={{ height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <span style={{ fontFamily: 'cursive', fontSize: '20px', color: '#1E40AF', transform: 'rotate(-4deg)' }}>
-                Tran Quoc Tuan
+                …………………………
               </span>
             </div>
-            <div style={{ fontSize: '13px', fontWeight: 700, color: '#111' }}>Trần Quốc Tuấn</div>
-            <div style={{ fontSize: '11px', color: '#666' }}>Thuyền trưởng M/T Dolphin 01</div>
+            <div style={{ fontSize: '11px', color: '#666' }}>(Ký, ghi rõ họ tên)</div>
+            <div style={{ fontSize: '11px', color: '#666' }}>Thuyền trưởng tàu {vessel.name}</div>
           </div>
         </div>
       </div>

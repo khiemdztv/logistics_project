@@ -181,6 +181,42 @@ button svg { flex-shrink: 0; }
 .method-option.recommended::after { background: #24475b; color: #bee3e9; font-size: 9px; font-weight: 500; letter-spacing: .5px; }
 
 /* Quiet, readable copilot */
+.dashboard-header-actions, .dashboard-search-controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.dashboard-search-controls { justify-content: flex-end; flex: 1; min-width: 0; }
+.vessel-filter { width: 170px; max-width: 100%; font-size: 12px; }
+.session-vessel { display: flex; flex-direction: column; gap: 4px; padding-bottom: 14px; margin-bottom: 16px; border-bottom: 1px solid var(--color-border); }
+.session-vessel strong { font-size: 15px; color: #bce2e9; font-weight: 600; overflow-wrap: anywhere; }
+.session-vessel small { font-size: 10px; color: var(--color-text-muted); }
+.session-open h3 { font-size: 15px; line-height: 1.5; margin-bottom: 6px; overflow-wrap: anywhere; }
+.session-hold { display: block; color: var(--color-text-muted); font-size: 11px; margin-bottom: 18px; }
+.header-vessel-summary { flex-wrap: wrap; }
+.header-vessel-summary > span, .sidebar-vessel strong { overflow-wrap: anywhere; }
+.session-dialog { width: min(580px, calc(100vw - 32px)); max-height: calc(100dvh - 40px); margin: auto; padding: 0; border: 1px solid #3a5067; border-radius: 14px; background: var(--color-bg-card); color: var(--color-text-primary); box-shadow: 0 20px 80px rgba(0,0,0,.4); }
+.session-dialog::backdrop { background: rgba(4, 11, 24, .78); }
+.session-dialog { overflow-y: auto; overscroll-behavior: contain; }
+.session-dialog > form { display: flex; flex-direction: column; }
+.session-dialog-header { display: flex; justify-content: space-between; align-items: flex-start; padding: 24px 24px 20px; border-bottom: 1px solid var(--color-border); gap: 16px; }
+.session-dialog-header h2 { font-size: 21px; font-weight: 600; line-height: 1.4; }
+.session-dialog-header .page-eyebrow { margin-bottom: 5px; }
+.dialog-close { display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; flex-shrink: 0; border: 0; border-radius: 7px; background: transparent; color: var(--color-text-secondary); cursor: pointer; }
+.dialog-close:hover { background: #26374e; }
+.session-dialog-body { padding: 24px; }
+.vessel-form-heading { display: flex; justify-content: space-between; gap: 10px; align-items: center; margin: 26px 0 16px; }
+.vessel-form-heading h3 { font-size: 14px; font-weight: 600; }
+.vessel-form-heading > span { font-size: 10px; color: var(--color-text-muted); }
+.vessel-form-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+.vessel-field { margin-bottom: 0; min-width: 0; }
+.vessel-field.full-width { grid-column: 1 / -1; }
+.field-required { color: #e49ca0; }
+.field-optional { font-size: 11px; color: var(--color-text-muted); font-weight: 400; }
+.form-help { font-size: 11px; color: var(--color-text-muted); line-height: 1.7; margin-top: 8px; }
+.form-error { font-size: 11px; color: #efaaaa; line-height: 1.6; margin-top: 6px; }
+.form-input[aria-invalid="true"] { border-color: #cc737b; }
+.vessel-form-preview { display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; margin-top: 18px; border: 1px solid #334c62; border-radius: 8px; background: #112033; overflow-wrap: anywhere; }
+.vessel-form-preview strong { font-size: 13px; color: #c1dce5; }
+.vessel-form-preview > span { font-size: 11px; color: var(--color-text-secondary); }
+.session-dialog-actions { display: flex; justify-content: flex-end; gap: 10px; padding: 18px 24px; border-top: 1px solid var(--color-border); background: #122036; position: sticky; bottom: 0; }
+
 .ai-fab { display: inline-flex; gap: 9px; width: auto; height: 44px; padding: 0 16px; border-radius: 10px; background: #1b3447; border: 1px solid #436579; color: #c7e8ee; font-size: 13px; font-weight: 500; box-shadow: 0 5px 20px rgba(0,0,0,.25); bottom: 24px; right: 28px; animation: none; }
 .ai-fab:hover { transform: none; background: #234256; box-shadow: 0 5px 20px rgba(0,0,0,.25); }
 .ai-panel { width: 420px; max-width: calc(100vw - 32px); height: min(650px, calc(100dvh - 48px)); max-height: none; bottom: 24px; right: 28px; border: 1px solid #3a5067; border-radius: 14px; box-shadow: 0 16px 60px rgba(0,0,0,.4); background: #111f34; overflow: hidden; }
@@ -225,6 +261,7 @@ button svg { flex-shrink: 0; }
   .dashboard-toolbar { align-items: stretch; flex-direction: column; gap: 12px; }
   .dashboard-filters { align-self: flex-start; }
   .dashboard-search { width: 100%; }
+  .dashboard-search-controls { justify-content: flex-start; flex-wrap: nowrap; }
   .dashboard-stat { padding: 20px 18px; }
 }
 @media (max-width: 768px) {
@@ -257,6 +294,12 @@ button svg { flex-shrink: 0; }
   .dashboard-filters { width: 100%; gap: 2px; }
   .dashboard-filters button { padding-inline: 9px; flex: 1; font-size: 10px; }
   .dashboard-grid { grid-template-columns: minmax(0, 1fr); }
+  .dashboard-search-controls { flex-wrap: wrap; }
+  .dashboard-search-controls .dashboard-search, .vessel-filter { width: 100%; }
+  .session-dialog { width: calc(100vw - 24px); max-height: calc(100dvh - 24px); border-radius: 12px; }
+  .session-dialog-header, .session-dialog-body { padding: 20px 18px; }
+  .session-dialog-actions { padding: 16px 18px; }
+  .vessel-form-grid { grid-template-columns: minmax(0, 1fr); gap: 14px; }
   .dashboard-empty { padding: 32px 20px 24px; }
   .dashboard-empty h3 { font-size: 21px; }
   .empty-workflow { align-items: flex-start; flex-direction: column; gap: 14px; margin-top: 30px; text-align: left; }
@@ -290,7 +333,7 @@ button svg { flex-shrink: 0; }
 @media print {
   :root { color-scheme: light; }
   body, #root, .app-layout, .app-main, .app-content { background: white; color: #0b132b; margin: 0; padding: 0; width: 100%; max-width: none; min-height: 0; display: block; }
-  .sidebar, .header, .stepper, .ai-fab, .ai-panel, .report-toolbar, .certificate-viewport + .card { display: none; }
+  .sidebar, .header, .stepper, .ai-fab, .ai-panel, .report-toolbar, .session-dialog, .certificate-viewport + .card { display: none; }
   .certificate-viewport { overflow: visible; border-radius: 0; outline: 0; }
   .certificate-sheet { min-width: 0; width: 100%; padding: 0; border: 0; }
   #certificate-print-sheet { box-shadow: none !important; border-radius: 0 !important; }

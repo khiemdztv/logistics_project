@@ -120,7 +120,7 @@ export const FOSFA_BANNED = [
 ]
 
 // Compatibility matrix: previousCargo -> newCargo restrictions
-export function checkCompatibility(prevCargoId, newCargoId) {
+export function checkCompatibility(prevCargoId, newCargoId, coating = 'Pure Epoxy') {
   const prevItem = CARGO_ITEMS.find(c => c.id === prevCargoId)
   const newItem = CARGO_ITEMS.find(c => c.id === newCargoId)
   
@@ -158,8 +158,11 @@ export function checkCompatibility(prevCargoId, newCargoId) {
     notes.push('⚠️ Dầu thực vật để lại cặn NVM + axit béo, cần Alkaline Cleaner để xà phòng hóa')
   }
   
-  // Epoxy coating note for Dolphin 01
-  notes.push('📌 Tàu Dolphin 01 bọc Epoxy: Chú ý Epoxy hấp thụ mùi hàng trước, cần thông gió cưỡng bức')
+  if (/epoxy/i.test(coating)) {
+    notes.push('📌 Lớp phủ Epoxy: Kiểm tra ảnh hưởng của hàng trước và đối chiếu hướng dẫn của nhà sản xuất sơn trước khi làm sạch.')
+  } else if (!coating) {
+    notes.push('📌 Chưa khai báo lớp phủ hầm. Cần xác nhận loại sơn và quy trình làm sạch phù hợp với tàu này.')
+  }
   
   // Determine test method based on new cargo
   const method = newGroup.testMethod

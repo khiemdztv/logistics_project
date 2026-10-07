@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useApp } from '../context/AppContext'
+import { getSessionVessel, formatDwt } from '../data/vesselData.js'
 
 export default function Header() {
   const { state } = useApp()
+  const vessel = getSessionVessel(state)
+  const isInspection = state.currentView === 'inspection'
   const [time, setTime] = useState(() => new Date())
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 30000)
@@ -15,10 +18,10 @@ export default function Header() {
       <div className="header-workspace">
         <div className="header-breadcrumb"><span>Dolphin TankOps</span><span aria-hidden="true">/</span><strong>{viewName}</strong></div>
         <div className="header-vessel-summary">
-          <span>DOLPHIN 01</span><span>{state.dwt} DWT</span><span>Pure Epoxy</span>
+          {isInspection ? <><span>{vessel.name}</span><span>IMO {vessel.imo || 'chưa khai báo'}</span><span>{formatDwt(vessel.dwt)} DWT</span><span>{vessel.nationality || 'Chưa khai báo quốc tịch'}</span></> : <><span>Quản lý đội tàu</span><span>{state.vessels.length} tàu</span><span>{state.sessions.length} ca làm việc</span></>}
         </div>
       </div>
-      <div className="header-route"><span className="header-info-label">Hải trình</span><span>{state.route || 'Hải Phòng → Singapore'}</span></div>
+      {isInspection && <div className="header-route"><span className="header-info-label">Hải trình</span><span>{state.route || 'Chưa khai báo'}</span></div>}
       <div className="header-time">
         <time dateTime={time.toISOString()}>{time.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}</time>
         <span>{time.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' })}</span>
