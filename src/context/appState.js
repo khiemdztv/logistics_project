@@ -64,7 +64,7 @@ export function createInitialState() {
     // View management
     currentView: 'dashboard', // 'dashboard' or 'inspection'
     currentStep: 1,
-    
+
     // Session management
     sessions,
     vessels: loadFleet(loadSaved('dolphin_vessels'), sessions),
@@ -73,7 +73,7 @@ export function createInitialState() {
     vessel: { ...DEFAULT_VESSEL },
     currentSessionId: null,
     customHolds: loadCustomHolds(),
-    
+
     // Step 1 data
     previousCargo: '',
     newCargo: '',
@@ -82,11 +82,11 @@ export function createInitialState() {
     route: '',
     dwt: DEFAULT_VESSEL.dwt,
     additionalNotes: '',
-    
+
     // Analysis result
     compatibility: null,
     selectedMethod: null,
-    
+
     // Step 2 - Wall Wash results
     wallWashResults: {
       salinity: '',
@@ -95,7 +95,7 @@ export function createInitialState() {
       hydrocarbon: '',
       chloride: '',
     },
-    
+
     // Step 2 - Water White checklist
     waterWhiteChecklist: {
       ceiling: null,
@@ -106,18 +106,18 @@ export function createInitialState() {
       bottom: null,
       piping: null,
     },
-    
+
     // Evidence photos
     photos: [],
-    
+
     // Inspection log
     inspectionLog: [],
-    
+
     // Inspector info
     inspector: 'Sĩ quan trực ca',
     startTime: null,
     endTime: null,
-    
+
     // AI Chat
     aiChatOpen: false,
     aiMessages: [
@@ -168,16 +168,16 @@ export function appReducer(state, action) {
   switch (action.type) {
     case 'SET_FIELD':
       return { ...state, [action.field]: action.value }
-    
+
     case 'SET_STEP':
       return { ...state, currentStep: action.step }
-    
+
     case 'SET_COMPATIBILITY':
       return { ...state, compatibility: action.data }
-    
+
     case 'SET_METHOD':
       return { ...state, selectedMethod: action.method }
-    
+
     case 'SET_WALL_WASH_RESULT':
       return {
         ...state,
@@ -186,7 +186,7 @@ export function appReducer(state, action) {
           [action.testId]: action.value
         }
       }
-    
+
     case 'SET_WATER_WHITE_CHECK':
       return {
         ...state,
@@ -195,13 +195,13 @@ export function appReducer(state, action) {
           [action.areaId]: action.status
         }
       }
-    
+
     case 'ADD_PHOTO':
       return { ...state, photos: [...state.photos, action.photo] }
-    
+
     case 'REMOVE_PHOTO':
       return { ...state, photos: state.photos.filter((_, i) => i !== action.index) }
-    
+
     case 'ADD_LOG':
       return {
         ...state,
@@ -211,13 +211,13 @@ export function appReducer(state, action) {
           type: action.logType || 'info'
         }]
       }
-    
+
     case 'TOGGLE_AI_CHAT':
       return { ...state, aiChatOpen: !state.aiChatOpen }
-    
+
     case 'ADD_AI_MESSAGE':
       return { ...state, aiMessages: [...state.aiMessages, action.message] }
-    
+
     case 'START_INSPECTION':
       return {
         ...state,
@@ -229,7 +229,7 @@ export function appReducer(state, action) {
           type: 'start'
         }]
       }
-    
+
     case 'COMPLETE_INSPECTION':
       return {
         ...state,
@@ -241,7 +241,7 @@ export function appReducer(state, action) {
           type: 'complete'
         }]
       }
-    
+
     case 'RESET_WALL_WASH':
       return {
         ...state,
@@ -253,7 +253,7 @@ export function appReducer(state, action) {
           chloride: '',
         }
       }
-    
+
     case 'RESET_WATER_WHITE':
       return {
         ...state,
@@ -379,8 +379,8 @@ export function appReducer(state, action) {
 
     case 'DELETE_SESSION': {
       const filtered = state.sessions.filter(s => s.id !== action.sessionId)
-      const extra = state.currentSessionId === action.sessionId 
-        ? { currentSessionId: null, currentView: 'dashboard' } 
+      const extra = state.currentSessionId === action.sessionId
+        ? { currentSessionId: null, currentView: 'dashboard' }
         : {}
       return { ...state, sessions: filtered, ...extra }
     }
@@ -433,7 +433,7 @@ export function appReducer(state, action) {
 
     case 'RESET_ALL':
       return { ...createInitialState(), sessions: state.sessions, customHolds: state.customHolds, vessels: state.vessels }
-    
+
     default:
       return state
   }
