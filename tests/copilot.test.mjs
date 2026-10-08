@@ -11,7 +11,7 @@ test('methanol question from the screenshot retrieves the test overview and actu
   assert.match(request.chunks[0].id, /^methanol-test-overview/)
   assert.ok(request.chunks.some(chunk => chunk.id === 'app-wall-wash'))
   assert.match(request.chunks[0].text, /4 phép kiểm tra/)
-  assert.match(request.chunks.find(chunk => chunk.id === 'app-wall-wash').text, /5 ô/)
+  assert.match(request.chunks.find(chunk => chunk.id === 'app-wall-wash').text, /8 phép thử/)
   assert.equal(request.messages.at(-1).content, query)
 })
 
@@ -61,7 +61,7 @@ test('active session includes only relevant fields and finite test results', () 
 
 test('diagnostics use RAG and the same thresholds as the web, and resolve cargo IDs', () => {
   const request = buildDiagnosticRequest({ failedTests: ['ptt'], allResults: { ptt: '6.5' }, previousCargo: 'palm_oil_crude', newCargo: 'methanol' }, index)
-  assert.match(request.messages.at(-1).content, /ngưỡng web ≥ 8/)
+  assert.match(request.messages.at(-1).content, /chuẩn web ≥ 50 phút/)
   assert.match(request.messages.at(-1).content, /Dầu Cọ Thô/)
   assert.ok(request.sources.length)
   assert.ok(request.chunks.some(chunk => /SỰ CỐ|Sự cố/.test(chunk.title) && /PTT/.test(chunk.title)))
@@ -72,7 +72,7 @@ test('diagnostics use RAG and the same thresholds as the web, and resolve cargo 
 test('local fallback answers the screenshot question and truthfully identifies its mode', () => {
   const reply = localChatReply('hàng methanol thì cần bao nhiêu test hóa chất', index)
   assert.match(reply.reply, /4 phép kiểm tra hóa học chính/)
-  assert.match(reply.reply, /5 ô/)
+  assert.match(reply.reply, /3 phép thử bắt buộc/)
   assert.equal(reply.mode, 'local')
   assert.equal(reply.model, null)
   assert.match(reply.warning, /không kết nối/)

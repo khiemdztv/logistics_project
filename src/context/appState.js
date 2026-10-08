@@ -1,4 +1,5 @@
 import { DEFAULT_VESSEL, normalizeVessel, validateVessel, getSessionVessel, migrateSessions, loadFleet } from '../data/vesselData.js'
+import { createBlankWallWashResults } from '../data/wallWashTests.js'
 
 const loadSaved = (key) => {
   try { return JSON.parse(localStorage.getItem(key) || '[]') } catch { return [] }
@@ -35,13 +36,7 @@ const createBlankSessionData = (vessel = DEFAULT_VESSEL) => ({
   additionalNotes: '',
   compatibility: null,
   selectedMethod: null,
-  wallWashResults: {
-    salinity: '',
-    ptt: '',
-    apha: '',
-    hydrocarbon: '',
-    chloride: '',
-  },
+  wallWashResults: createBlankWallWashResults(),
   waterWhiteChecklist: {
     ceiling: null,
     bow_wall: null,
@@ -88,13 +83,7 @@ export function createInitialState() {
     selectedMethod: null,
 
     // Step 2 - Wall Wash results
-    wallWashResults: {
-      salinity: '',
-      ptt: '',
-      apha: '',
-      hydrocarbon: '',
-      chloride: '',
-    },
+    wallWashResults: createBlankWallWashResults(),
 
     // Step 2 - Water White checklist
     waterWhiteChecklist: {
@@ -245,13 +234,7 @@ export function appReducer(state, action) {
     case 'RESET_WALL_WASH':
       return {
         ...state,
-        wallWashResults: {
-          salinity: '',
-          ptt: '',
-          apha: '',
-          hydrocarbon: '',
-          chloride: '',
-        }
+        wallWashResults: createBlankWallWashResults()
       }
 
     case 'RESET_WATER_WHITE':

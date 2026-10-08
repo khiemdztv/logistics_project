@@ -3,7 +3,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai'
 import fs from 'node:fs'
 import path from 'node:path'
 import { buildKnowledgeIndex, buildChatRequest, buildDiagnosticRequest, GROQ_MODEL, MAX_MESSAGE_LENGTH, isValidDiagnostic, hasTreatmentRecipe } from '../lib/copilot.js'
-import { WALL_WASH_THRESHOLDS } from '../src/data/cargoData.js'
+import { WALL_WASH_TESTS, isValidResultValue } from '../src/data/wallWashTests.js'
 
 let cachedIndex
 export function getKnowledgeIndex() {
@@ -21,11 +21,11 @@ function validateBody(body) {
   if (body.chatHistory !== undefined && !Array.isArray(body.chatHistory)) return 'Lịch sử hội thoại không hợp lệ.'
   if (body.isDiagnostic === true) {
     const data = body.diagnosticData
-    if (!data || !Array.isArray(data.failedTests) || !data.failedTests.length || data.failedTests.length > 5
-      || data.failedTests.some(id => !Object.hasOwn(WALL_WASH_THRESHOLDS, id))
+    if (!data || !Array.isArray(data.failedTests) || !data.failedTests.length || data.failedTests.length > 8
+      || data.failedTests.some(id => !Object.hasOwn(WALL_WASH_TESTS, id))
       || !data.allResults || typeof data.allResults !== 'object' || Array.isArray(data.allResults)
       || ['previousCargo', 'newCargo'].some(field => typeof data[field] !== 'string' || data[field].length > 120)
-      || data.failedTests.some(id => data.allResults[id] === '' || !['string', 'number'].includes(typeof data.allResults[id]) || !Number.isFinite(Number(data.allResults[id])))) {
+      || data.failedTests.some(id => !isValidResultValue(id, data.allResults[id]))) {
       return 'Dữ liệu chẩn đoán không hợp lệ.'
     }
   } else if (typeof body.userMessage !== 'string' || !body.userMessage.trim() || body.userMessage.length > MAX_MESSAGE_LENGTH) {

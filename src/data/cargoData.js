@@ -15,7 +15,7 @@ export const CARGO_GROUPS = {
     type: 'Dầu thực vật',
     testMethod: 'WALL_WASH',
     cleaning: ['Nước ấm ≤40°C rửa dầu thừa', 'Alkaclean 5% + nước nóng 80°C', 'Nước ngọt tráng cuối'],
-    tests: ['Hydrocarbon', 'PTT', 'Chloride', 'Odour & Appearance'],
+    tests: ['Hydrocarbon', 'Chloride (kèm HNO3)', 'PTT', 'Mùi', 'NVM'],
     notes: 'Dễ oxy hóa, dễ ôi thiu. Dùng kiềm mạnh (Alkaline Cleaner) để xà phòng hóa'
   },
   CHEMICAL_SOLVENT: {
@@ -24,7 +24,7 @@ export const CARGO_GROUPS = {
     type: 'Hóa chất tinh khiết',
     testMethod: 'WALL_WASH',
     cleaning: ['Nước ngọt/nước cất nóng', 'Methanol hoặc Acetone để rửa/xông', 'Nước cất tráng cuối'],
-    tests: ['Hydrocarbon', 'PTT', 'APHA/Hazen Color', 'Chloride', 'UV Scan'],
+    tests: ['Hydrocarbon', 'Chloride', 'PTT (rượu, ketone)', 'Acid Wash Colour (hàng thơm)', 'Cảm quan', 'UV'],
     notes: 'Tính bay hơi cao, đòi hỏi độ tinh khiết tuyệt đối'
   },
   CLEAN_FUEL: {
@@ -33,7 +33,7 @@ export const CARGO_GROUPS = {
     type: 'Nhiên liệu sạch',
     testMethod: 'WALL_WASH',
     cleaning: ['Seaclean Hydrocarbon + nước nóng', 'Nước ngọt tráng cuối'],
-    tests: ['Hydrocarbon', 'Chloride', 'PTT', 'APHA Color', 'Particulate Matter'],
+    tests: ['Hydrocarbon', 'Chloride', 'Cảm quan', 'Mùi', 'UV'],
     notes: 'Tiêu chuẩn khắt khe, đặc biệt Jet A-1 tránh tắc bộ lọc máy bay'
   },
   DARK_FUEL: {
@@ -51,7 +51,7 @@ export const CARGO_GROUPS = {
     type: 'Nhiên liệu tương lai',
     testMethod: 'WALL_WASH',
     cleaning: ['Phun rửa áp lực cao bằng nước cất siêu sạch'],
-    tests: ['Karl Fischer (Hàm lượng nước)', 'Conductivity (Độ dẫn điện)'],
+    tests: ['Hydrocarbon', 'Chloride', 'PTT', 'Karl Fischer (ngoài web)', 'Conductivity (ngoài web)'],
     notes: 'Yêu cầu độ ngậm nước siêu vi lượng cực thấp'
   },
   POLYMER: {
@@ -60,56 +60,56 @@ export const CARGO_GROUPS = {
     type: 'Polymer hóa',
     testMethod: 'WALL_WASH',
     cleaning: ['Rửa bằng Acetone phòng thí nghiệm'],
-    tests: ['NVM (Non-Volatile Matter)', 'Visual Inspection'],
+    tests: ['NVM (Non-Volatile Matter)', 'Cảm quan'],
     notes: 'Dễ tự liên kết tạo nhựa polymer bám cứng vĩnh viễn vào vách hầm'
   }
 }
 
-// Individual cargo items mapped to groups
+// Individual cargo items mapped to groups. testProfile picks the Wall Wash test set (see wallWashTests.js).
 export const CARGO_ITEMS = [
   // Crude Oil
-  { id: 'crude_arabian_light', name: 'Arabian Light Crude', group: 'CRUDE_OIL' },
-  { id: 'crude_bonny_light', name: 'Bonny Light Crude', group: 'CRUDE_OIL' },
-  { id: 'crude_generic', name: 'Dầu thô (chung)', group: 'CRUDE_OIL' },
-  
+  { id: 'crude_arabian_light', name: 'Arabian Light Crude', group: 'CRUDE_OIL', testProfile: 'GENERAL' },
+  { id: 'crude_bonny_light', name: 'Bonny Light Crude', group: 'CRUDE_OIL', testProfile: 'GENERAL' },
+  { id: 'crude_generic', name: 'Dầu thô (chung)', group: 'CRUDE_OIL', testProfile: 'GENERAL' },
+
   // Vegetable Oils
-  { id: 'palm_oil_crude', name: 'Dầu Cọ Thô (Crude Palm Oil)', group: 'VEGETABLE_OIL' },
-  { id: 'palm_oil_refined', name: 'Dầu Cọ Tinh Luyện (RBD Palm Oil)', group: 'VEGETABLE_OIL' },
-  { id: 'soybean_oil', name: 'Dầu Đậu Nành (Soybean Oil)', group: 'VEGETABLE_OIL' },
-  { id: 'coconut_oil', name: 'Dầu Dừa (Coconut Oil)', group: 'VEGETABLE_OIL' },
-  { id: 'sunflower_oil', name: 'Dầu Hướng Dương (Sunflower Oil)', group: 'VEGETABLE_OIL' },
-  
+  { id: 'palm_oil_crude', name: 'Dầu Cọ Thô (Crude Palm Oil)', group: 'VEGETABLE_OIL', testProfile: 'VEGETABLE_OIL' },
+  { id: 'palm_oil_refined', name: 'Dầu Cọ Tinh Luyện (RBD Palm Oil)', group: 'VEGETABLE_OIL', testProfile: 'VEGETABLE_OIL' },
+  { id: 'soybean_oil', name: 'Dầu Đậu Nành (Soybean Oil)', group: 'VEGETABLE_OIL', testProfile: 'VEGETABLE_OIL' },
+  { id: 'coconut_oil', name: 'Dầu Dừa (Coconut Oil)', group: 'VEGETABLE_OIL', testProfile: 'VEGETABLE_OIL' },
+  { id: 'sunflower_oil', name: 'Dầu Hướng Dương (Sunflower Oil)', group: 'VEGETABLE_OIL', testProfile: 'VEGETABLE_OIL' },
+
   // Chemical Solvents
-  { id: 'methanol', name: 'Methanol', group: 'CHEMICAL_SOLVENT' },
-  { id: 'ethanol', name: 'Ethanol', group: 'CHEMICAL_SOLVENT' },
-  { id: 'acetone', name: 'Acetone', group: 'CHEMICAL_SOLVENT' },
-  { id: 'benzene', name: 'Benzene', group: 'CHEMICAL_SOLVENT' },
-  { id: 'toluene', name: 'Toluene', group: 'CHEMICAL_SOLVENT' },
-  { id: 'xylene', name: 'Xylene', group: 'CHEMICAL_SOLVENT' },
-  { id: 'meg', name: 'MEG (Mono Ethylene Glycol)', group: 'CHEMICAL_SOLVENT' },
-  { id: 'ipa', name: 'IPA (Isopropyl Alcohol)', group: 'CHEMICAL_SOLVENT' },
-  { id: 'mek', name: 'MEK (Methyl Ethyl Ketone)', group: 'CHEMICAL_SOLVENT' },
-  { id: 'mibk', name: 'MIBK (Methyl Isobutyl Ketone)', group: 'CHEMICAL_SOLVENT' },
-  
+  { id: 'methanol', name: 'Methanol', group: 'CHEMICAL_SOLVENT', testProfile: 'ALCOHOL_KETONE' },
+  { id: 'ethanol', name: 'Ethanol', group: 'CHEMICAL_SOLVENT', testProfile: 'ALCOHOL_KETONE' },
+  { id: 'acetone', name: 'Acetone', group: 'CHEMICAL_SOLVENT', testProfile: 'ALCOHOL_KETONE' },
+  { id: 'benzene', name: 'Benzene', group: 'CHEMICAL_SOLVENT', testProfile: 'AROMATIC' },
+  { id: 'toluene', name: 'Toluene', group: 'CHEMICAL_SOLVENT', testProfile: 'AROMATIC' },
+  { id: 'xylene', name: 'Xylene', group: 'CHEMICAL_SOLVENT', testProfile: 'AROMATIC' },
+  { id: 'meg', name: 'MEG (Mono Ethylene Glycol)', group: 'CHEMICAL_SOLVENT', testProfile: 'GLYCOL' },
+  { id: 'ipa', name: 'IPA (Isopropyl Alcohol)', group: 'CHEMICAL_SOLVENT', testProfile: 'ALCOHOL_KETONE' },
+  { id: 'mek', name: 'MEK (Methyl Ethyl Ketone)', group: 'CHEMICAL_SOLVENT', testProfile: 'ALCOHOL_KETONE' },
+  { id: 'mibk', name: 'MIBK (Methyl Isobutyl Ketone)', group: 'CHEMICAL_SOLVENT', testProfile: 'ALCOHOL_KETONE' },
+
   // Clean Petroleum Products (CPP)
-  { id: 'gasoline_a92', name: 'Xăng A92/A95 (Gasoline)', group: 'CLEAN_FUEL' },
-  { id: 'diesel_do', name: 'Diesel Oil (DO)', group: 'CLEAN_FUEL' },
-  { id: 'kerosene', name: 'Dầu Hỏa (Kerosene)', group: 'CLEAN_FUEL' },
-  { id: 'jet_a1', name: 'Jet A-1 (Nhiên liệu máy bay)', group: 'CLEAN_FUEL' },
-  { id: 'ulsd', name: 'ULSD (Ultra Low Sulfur Diesel)', group: 'CLEAN_FUEL' },
-  
+  { id: 'gasoline_a92', name: 'Xăng A92/A95 (Gasoline)', group: 'CLEAN_FUEL', testProfile: 'CPP' },
+  { id: 'diesel_do', name: 'Diesel Oil (DO)', group: 'CLEAN_FUEL', testProfile: 'CPP' },
+  { id: 'kerosene', name: 'Dầu Hỏa (Kerosene)', group: 'CLEAN_FUEL', testProfile: 'CPP' },
+  { id: 'jet_a1', name: 'Jet A-1 (Nhiên liệu máy bay)', group: 'CLEAN_FUEL', testProfile: 'CPP' },
+  { id: 'ulsd', name: 'ULSD (Ultra Low Sulfur Diesel)', group: 'CLEAN_FUEL', testProfile: 'CPP' },
+
   // Dark Petroleum Products (DPP)
-  { id: 'fuel_oil', name: 'Fuel Oil (FO/HFO)', group: 'DARK_FUEL' },
-  { id: 'bitumen', name: 'Bitumen (Nhựa đường)', group: 'DARK_FUEL' },
-  
+  { id: 'fuel_oil', name: 'Fuel Oil (FO/HFO)', group: 'DARK_FUEL', testProfile: 'GENERAL' },
+  { id: 'bitumen', name: 'Bitumen (Nhựa đường)', group: 'DARK_FUEL', testProfile: 'GENERAL' },
+
   // Green Energy
-  { id: 'bio_methanol', name: 'Bio-Methanol', group: 'GREEN_ENERGY' },
-  { id: 'e_methanol', name: 'E-Methanol', group: 'GREEN_ENERGY' },
-  { id: 'green_ammonia', name: 'Green Ammonia', group: 'GREEN_ENERGY' },
-  
+  { id: 'bio_methanol', name: 'Bio-Methanol', group: 'GREEN_ENERGY', testProfile: 'GREEN_METHANOL' },
+  { id: 'e_methanol', name: 'E-Methanol', group: 'GREEN_ENERGY', testProfile: 'GREEN_METHANOL' },
+  { id: 'green_ammonia', name: 'Green Ammonia', group: 'GREEN_ENERGY', testProfile: 'AMMONIA' },
+
   // Polymer
-  { id: 'styrene', name: 'Styrene Monomer', group: 'POLYMER' },
-  { id: 'vam', name: 'Vinyl Acetate Monomer (VAM)', group: 'POLYMER' },
+  { id: 'styrene', name: 'Styrene Monomer', group: 'POLYMER', testProfile: 'POLYMER' },
+  { id: 'vam', name: 'Vinyl Acetate Monomer (VAM)', group: 'POLYMER', testProfile: 'POLYMER' },
 ]
 
 // FOSFA Banned immediate previous cargoes (simplified)
@@ -123,78 +123,51 @@ export const FOSFA_BANNED = [
 export function checkCompatibility(prevCargoId, newCargoId, coating = 'Pure Epoxy') {
   const prevItem = CARGO_ITEMS.find(c => c.id === prevCargoId)
   const newItem = CARGO_ITEMS.find(c => c.id === newCargoId)
-  
+
   if (!prevItem || !newItem) {
     return { allowed: true, notes: [], method: 'WATER_WHITE' }
   }
-  
+
   const prevGroup = CARGO_GROUPS[prevItem.group]
   const newGroup = CARGO_GROUPS[newItem.group]
-  
+
   const notes = []
   let allowed = true
-  
+
   // FOSFA check: vegetable oils cannot follow banned cargoes
   if (newItem.group === 'VEGETABLE_OIL' && FOSFA_BANNED.includes(prevCargoId)) {
     allowed = false
     notes.push('⛔ FOSFA: Hàng trước bị CẤM HOÀN TOÀN khi chở dầu thực vật')
     notes.push('Tham khảo: FOSFA List of Banned Immediate Previous Cargoes')
   }
-  
+
   // Same group - easier cleaning
   if (prevItem.group === newItem.group) {
     notes.push('✅ Cùng nhóm hàng — quy trình rửa đơn giản hơn')
   }
-  
+
   // Crude/Dark to Clean/Chemical - needs intensive cleaning
-  if (['CRUDE_OIL', 'DARK_FUEL'].includes(prevItem.group) && 
+  if (['CRUDE_OIL', 'DARK_FUEL'].includes(prevItem.group) &&
       ['CLEAN_FUEL', 'CHEMICAL_SOLVENT', 'GREEN_ENERGY'].includes(newItem.group)) {
     notes.push('⚠️ Cần rửa cường độ cao: Hàng trước là dầu nặng, hàng mới yêu cầu độ tinh khiết')
     notes.push('Khuyến nghị: Rửa nhiều vòng + Wall Wash Test bắt buộc')
   }
-  
+
   // Vegetable oil leaves residue
   if (prevItem.group === 'VEGETABLE_OIL' && newItem.group !== 'VEGETABLE_OIL') {
     notes.push('⚠️ Dầu thực vật để lại cặn NVM + axit béo, cần Alkaline Cleaner để xà phòng hóa')
   }
-  
+
   if (/epoxy/i.test(coating)) {
     notes.push('📌 Lớp phủ Epoxy: Kiểm tra ảnh hưởng của hàng trước và đối chiếu hướng dẫn của nhà sản xuất sơn trước khi làm sạch.')
   } else if (!coating) {
     notes.push('📌 Chưa khai báo lớp phủ hầm. Cần xác nhận loại sơn và quy trình làm sạch phù hợp với tàu này.')
   }
-  
+
   // Determine test method based on new cargo
   const method = newGroup.testMethod
-  
+
   return { allowed, notes, method, prevGroup, newGroup }
-}
-
-// Wall Wash test thresholds
-export const WALL_WASH_THRESHOLDS = {
-  salinity: { name: 'Độ mặn (Salinity)', unit: 'ppm', max: 50, comparison: '≤' },
-  ptt: { name: 'PTT (Permanganate Time)', unit: 'min', min: 8, comparison: '≥' },
-  apha: { name: 'Độ màu (APHA/Hazen)', unit: 'APHA', max: 20, comparison: '≤' },
-  hydrocarbon: { name: 'Hydrocarbon', unit: 'ppm', max: 50, comparison: '≤' },
-  chloride: { name: 'Chloride', unit: 'ppm', max: 2, comparison: '≤' },
-}
-
-export function evaluateTestResult(testId, value) {
-  const threshold = WALL_WASH_THRESHOLDS[testId]
-  if (!threshold) return 'unknown'
-  
-  if (value === '' || value === null || value === undefined) return 'pending'
-  
-  const numVal = parseFloat(value)
-  if (isNaN(numVal)) return 'pending'
-  
-  if (threshold.min !== undefined) {
-    return numVal >= threshold.min ? 'pass' : 'fail'
-  }
-  if (threshold.max !== undefined) {
-    return numVal <= threshold.max ? 'pass' : 'fail'
-  }
-  return 'unknown'
 }
 
 // Water White checklist areas
@@ -208,49 +181,51 @@ export const WATER_WHITE_AREAS = [
   { id: 'piping', name: 'Hệ thống đường ống / Giếng thu', icon: '🔧' },
 ]
 
-// AI diagnostic messages based on failed tests
+// Local diagnostic messages based on failed tests (used when AI is unavailable)
 export function getDiagnostic(failedTests) {
   const diagnostics = []
-  
+
   if (failedTests.includes('ptt')) {
     diagnostics.push({
-      title: '⚠️ Chỉ số PTT thấp',
+      title: '⚠️ Thuốc tím phai màu quá nhanh (PTT thấp)',
       causes: [
-        'Dư lượng dầu mỡ từ hàng cũ',
+        'Dư lượng dầu mỡ hoặc chất hữu cơ từ hàng cũ',
         'Chưa rửa sạch hoàn toàn lớp màng dầu',
-        'Lớp phủ Epoxy đã hấp thụ cặn hữu cơ từ chuyến trước'
+        'Lớp phủ Epoxy đã hấp thụ cặn hữu cơ từ chuyến trước',
+        'Dung dịch thuốc tím đã biến chất do để nóng hoặc gặp ánh sáng'
       ],
       solutions: [
+        'Kiểm tra lại mẫu trắng, dung dịch thuốc tím mới và nhiệt độ thử',
         'Tăng thời gian rửa bằng dung môi phù hợp (Methanol/Acetone)',
-        'Kiểm tra lại PTT sau khi rửa',
         'Thông gió cưỡng bức ở nhiệt độ cao trước khi lấy mẫu (đặc biệt với hầm Epoxy)',
-        'Lặp lại quy trình nếu vẫn chưa đạt'
+        'Lấy mẫu lại và đo PTT lần nữa'
       ]
     })
   }
-  
-  if (failedTests.includes('chloride') || failedTests.includes('salinity')) {
+
+  if (failedTests.includes('chloride')) {
     diagnostics.push({
-      title: '⚠️ Hàm lượng Chloride / Độ mặn cao',
+      title: '⚠️ Ống mẫu bị đục khi nhỏ bạc nitrat (còn muối biển)',
       causes: [
         'Rửa hầm bằng nước biển chưa tráng đủ nước ngọt',
         'Dư lượng muối biển trên vách hầm',
-        'Có thể sĩ quan chạm tay vào ống nghiệm (mồ hôi chứa muối)'
+        'Mồ hôi tay chạm vào ống nghiệm hoặc dụng cụ chưa sạch',
+        'Nếu hàng trước là dầu thực vật: cặn không bay hơi gây đục giả, cần thêm HNO3 để phân biệt'
       ],
       solutions: [
         'Tráng rửa lại bằng nước ngọt / nước khử ion (DI Water) nhiều lần',
         'Đảm bảo lần rửa cuối cùng dùng nước ngọt',
         'Sử dụng găng tay Nitrile khi thao tác lấy mẫu',
-        'Kiểm tra lại Chloride sau khi rửa'
+        'Làm lại test Chloride sau khi rửa'
       ]
     })
   }
-  
+
   if (failedTests.includes('hydrocarbon')) {
     diagnostics.push({
-      title: '⚠️ Phát hiện cặn Hydrocarbon',
+      title: '⚠️ Ống mẫu trắng đục dạng sữa (còn hydrocarbon)',
       causes: [
-        'Hàng hóa tuần hoàn còn sót lại trên vách hầm',
+        'Hàng hóa cũ còn sót lại trên vách hầm',
         'Chưa rửa sạch hoàn toàn dầu/mỡ bám',
         'Lớp phủ Epoxy hấp thụ hydrocarbon từ chuyến trước'
       ],
@@ -262,23 +237,85 @@ export function getDiagnostic(failedTests) {
       ]
     })
   }
-  
-  if (failedTests.includes('apha')) {
+
+  if (failedTests.includes('appearance')) {
     diagnostics.push({
-      title: '⚠️ Độ màu APHA vượt ngưỡng',
+      title: '⚠️ Mẫu có hạt lơ lửng, khác màu hoặc mờ đục',
       causes: [
-        'Sự nhiễm bẩn có màu từ dư lượng hàng cũ',
-        'Cặn hóa chất/dầu bám trên vách hầm',
-        'Gỉ sắt hoặc vảy sơn Epoxy bong tróc'
+        'Vảy sơn Epoxy bong tróc hoặc gỉ sắt',
+        'Cặn hàng cũ chưa rửa hết',
+        'Dư lượng có màu từ hàng trước'
       ],
       solutions: [
-        'Rửa lại bằng dung môi phù hợp',
-        'Kiểm tra tình trạng lớp phủ Epoxy',
-        'Lau sạch gỉ sắt / cặn bám rồi test lại độ màu'
+        'Kiểm tra tình trạng lớp phủ hầm, xử lý chỗ bong tróc / gỉ',
+        'Rửa lại bằng dung môi phù hợp và tráng nước sạch',
+        'Lấy mẫu lại ở vị trí đại diện rồi kiểm tra cảm quan lần nữa'
       ]
     })
   }
-  
+
+  if (failedTests.includes('odour')) {
+    diagnostics.push({
+      title: '⚠️ Còn mùi hàng cũ',
+      causes: [
+        'Lớp sơn Epoxy hấp thụ và giữ mùi hàng trước',
+        'Thông gió chưa đủ sau khi rửa',
+        'Còn cặn hàng cũ ở góc khuất, đường ống, giếng thu'
+      ],
+      solutions: [
+        'Thông gió cưỡng bức ở nhiệt độ cao để giải phóng mùi',
+        'Kiểm tra và rửa lại các vị trí lưu cặn',
+        'Làm lại test mùi sau khi thông gió'
+      ]
+    })
+  }
+
+  if (failedTests.includes('nvm')) {
+    diagnostics.push({
+      title: '⚠️ Cặn không bay hơi (NVM) vượt mức',
+      causes: [
+        'Còn cặn dầu thực vật hoặc polymer trên vách',
+        'Chưa xà phòng hóa hết chất béo bằng chất tẩy kiềm',
+        'Rửa chưa tới các vùng khó tiếp cận'
+      ],
+      solutions: [
+        'Rửa lại với chất tẩy phù hợp hàng trước theo hướng dẫn lớp sơn',
+        'Tráng kỹ bằng nước ngọt rồi lấy mẫu lại',
+        'Cân lại NVM sau khi rửa'
+      ]
+    })
+  }
+
+  if (failedTests.includes('acidWash')) {
+    diagnostics.push({
+      title: '⚠️ Lớp axit sẫm màu (còn cặn hydrocarbon thơm)',
+      causes: [
+        'Còn dư lượng benzene / toluene / xylene từ hàng trước',
+        'Lớp Epoxy hấp thụ hydrocarbon thơm',
+        'Dung môi lấy mẫu chưa đủ tinh khiết'
+      ],
+      solutions: [
+        'Kiểm tra lại dung môi lấy mẫu và bộ chuẩn màu',
+        'Rửa / xông lại bằng dung môi phù hợp, thông gió nhiệt độ cao',
+        'Làm lại phép thử sau khi rửa'
+      ]
+    })
+  }
+
+  if (failedTests.includes('uv')) {
+    diagnostics.push({
+      title: '⚠️ Phổ UV có đỉnh hấp thụ',
+      causes: [
+        'Còn hydrocarbon hoặc tạp chất hữu cơ hấp thụ UV',
+        'Mẫu đối chiếu không đủ tinh khiết'
+      ],
+      solutions: [
+        'Kiểm tra lại mẫu đối chiếu và máy đo',
+        'Rửa lại bằng dung môi phù hợp rồi đo lại'
+      ]
+    })
+  }
+
   return diagnostics
 }
 

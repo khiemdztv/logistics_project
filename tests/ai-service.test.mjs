@@ -31,12 +31,12 @@ test('quota error preserves the reason, answers from local documents and never c
   assert.equal(data.model, null)
   assert.match(data.warning, /hết hạn mức/)
   assert.match(data.reply, /4 phép kiểm tra hóa học chính/)
-  assert.match(data.reply, /5 ô/)
+  assert.match(data.reply, /3 phép thử bắt buộc/)
 })
 
 test('invalid diagnostic responses use explicit local hints instead of a fixed hot-wash recipe', async t => {
   t.mock.method(globalThis, 'fetch', async () => Response.json({ causes: 'invalid', solutions: [] }))
-  const data = await analyzeTestFailures(['chloride'], { chloride: '4.5' }, 'palm_oil_crude', 'methanol')
+  const data = await analyzeTestFailures(['chloride'], { chloride: 'turbid' }, 'palm_oil_crude', 'methanol')
   assert.equal(data.mode, 'local')
   assert.ok(Array.isArray(data.causes) && Array.isArray(data.solutions))
   assert.doesNotMatch(data.solutions.join(' '), /70|75|80|2%/)

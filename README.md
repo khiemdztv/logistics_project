@@ -12,6 +12,13 @@
 
 Dữ liệu vẫn lưu trong **localStorage của trình duyệt** (`dolphin_vessels`, `dolphin_sessions`, `dolphin_custom_holds`), chưa đồng bộ giữa nhân viên hoặc thiết bị. Kho tài liệu và ngưỡng kiểm tra vẫn là cấu hình mô phỏng của project, không được tự thay đổi theo thông tin đăng ký tàu.
 
+## Kiểm tra Wall Wash
+
+- Bảng Wall Wash luôn hiện đủ **8 phương pháp** theo tài liệu "thông tin đầu vào web.pptx": Hydrocarbon, Chloride, PTT, Acid Wash Colour, Cảm quan và màu sắc, Mùi, NVM, UV. Cấu hình nằm trong `src/data/wallWashTests.js`.
+- Hàng mới quyết định phép thử nào **bắt buộc**, **tùy chọn** hay **không áp dụng** (dòng không áp dụng bị khóa và mờ). Hàng trước có thể bổ sung: dầu thực vật thêm HNO3 cho Chloride và bắt buộc NVM; hydrocarbon thơm bắt buộc Acid Wash Colour; dầu/nhiên liệu bắt buộc Hydrocarbon và Mùi.
+- Hydrocarbon, Chloride, Cảm quan, Mùi, UV nhập bằng cách **chọn hiện tượng quan sát**; PTT, Acid Wash Colour, NVM nhập số. Mỗi dòng có nút Hướng dẫn với các bước và cách đọc kết quả.
+- Chỉ qua bước báo cáo khi mọi phép thử bắt buộc đạt. Kết quả "đạt (lưu ý)" (ví dụ Hydrocarbon ánh xanh nhạt) vẫn qua nhưng được ghi nhận. Ngưỡng Acid Wash Colour và NVM là ngưỡng tạm vì tài liệu không nêu số, cần nhóm xác nhận.
+
 ## Chạy local
 
 ```sh
@@ -34,7 +41,7 @@ Chat trả `{ reply, model, mode, sources }`; chẩn đoán trả `{ title, caus
 
 ## Kho tài liệu và truy xuất
 
-`lib/copilot.js` chia tài liệu thành đoạn có nguồn/mục, xếp hạng BM25 với chuẩn hóa tiếng Việt không dấu và từ đồng nghĩa chuyên ngành. Mỗi câu hỏi lấy tối đa 5 đoạn trong ngân sách 6.500 ký tự; giữ lịch sử có giới hạn, dùng câu trước cho câu hỏi tiếp và chỉ gửi dữ liệu phiên cần thiết. Các ngưỡng đánh giá web được lấy trực tiếp từ `WALL_WASH_THRESHOLDS` để tránh mâu thuẫn với màn hình.
+`lib/copilot.js` chia tài liệu thành đoạn có nguồn/mục, xếp hạng BM25 với chuẩn hóa tiếng Việt không dấu và từ đồng nghĩa chuyên ngành. Mỗi câu hỏi lấy tối đa 5 đoạn trong ngân sách 6.500 ký tự; giữ lịch sử có giới hạn, dùng câu trước cho câu hỏi tiếp và chỉ gửi dữ liệu phiên cần thiết. Danh sách 8 phép thử, bộ phép thử theo hàng và cách chấm đạt/rớt được lấy trực tiếp từ `src/data/wallWashTests.js` để tránh mâu thuẫn với màn hình.
 
 Nguồn gồm cấu hình/chức năng ứng dụng, bản tổng hợp `rag_context.txt` và các mục trích từ TXT/DOCX gốc trong `rag_reference.json`. Tệp tham chiếu được commit để deployment không phụ thuộc thư mục tài liệu ngoài repo. Cập nhật từ thư mục `../training AI`:
 

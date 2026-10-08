@@ -106,7 +106,7 @@ test('Gemini fallback handles both chat and diagnostics with the same selected e
   assert.match(chat.body.model, /Gemini/)
   assert.match(options.systemInstruction, /4 phép kiểm tra/)
   assert.equal(request.contents.at(-1).role, 'user')
-  const diagnostic = await call(handler, { isDiagnostic: true, diagnosticData: { failedTests: ['chloride'], allResults: { chloride: '4.5' }, previousCargo: '', newCargo: 'methanol' } })
+  const diagnostic = await call(handler, { isDiagnostic: true, diagnosticData: { failedTests: ['chloride'], allResults: { chloride: 'turbid' }, previousCargo: '', newCargo: 'methanol' } })
   assert.equal(diagnostic.statusCode, 200)
   assert.equal(options.generationConfig.responseMimeType, 'application/json')
   assert.equal(diagnostic.body.title, validDiagnostic.title)

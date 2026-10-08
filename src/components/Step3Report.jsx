@@ -4,9 +4,9 @@ import { getSessionVessel, formatDwt } from '../data/vesselData.js'
 import {
   CARGO_ITEMS,
   VESSEL_HOLDS,
-  WALL_WASH_THRESHOLDS,
   WATER_WHITE_AREAS
 } from '../data/cargoData'
+import { getTestPlan, summarizeWallWash, getStandardLabel, formatResultValue, WALL_WASH_TESTS } from '../data/wallWashTests'
 import {
   Printer,
   RotateCcw,
@@ -22,6 +22,10 @@ export default function Step3Report() {
 
   const prevItem = CARGO_ITEMS.find(c => c.id === state.previousCargo) || { name: 'Crude Palm Oil' }
   const newItem = CARGO_ITEMS.find(c => c.id === state.newCargo) || { name: 'Methanol' }
+  const plan = getTestPlan(state.newCargo, state.previousCargo)
+  const wallWash = summarizeWallWash(state.wallWashResults, plan)
+  const reportRows = plan.entries.filter(entry => entry.level !== 'na')
+  const skippedTests = plan.notApplicable.map(id => WALL_WASH_TESTS[id].shortName).join(', ')
   const holdInfo = [...state.customHolds, ...VESSEL_HOLDS].find(h => h.id === state.selectedHold) || {
     name: 'Chưa chọn hầm',
     capacity: 'Chưa khai báo'
@@ -247,37 +251,45 @@ export default function Step3Report() {
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
               <thead>
                 <tr style={{ background: '#0B132B', color: '#FFF' }}>
-                  <th style={{ padding: '8px 12px', textAlign: 'left' }}>Chỉ Tiêu Hóa Nghiệm</th>
-                  <th style={{ padding: '8px 12px', textAlign: 'center' }}>Kết Quả Đo</th>
-                  <th style={{ padding: '8px 12px', textAlign: 'center' }}>Đơn Vị</th>
-                  <th style={{ padding: '8px 12px', textAlign: 'center' }}>Ngưỡng Cho Phép</th>
+                  <th style={{ padding: '8px 12px', textAlign: 'left' }}>Phép Thử</th>
+                  <th style={{ padding: '8px 12px', textAlign: 'left' }}>Kết Quả Ghi Nhận</th>
+                  <th style={{ padding: '8px 12px', textAlign: 'left' }}>Chuẩn Đạt</th>
                   <th style={{ padding: '8px 12px', textAlign: 'center' }}>Đánh Giá</th>
                 </tr>
               </thead>
               <tbody>
-                {Object.keys(WALL_WASH_THRESHOLDS).map((testId, idx) => {
-                  const threshold = WALL_WASH_THRESHOLDS[testId]
-                  const val = state.wallWashResults[testId] || '--'
+                {reportRows.map((entry, idx) => {
+                  const status = wallWash.statuses[entry.testId]
+                  const value = formatResultValue(entry.testId, state.wallWashResults[entry.testId])
+                  const nitric = entry.testId === 'chloride' && state.wallWashResults.chlorideNitric === 'yes' ? ' (đã thêm HNO3)' : ''
                   return (
-                    <tr key={testId} style={{ background: idx % 2 === 0 ? '#FFFFFF' : '#F9FAFB' }}>
+                    <tr key={entry.testId} style={{ background: idx % 2 === 0 ? '#FFFFFF' : '#F9FAFB' }}>
                       <td style={{ padding: '8px 12px', border: '1px solid #E5E7EB', fontWeight: 600 }}>
-                        {threshold.name}
+                        {entry.test.name}
+                        <div style={{ fontSize: '11px', fontWeight: 400, color: '#777' }}>{entry.level === 'required' ? 'Bắt buộc' : 'Tùy chọn'}</div>
                       </td>
-                      <td style={{ padding: '8px 12px', border: '1px solid #E5E7EB', textAlign: 'center', fontWeight: 700 }}>
-                        {val}
+                      <td style={{ padding: '8px 12px', border: '1px solid #E5E7EB', fontWeight: 700 }}>
+                        {status === 'pending' ? (entry.level === 'optional' ? 'Không thực hiện' : 'Chưa nhập') : value + nitric}
                       </td>
-                      <td style={{ padding: '8px 12px', border: '1px solid #E5E7EB', textAlign: 'center', color: '#666' }}>
-                        {threshold.unit}
-                      </td>
-                      <td style={{ padding: '8px 12px', border: '1px solid #E5E7EB', textAlign: 'center' }}>
-                        {threshold.comparison} {threshold.max || threshold.min} {threshold.unit}
+                      <td style={{ padding: '8px 12px', border: '1px solid #E5E7EB', color: '#555' }}>
+                        {getStandardLabel(entry)}
                       </td>
                       <td style={{ padding: '8px 12px', border: '1px solid #E5E7EB', textAlign: 'center' }}>
-                        <span style={{ color: '#16A34A', fontWeight: 800 }}>✓ ĐẠT (PASS)</span>
+                        {status === 'pass' && <span style={{ color: '#16A34A', fontWeight: 800 }}>✓ ĐẠT (PASS)</span>}
+                        {status === 'warn' && <span style={{ color: '#D97706', fontWeight: 800 }}>✓ ĐẠT (LƯU Ý)</span>}
+                        {status === 'fail' && <span style={{ color: '#DC2626', fontWeight: 800 }}>✗ KHÔNG ĐẠT</span>}
+                        {status === 'pending' && <span style={{ color: '#888', fontWeight: 600 }}>—</span>}
                       </td>
                     </tr>
                   )
                 })}
+                {skippedTests && (
+                  <tr>
+                    <td colSpan={4} style={{ padding: '8px 12px', border: '1px solid #E5E7EB', color: '#666', fontSize: '12px', fontStyle: 'italic' }}>
+                      Không áp dụng cho {newItem.name}: {skippedTests}.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           ) : (
