@@ -12,6 +12,9 @@ import {
   presetAvailable,
   getPresetResults
 } from '../data/wallWashTests'
+import { EVIDENCE_KINDS, evidenceTarget, hasEvidence, missingEvidence, countEvidence } from '../data/evidence'
+import { addDemoEvidence } from '../services/demoEvidence'
+import EvidencePhotos from './EvidencePhotos'
 import { analyzeTestFailures } from '../services/aiService'
 import { getSessionVessel } from '../data/vesselData.js'
 import {
@@ -31,6 +34,7 @@ import {
 } from 'lucide-react'
 
 const LEVEL_LABELS = { required: 'Bắt buộc', optional: 'Tùy chọn', na: 'Không áp dụng' }
+const testTarget = testId => evidenceTarget(EVIDENCE_KINDS.WALL_WASH, testId)
 
 function StatusBadge({ status }) {
   if (status === 'pass') return <span className="badge badge-pass"><CheckCircle2 size={14} /> ĐẠT</span>
@@ -69,6 +73,12 @@ export default function Step2WallWash() {
   }, [plan])
   const requiredComplete = evaluation.requiredTotal > 0 && evaluation.requiredDone === evaluation.requiredTotal
   const applicableEntries = plan.entries.filter(entry => entry.level !== 'na')
+  const filledTargets = applicableEntries
+    .filter(entry => evaluation.statuses[entry.testId] !== 'pending')
+    .map(entry => testTarget(entry.testId))
+  const missingPhotos = missingEvidence(filledTargets, state.photos)
+  const canContinue = evaluation.allRequiredPassed && missingPhotos.length === 0
+  const photoCount = countEvidence(state.photos, EVIDENCE_KINDS.WALL_WASH)
 
   // Call the AI diagnostic when the set of failed tests changes
   useEffect(() => {
@@ -132,6 +142,7 @@ export default function Step2WallWash() {
   }
 
   const handleInputChange = (entry, value) => {
+    if (!hasEvidence(state.photos, testTarget(entry.testId))) return
     dispatch({ type: 'SET_WALL_WASH_RESULT', testId: entry.testId, value })
     if (value !== '') {
       dispatch({
@@ -146,9 +157,14 @@ export default function Step2WallWash() {
     dispatch({ type: 'SET_WALL_WASH_RESULT', testId: key, value })
   }
 
-  const loadPreset = (preset) => {
+  const loadPreset = async (preset) => {
     const results = getPresetResults(preset.id, plan)
     if (!results) return
+    const filled = plan.entries.filter(entry => entry.level !== 'na' && results[entry.testId] !== '')
+    await addDemoEvidence(dispatch, state.photos, filled.map(entry => {
+      const verdict = summarizeWallWash(results, plan).statuses[entry.testId]
+      return { target: testTarget(entry.testId), label: entry.test.shortName, verdict }
+    }))
     for (const [key, value] of Object.entries(results)) {
       dispatch({ type: 'SET_WALL_WASH_RESULT', testId: key, value })
     }
@@ -206,6 +222,9 @@ export default function Step2WallWash() {
         <p className="plan-hint">
           Lấy mẫu: phun methanol tinh khiết lên vách, hứng bằng phễu và chai sạch, luôn đeo găng. Bấm “Hướng dẫn” ở từng phép thử để xem các bước và cách đọc kết quả.
         </p>
+        <p className="card-subtitle evidence-rule" style={{ marginBottom: '14px' }}>
+          <Camera size={13} /> Mỗi phép thử: chụp ống nghiệm / mẫu (hoặc tải ảnh lên) trước, sau đó mới chọn hiện tượng hoặc nhập số đo.
+        </p>
 
         <div className="inspection-toolbar">
           <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-text-secondary)' }}>
@@ -244,6 +263,8 @@ export default function Step2WallWash() {
                 const value = testResults[entry.testId] ?? ''
                 const order = isNa ? '—' : ++orderCounter
                 const guideOpen = openGuide === entry.testId && !isNa
+                const target = testTarget(entry.testId)
+                const photoReady = hasEvidence(state.photos, target)
 
                 return (
                   <Fragment key={entry.testId}>
@@ -267,16 +288,22 @@ export default function Step2WallWash() {
                         </div>
                       </td>
                       <td className="test-result-cell">
+                        {!isNa && <EvidencePhotos target={target} title={test.shortName} compact />}
+                        {!isNa && status !== 'pending' && !photoReady && (
+                          <div className="evidence-warning">Đã có kết quả nhưng ảnh đã bị xóa. Hãy thêm lại ảnh.</div>
+                        )}
                         {isNa ? (
                           <span className="test-na-reason">{entry.reason}</span>
                         ) : test.inputType === 'choice' ? (
-                          <div className="choice-group" role="radiogroup" aria-label={test.name}>
+                          <div className={`choice-group ${photoReady ? '' : 'locked'}`} role="radiogroup" aria-label={test.name}>
                             {test.options.map(option => (
                               <button
                                 key={option.value}
                                 type="button"
                                 role="radio"
                                 aria-checked={value === option.value}
+                                disabled={!photoReady}
+                                title={photoReady ? '' : 'Chụp hoặc tải ảnh trước'}
                                 className={`choice-btn ${value === option.value ? `selected ${option.verdict}` : ''}`}
                                 onClick={() => handleInputChange(entry, value === option.value ? '' : option.value)}
                               >
@@ -292,6 +319,8 @@ export default function Step2WallWash() {
                               min="0"
                               className={`test-input ${status === 'fail' ? 'fail' : status === 'pass' ? 'pass' : ''}`}
                               value={value}
+                              disabled={!photoReady}
+                              title={photoReady ? '' : 'Chụp hoặc tải ảnh trước'}
                               placeholder="--"
                               onChange={(e) => handleInputChange(entry, e.target.value)}
                             />
@@ -302,6 +331,7 @@ export default function Step2WallWash() {
                           <label className="test-check">
                             <input
                               type="checkbox"
+                              disabled={!photoReady}
                               checked={testResults[test.extra.id] === 'yes'}
                               onChange={(e) => handleExtraChange(test.extra.id, e.target.checked ? 'yes' : '')}
                             />
@@ -374,15 +404,19 @@ export default function Step2WallWash() {
             <ArrowLeft size={18} /> <span>Quay Lại Bước 1</span>
           </button>
           <div style={{ display: 'flex', gap: 'var(--space-md)', alignItems: 'center' }}>
-            {!evaluation.allRequiredPassed && (
+            {!canContinue && (
               <span className="plan-progress">
-                {evaluation.hasFail ? 'Có phép thử không đạt' : `Bắt buộc: ${evaluation.requiredDone}/${evaluation.requiredTotal} đã nhập`}
+                {evaluation.hasFail
+                  ? 'Có phép thử không đạt'
+                  : missingPhotos.length
+                    ? `${missingPhotos.length} phép thử thiếu ảnh`
+                    : `Bắt buộc: ${evaluation.requiredDone}/${evaluation.requiredTotal} đã nhập`}
               </span>
             )}
             <button className="btn btn-secondary" onClick={handleReset}>
               <RotateCcw size={18} /> <span>Yêu Cầu Rửa Lại</span>
             </button>
-            <button className="btn btn-primary" disabled={!evaluation.allRequiredPassed} onClick={() => dispatch({ type: 'COMPLETE_INSPECTION' })}>
+            <button className="btn btn-primary" disabled={!canContinue} onClick={() => dispatch({ type: 'COMPLETE_INSPECTION' })}>
               <span>Tiếp Tục Xuất Báo Cáo</span> <ArrowRight size={18} />
             </button>
           </div>
@@ -400,7 +434,7 @@ export default function Step2WallWash() {
               </h3>
               <p className="card-subtitle">Vị trí kiểm tra: {holdInfo.name}</p>
             </div>
-            <span className="badge badge-neutral">4 điểm lấy mẫu</span>
+            <span className="badge badge-neutral">{photoCount} ảnh bằng chứng</span>
           </div>
 
           <div
@@ -516,6 +550,14 @@ export default function Step2WallWash() {
               </div>
               <div style={{ fontSize: '12px', color: 'var(--color-text-primary)', whiteSpace: 'pre-line', lineHeight: '1.5' }}>
                 {manualAiMessage.content}
+              </div>
+            </div>
+          ) : evaluation.allRequiredPassed && missingPhotos.length > 0 ? (
+            <div className="alert alert-warning">
+              <Camera className="alert-icon" size={20} color="var(--color-warning)" />
+              <div className="alert-content">
+                <div className="alert-title" style={{ color: 'var(--color-warning)' }}>Thiếu ảnh bằng chứng</div>
+                <div className="alert-text">{missingPhotos.length} phép thử đã có kết quả nhưng chưa có ảnh. Thêm ảnh để mở khóa xuất báo cáo.</div>
               </div>
             </div>
           ) : evaluation.allRequiredPassed ? (

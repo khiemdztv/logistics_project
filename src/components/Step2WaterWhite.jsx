@@ -1,6 +1,10 @@
 import { useState, useMemo } from 'react'
 import { useApp } from '../context/AppContext'
 import { WATER_WHITE_AREAS, VESSEL_HOLDS } from '../data/cargoData'
+import { EVIDENCE_KINDS, evidenceTarget, hasEvidence, photosFor, missingEvidence } from '../data/evidence'
+import { addDemoEvidence } from '../services/demoEvidence'
+import EvidencePhotos from './EvidencePhotos'
+import { usePhotoUrls } from '../services/usePhotoUrls'
 import {
   Layers,
   AlertTriangle,
@@ -9,8 +13,11 @@ import {
   RotateCcw,
   Eye,
   ShieldCheck,
-  Check
+  Check,
+  Camera
 } from 'lucide-react'
+
+const areaTarget = areaId => evidenceTarget(EVIDENCE_KINDS.WATER_WHITE, areaId)
 
 export default function Step2WaterWhite() {
   const { state, dispatch } = useApp()
@@ -40,13 +47,17 @@ export default function Step2WaterWhite() {
       } else uncheckedCount++
     })
 
-    const allPassed = passCount === WATER_WHITE_AREAS.length
+    const judgedTargets = WATER_WHITE_AREAS.filter(area => checklist[area.id]).map(area => areaTarget(area.id))
+    const missingPhotos = missingEvidence(judgedTargets, state.photos)
+    const allPassed = passCount === WATER_WHITE_AREAS.length && missingPhotos.length === 0
     const hasFail = failCount > 0
+    const photoCount = WATER_WHITE_AREAS.filter(area => hasEvidence(state.photos, areaTarget(area.id))).length
 
-    return { passCount, failCount, uncheckedCount, failedAreas, allPassed, hasFail }
-  }, [checklist])
+    return { passCount, failCount, uncheckedCount, failedAreas, allPassed, hasFail, missingPhotos, photoCount }
+  }, [checklist, state.photos])
 
   const handleStatusChange = (areaId, status) => {
+    if (!hasEvidence(state.photos, areaTarget(areaId))) return
     dispatch({ type: 'SET_WATER_WHITE_CHECK', areaId, status })
     const area = WATER_WHITE_AREAS.find(a => a.id === areaId)
     dispatch({
@@ -56,14 +67,16 @@ export default function Step2WaterWhite() {
     })
   }
 
-  const handlePassAll = () => {
+  const handlePassAll = async () => {
+    await addDemoEvidence(dispatch, state.photos, WATER_WHITE_AREAS.map(area => ({ target: areaTarget(area.id), label: area.name, verdict: 'pass' })))
     WATER_WHITE_AREAS.forEach(area => {
       dispatch({ type: 'SET_WATER_WHITE_CHECK', areaId: area.id, status: 'pass' })
     })
     dispatch({ type: 'ADD_LOG', text: 'Đánh giá cảm quan Water White: TẤT CẢ 7 KHU VỰC ĐỀU ĐẠT', logType: 'pass' })
   }
 
-  const handleSimulateFail = () => {
+  const handleSimulateFail = async () => {
+    await addDemoEvidence(dispatch, state.photos, WATER_WHITE_AREAS.map(area => ({ target: areaTarget(area.id), label: area.name, verdict: area.id === 'bottom' ? 'fail' : 'pass' })))
     WATER_WHITE_AREAS.forEach(area => {
       const status = area.id === 'bottom' ? 'fail' : 'pass'
       dispatch({ type: 'SET_WATER_WHITE_CHECK', areaId: area.id, status })
@@ -77,6 +90,10 @@ export default function Step2WaterWhite() {
   }
 
   const selectedArea = WATER_WHITE_AREAS.find(a => a.id === selectedAreaId)
+  const selectedPhotos = photosFor(state.photos, areaTarget(selectedAreaId))
+  const selectedUrls = usePhotoUrls(selectedPhotos.map(photo => photo.id))
+  const selectedHasPhoto = selectedPhotos.length > 0
+  const latestSelectedUrl = selectedPhotos.length ? selectedUrls[selectedPhotos[selectedPhotos.length - 1].id] : null
 
   return (
     <div className="step-content">
@@ -90,6 +107,9 @@ export default function Step2WaterWhite() {
             </h2>
             <p className="card-subtitle">
               Tiêu chuẩn: SẠCH KHÔ TUYỆT ĐỐI • KHÔNG MÙI • KHÔNG GỈ VẢY • KHÔNG DỊ VẬT
+            </p>
+            <p className="card-subtitle evidence-rule">
+              <Camera size={13} /> Mỗi khu vực: chụp hoặc tải ảnh lên trước, sau đó mới chọn ĐẠT / KHÔNG ĐẠT.
             </p>
           </div>
           <span className="badge badge-info">{holdInfo.name}</span>
@@ -144,11 +164,13 @@ export default function Step2WaterWhite() {
           {WATER_WHITE_AREAS.map((area, idx) => {
             const status = checklist[area.id]
             const isSelected = selectedAreaId === area.id
+            const target = areaTarget(area.id)
+            const photoReady = hasEvidence(state.photos, target)
 
             return (
               <div
                 key={area.id}
-                className={`checklist-item ${status === 'pass' ? 'checked-pass' : status === 'fail' ? 'checked-fail' : ''}`}
+                className={`checklist-item checklist-item-evidence ${status === 'pass' ? 'checked-pass' : status === 'fail' ? 'checked-fail' : ''}`}
                 style={{
                   outline: isSelected ? '2px solid var(--color-accent-cyan)' : 'none',
                   cursor: 'pointer'
@@ -164,6 +186,8 @@ export default function Step2WaterWhite() {
                   <button
                     className={`checklist-btn pass-btn ${status === 'pass' ? 'active' : ''}`}
                     onClick={() => handleStatusChange(area.id, 'pass')}
+                    disabled={!photoReady}
+                    title={photoReady ? '' : 'Chụp hoặc tải ảnh trước'}
                     type="button"
                   >
                     ĐẠT
@@ -171,11 +195,15 @@ export default function Step2WaterWhite() {
                   <button
                     className={`checklist-btn fail-btn ${status === 'fail' ? 'active' : ''}`}
                     onClick={() => handleStatusChange(area.id, 'fail')}
+                    disabled={!photoReady}
+                    title={photoReady ? '' : 'Chụp hoặc tải ảnh trước'}
                     type="button"
                   >
                     KHÔNG ĐẠT
                   </button>
                 </div>
+                <EvidencePhotos target={target} title={area.name} compact />
+                {status && !photoReady && <div className="evidence-warning">Đã đánh giá nhưng ảnh đã bị xóa. Hãy thêm lại ảnh.</div>}
               </div>
             )
           })}
@@ -249,7 +277,7 @@ export default function Step2WaterWhite() {
           {/* Area Diagram visual box */}
           <div
             style={{
-              height: '240px',
+              minHeight: '240px',
               borderRadius: 'var(--radius-lg)',
               background: 'linear-gradient(135deg, #0B132B 0%, #17274D 100%)',
               border: '1px solid var(--color-border)',
@@ -262,29 +290,39 @@ export default function Step2WaterWhite() {
               padding: '20px'
             }}
           >
-            <div style={{ fontSize: '48px', marginBottom: '12px' }}>
-              {selectedArea?.icon}
-            </div>
-            <div style={{ fontSize: '18px', fontWeight: 700, color: 'var(--color-text-primary)' }}>
-              {selectedArea?.name}
-            </div>
-            <div style={{ fontSize: '13px', color: 'var(--color-text-secondary)', textAlign: 'center', marginTop: '6px', maxWidth: '300px' }}>
-              Kiểm tra tình trạng lớp phủ, các góc gân gia cường, giếng hút khô cặn và đường ống hoa tiêu.
-            </div>
+            {latestSelectedUrl ? (
+              <img src={latestSelectedUrl} alt={'Ảnh ' + (selectedArea?.name || '')} className="area-photo-bg" />
+            ) : (
+              <div style={{ fontSize: '48px', marginBottom: '12px' }}>
+                {selectedArea?.icon}
+              </div>
+            )}
+            <div className="area-photo-caption">
+              <div style={{ fontSize: '18px', fontWeight: 700, color: 'var(--color-text-primary)' }}>
+                {selectedArea?.name}
+              </div>
+              <div style={{ fontSize: '13px', color: 'var(--color-text-secondary)', textAlign: 'center', marginTop: '6px', maxWidth: '320px' }}>
+                {selectedHasPhoto
+                  ? selectedPhotos.length + ' ảnh bằng chứng · bấm ảnh nhỏ ở danh sách để xem lớn'
+                  : 'Chưa có ảnh. Chụp hoặc tải ảnh khu vực này ở danh sách bên trái trước khi đánh giá.'}
+              </div>
 
-            <div style={{ marginTop: '16px', display: 'flex', gap: '8px' }}>
-              <button
-                className="btn btn-sm btn-pass"
-                onClick={() => handleStatusChange(selectedAreaId, 'pass')}
-              >
-                Xác Nhận ĐẠT
-              </button>
-              <button
-                className="btn btn-sm btn-fail"
-                onClick={() => handleStatusChange(selectedAreaId, 'fail')}
-              >
-                Báo KHÔNG ĐẠT
-              </button>
+              <div style={{ marginTop: '16px', display: 'flex', gap: '8px', justifyContent: 'center' }}>
+                <button
+                  className="btn btn-sm btn-pass"
+                  onClick={() => handleStatusChange(selectedAreaId, 'pass')}
+                  disabled={!selectedHasPhoto}
+                >
+                  Xác Nhận ĐẠT
+                </button>
+                <button
+                  className="btn btn-sm btn-fail"
+                  onClick={() => handleStatusChange(selectedAreaId, 'fail')}
+                  disabled={!selectedHasPhoto}
+                >
+                  Báo KHÔNG ĐẠT
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -324,6 +362,10 @@ export default function Step2WaterWhite() {
             </div>
           </div>
 
+          <div className="evidence-progress">
+            <Camera size={14} /> Ảnh bằng chứng: {summary.photoCount}/{WATER_WHITE_AREAS.length} khu vực đã có ảnh
+          </div>
+
           {/* Decision feedback */}
           {summary.hasFail ? (
             <div className="alert alert-fail">
@@ -334,6 +376,16 @@ export default function Step2WaterWhite() {
                 </div>
                 <div className="alert-text">
                   Phát hiện cặn bẩn hoặc ẩm ướt tại các vị trí trên. Sĩ quan cần chỉ đạo đội thủ công vào hầm lau khô và xịt rửa lại cục bộ trước khi cho phép cấp chứng chỉ.
+                </div>
+              </div>
+            </div>
+          ) : summary.missingPhotos.length > 0 ? (
+            <div className="alert alert-warning">
+              <Camera className="alert-icon" size={20} color="var(--color-warning)" />
+              <div className="alert-content">
+                <div className="alert-title" style={{ color: 'var(--color-warning)' }}>Thiếu ảnh bằng chứng</div>
+                <div className="alert-text">
+                  {summary.missingPhotos.length} khu vực đã đánh giá nhưng chưa có ảnh. Thêm ảnh để mở khóa xuất báo cáo.
                 </div>
               </div>
             </div>
@@ -354,7 +406,7 @@ export default function Step2WaterWhite() {
               <div className="alert-content">
                 <div className="alert-title">Tiếp tục kiểm tra các vị trí còn lại</div>
                 <div className="alert-text">
-                  Cần hoàn tất đánh giá đủ 7 vị trí kết cấu để hệ thống mở khóa chức năng xuất biên bản.
+                  Cần chụp ảnh và đánh giá đủ 7 vị trí kết cấu để hệ thống mở khóa chức năng xuất biên bản.
                 </div>
               </div>
             </div>

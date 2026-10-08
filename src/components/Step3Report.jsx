@@ -7,6 +7,8 @@ import {
   WATER_WHITE_AREAS
 } from '../data/cargoData'
 import { getTestPlan, summarizeWallWash, getStandardLabel, formatResultValue, WALL_WASH_TESTS } from '../data/wallWashTests'
+import { EVIDENCE_KINDS, evidenceTarget, photosFor } from '../data/evidence'
+import { EvidenceGallery } from './EvidencePhotos'
 import {
   Printer,
   RotateCcw,
@@ -26,6 +28,13 @@ export default function Step3Report() {
   const wallWash = summarizeWallWash(state.wallWashResults, plan)
   const reportRows = plan.entries.filter(entry => entry.level !== 'na')
   const skippedTests = plan.notApplicable.map(id => WALL_WASH_TESTS[id].shortName).join(', ')
+  const evidenceItems = state.selectedMethod === 'WALL_WASH'
+    ? reportRows
+      .filter(entry => wallWash.statuses[entry.testId] !== 'pending')
+      .map(entry => ({ target: evidenceTarget(EVIDENCE_KINDS.WALL_WASH, entry.testId), label: entry.test.name }))
+    : WATER_WHITE_AREAS
+      .filter(area => state.waterWhiteChecklist[area.id])
+      .map(area => ({ target: evidenceTarget(EVIDENCE_KINDS.WATER_WHITE, area.id), label: area.name }))
   const holdInfo = [...state.customHolds, ...VESSEL_HOLDS].find(h => h.id === state.selectedHold) || {
     name: 'Chưa chọn hầm',
     capacity: 'Chưa khai báo'
@@ -317,6 +326,25 @@ export default function Step3Report() {
                 ))}
               </tbody>
             </table>
+          )}
+        </div>
+
+        {/* Evidence photos per checked item */}
+        <div style={{ marginBottom: '24px' }}>
+          <h3 style={{ fontSize: '15px', fontWeight: 800, color: '#0B132B', borderBottom: '2px solid #0B132B', paddingBottom: '6px', marginBottom: '12px' }}>
+            ẢNH BẰNG CHỨNG THEO TỪNG MỤC KIỂM TRA
+          </h3>
+          {evidenceItems.length ? (
+            <div className="report-evidence-grid">
+              {evidenceItems.map(item => (
+                <div key={item.target} className="report-evidence-item">
+                  <div className="report-evidence-title">{item.label}</div>
+                  <EvidenceGallery photos={photosFor(state.photos, item.target)} />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div style={{ fontSize: '12px', color: '#666' }}>Chưa có mục nào được kiểm tra.</div>
           )}
         </div>
 

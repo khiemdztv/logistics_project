@@ -1,5 +1,6 @@
 import { DEFAULT_VESSEL, normalizeVessel, validateVessel, getSessionVessel, migrateSessions, loadFleet } from '../data/vesselData.js'
 import { createBlankWallWashResults } from '../data/wallWashTests.js'
+import { normalizePhotos } from '../data/evidence.js'
 
 const loadSaved = (key) => {
   try { return JSON.parse(localStorage.getItem(key) || '[]') } catch { return [] }
@@ -136,7 +137,7 @@ function extractSessionData(state) {
     selectedMethod: state.selectedMethod,
     wallWashResults: { ...state.wallWashResults },
     waterWhiteChecklist: { ...state.waterWhiteChecklist },
-    photos: [...state.photos],
+    photos: normalizePhotos(state.photos),
     inspectionLog: [...state.inspectionLog],
     inspector: state.inspector,
     startTime: state.startTime,
@@ -186,10 +187,11 @@ export function appReducer(state, action) {
       }
 
     case 'ADD_PHOTO':
-      return { ...state, photos: [...state.photos, action.photo] }
+      if (!normalizePhotos([action.photo]).length) return state
+      return { ...state, photos: [...normalizePhotos(state.photos), action.photo] }
 
     case 'REMOVE_PHOTO':
-      return { ...state, photos: state.photos.filter((_, i) => i !== action.index) }
+      return { ...state, photos: normalizePhotos(state.photos).filter(photo => photo.id !== action.photoId) }
 
     case 'ADD_LOG':
       return {
@@ -234,12 +236,15 @@ export function appReducer(state, action) {
     case 'RESET_WALL_WASH':
       return {
         ...state,
-        wallWashResults: createBlankWallWashResults()
+        wallWashResults: createBlankWallWashResults(),
+        // After a re-wash the old evidence no longer describes the tank.
+        photos: normalizePhotos(state.photos).filter(photo => !photo.target.startsWith('ww:'))
       }
 
     case 'RESET_WATER_WHITE':
       return {
         ...state,
+        photos: normalizePhotos(state.photos).filter(photo => !photo.target.startsWith('wh:')),
         waterWhiteChecklist: {
           ceiling: null,
           bow_wall: null,
@@ -302,7 +307,7 @@ export function appReducer(state, action) {
         selectedMethod: session.selectedMethod || null,
         wallWashResults: session.wallWashResults || createBlankSessionData().wallWashResults,
         waterWhiteChecklist: session.waterWhiteChecklist || createBlankSessionData().waterWhiteChecklist,
-        photos: session.photos || [],
+        photos: normalizePhotos(session.photos),
         inspectionLog: session.inspectionLog || [],
         inspector: session.inspector || 'Sĩ quan trực ca',
         startTime: session.startTime || null,

@@ -18,6 +18,7 @@ Dữ liệu vẫn lưu trong **localStorage của trình duyệt** (`dolphin_ves
 - Hàng mới quyết định phép thử nào **bắt buộc**, **tùy chọn** hay **không áp dụng** (dòng không áp dụng bị khóa và mờ). Hàng trước có thể bổ sung: dầu thực vật thêm HNO3 cho Chloride và bắt buộc NVM; hydrocarbon thơm bắt buộc Acid Wash Colour; dầu/nhiên liệu bắt buộc Hydrocarbon và Mùi.
 - Hydrocarbon, Chloride, Cảm quan, Mùi, UV nhập bằng cách **chọn hiện tượng quan sát**; PTT, Acid Wash Colour, NVM nhập số. Mỗi dòng có nút Hướng dẫn với các bước và cách đọc kết quả.
 - Chỉ qua bước báo cáo khi mọi phép thử bắt buộc đạt. Kết quả "đạt (lưu ý)" (ví dụ Hydrocarbon ánh xanh nhạt) vẫn qua nhưng được ghi nhận. Ngưỡng Acid Wash Colour và NVM là ngưỡng tạm vì tài liệu không nêu số, cần nhóm xác nhận.
+- **Ảnh bằng chứng**: mỗi khu vực Water White và mỗi phép thử Wall Wash có nút Chụp ảnh (mở camera qua trình duyệt, cần HTTPS hoặc localhost; nếu bị chặn thì mở camera/thư viện của máy) và Tải ảnh lên. Nút Đạt/Không đạt và ô nhập kết quả bị khóa đến khi mục đó có ít nhất 1 ảnh; thiếu ảnh thì không xuất báo cáo được. Ảnh được thu nhỏ (cạnh dài tối đa 1280 px) và lưu trong IndexedDB `dolphin_evidence` của trình duyệt, ca chỉ lưu mã ảnh. Ảnh không còn ca nào dùng tự xóa sau 10 phút. Báo cáo in ảnh theo từng mục. Nút demo tạo ảnh mẫu có chữ "ẢNH MẪU (DEMO)".
 
 ## Chạy local
 
