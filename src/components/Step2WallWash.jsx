@@ -8,6 +8,7 @@ import {
   formatResultValue,
   describeResult,
   STATUS_LABELS,
+  SOLUTION_STORAGE_NOTE,
   PRESETS,
   presetAvailable,
   getPresetResults
@@ -220,6 +221,7 @@ export default function Step2WallWash() {
         <div className="reagent-chips">
           {reagents.map(item => <span key={item} className="reagent-chip">{item}</span>)}
         </div>
+        <p className="plan-hint">{SOLUTION_STORAGE_NOTE}</p>
         <p className="plan-hint">
           Lấy mẫu: phun methanol tinh khiết lên vách, hứng bằng phễu và chai sạch, luôn đeo găng. Bấm “Hướng dẫn” ở từng phép thử để xem các bước và cách đọc kết quả.
         </p>

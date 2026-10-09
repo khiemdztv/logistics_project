@@ -2,6 +2,8 @@
 // which cargo uses which method, and how each result is read.
 import { CARGO_ITEMS } from './cargoData.js'
 
+export const SOLUTION_STORAGE_NOTE = 'Các dung dịch được bảo quản ở nơi khô ráo, mát mẻ, tối.'
+
 export const WALL_WASH_TESTS = {
   hydrocarbon: {
     id: 'hydrocarbon',
@@ -19,8 +21,8 @@ export const WALL_WASH_TESTS = {
     ],
     options: [
       { value: 'clear', label: 'Trong suốt như mẫu trắng', verdict: 'pass', meaning: 'Hoàn toàn không còn hydrocarbon.' },
-      { value: 'bluish', label: 'Ánh xanh nhạt, vẫn trong', verdict: 'warn', meaning: 'Còn vết hydrocarbon nhẹ, ghi nhận và theo dõi.' },
-      { value: 'milky', label: 'Trắng đục dạng sữa hoặc có bọt', verdict: 'fail', meaning: 'Còn hydrocarbon mức trung bình đến nhiều, phải rửa lại.' },
+      { value: 'bluish', label: 'Ánh xanh nhạt, vẫn trong', verdict: 'fail', meaning: 'Còn vết hydrocarbon nên không đạt, phải rửa lại.' },
+      { value: 'milky', label: 'Trắng đục dạng sữa (không có bọt)', verdict: 'fail', meaning: 'Còn hydrocarbon mức trung bình đến nhiều; không có bọt vẫn không đạt, phải rửa lại.' },
     ],
     standard: 'Trong suốt như mẫu trắng',
   },
@@ -54,7 +56,7 @@ export const WALL_WASH_TESTS = {
     inputType: 'number',
     unit: 'phút',
     step: 1,
-    reagents: ['Dung dịch KMnO4 (0,1 g trong 500 ml nước DI, bảo quản lạnh, tối)', 'Dung dịch chuẩn màu Platinum-Cobalt', 'Ống nghiệm 50 ml có nắp', 'Bể làm mát, pipet 2 ml, đồng hồ bấm giờ'],
+    reagents: ['Dung dịch KMnO4 (0,1 g trong 500 ml nước khử khoáng, bảo quản trong tủ lạnh một thời gian dài, tốt nhất là 1 tuần)', 'Dung dịch chuẩn màu Platinum-Cobalt', 'Ống nghiệm 50 ml có nắp', 'Bể làm mát, pipet 2 ml, đồng hồ bấm giờ'],
     steps: [
       'Đổ mẫu vào ống nghiệm 50 ml có nắp, làm mát và giữ ở 15°C ±1°C (methanol) hoặc 25°C ±1°C (acetone).',
       'Chuẩn bị ống mẫu trắng bằng methanol phòng thí nghiệm, đặt cạnh ống mẫu.',

@@ -5,7 +5,8 @@ import {
   getStandardLabel, describeResult, getPresetResults, PRESETS, presetAvailable, createBlankWallWashResults, isValidResultValue,
 } from '../src/data/wallWashTests.js'
 import { CARGO_ITEMS } from '../src/data/cargoData.js'
-import { buildDiagnosticRequest, buildKnowledgeIndex, sanitizeAppContext } from '../lib/copilot.js'
+import { getKnowledgeIndex } from '../api/chat.js'
+import { buildChatRequest, buildDiagnosticRequest, buildKnowledgeIndex, sanitizeAppContext } from '../lib/copilot.js'
 
 test('the catalogue holds exactly the 8 methods from the input document', () => {
   assert.deepEqual(WALL_WASH_TEST_ORDER, ['hydrocarbon', 'chloride', 'ptt', 'acidWash', 'appearance', 'odour', 'nvm', 'uv'])
@@ -46,10 +47,10 @@ test('the previous cargo changes how the same method is read', () => {
   assert.equal(getTestPlan('palm_oil_crude').byId.ptt.min, 30)
 })
 
-test('observations and numbers are judged per method, warnings still pass', () => {
+test('observations and numbers are judged per method, including hydrocarbon traces', () => {
   const plan = getTestPlan('methanol')
   assert.equal(evaluateWallWashTest(plan.byId.hydrocarbon, 'clear'), 'pass')
-  assert.equal(evaluateWallWashTest(plan.byId.hydrocarbon, 'bluish'), 'warn')
+  assert.equal(evaluateWallWashTest(plan.byId.hydrocarbon, 'bluish'), 'fail')
   assert.equal(evaluateWallWashTest(plan.byId.hydrocarbon, 'milky'), 'fail')
   assert.equal(evaluateWallWashTest(plan.byId.hydrocarbon, '25'), 'pending')
   assert.equal(evaluateWallWashTest(plan.byId.chloride, '0.8'), 'pending')
@@ -59,14 +60,33 @@ test('observations and numbers are judged per method, warnings still pass', () =
   const results = { ...createBlankWallWashResults(), hydrocarbon: 'bluish', chloride: 'clear', ptt: '55' }
   const summary = summarizeWallWash(results, plan)
   assert.equal(summary.requiredDone, 3)
-  assert.ok(summary.allRequiredPassed)
-  assert.deepEqual(summary.warned, ['hydrocarbon'])
-  const optionalFail = summarizeWallWash({ ...results, odour: 'present' }, plan)
+  assert.ok(!summary.allRequiredPassed)
+  assert.deepEqual(summary.failed, ['hydrocarbon'])
+  assert.deepEqual(summary.warned, [])
+  const optionalFail = summarizeWallWash({ ...results, hydrocarbon: 'clear', odour: 'present' }, plan)
   assert.ok(!optionalFail.allRequiredPassed)
   assert.deepEqual(optionalFail.failed, ['odour'])
   assert.ok(!summarizeWallWash({ ...results, ptt: '' }, plan).allRequiredPassed)
   assert.ok(!isValidResultValue('chloride', 'bad'))
   assert.ok(isValidResultValue('ptt', 12))
+})
+
+test('Copilot receives the revised hydrocarbon verdicts and reagent storage instructions', () => {
+  const index = getKnowledgeIndex()
+  for (const question of ['Hydrocarbon ánh xanh nhạt có đạt không?', 'Trắng đục dạng sữa không có bọt có đạt không?']) {
+    const request = buildChatRequest(question, [], index)
+    assert.ok(request.chunks.some(chunk => chunk.id === 'app-guide-hydrocarbon'))
+    assert.match(request.messages[0].content, /Ánh xanh nhạt, vẫn trong: không đạt/)
+    assert.match(request.messages[0].content, /Trắng đục dạng sữa \(không có bọt\): không đạt/)
+  }
+  const storage = buildChatRequest('Dung dịch KMnO4 pha bằng nước gì và bảo quản như thế nào?', [], index)
+  const passage = storage.chunks.find(chunk => chunk.id === 'app-guide-ptt')
+  assert.ok(passage)
+  assert.match(passage.text, /0,1 g trong 500 ml nước khử khoáng/)
+  assert.match(passage.text, /bảo quản trong tủ lạnh một thời gian dài, tốt nhất là 1 tuần/)
+  assert.match(passage.text, /khô ráo, mát mẻ, tối/)
+  const diagnostic = buildDiagnosticRequest({ failedTests: ['hydrocarbon'], allResults: { hydrocarbon: 'bluish' }, newCargo: 'methanol' }, index)
+  assert.match(diagnostic.messages.at(-1).content, /Ánh xanh nhạt, vẫn trong.*đánh giá không đạt/)
 })
 
 test('results are described in plain words for reports and the AI prompt', () => {

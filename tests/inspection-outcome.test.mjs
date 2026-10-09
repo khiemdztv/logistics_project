@@ -33,6 +33,33 @@ test('failed Wall Wash reports export with the actual failed test; passing tests
   assert.equal(getSessionStatus({ ...passed, endTime: '2026-10-09T03:00:00Z' }), 'passed')
 })
 
+test('revised hydrocarbon failures can export and old bluish sessions reload as failed', () => {
+  for (const observation of ['bluish', 'milky']) {
+    const data = wallWash('pass')
+    data.wallWashResults.hydrocarbon = observation
+    const outcome = getInspectionOutcome(data)
+    assert.equal(outcome.verdict, 'fail')
+    assert.equal(outcome.canExport, true)
+    assert.deepEqual(outcome.failedItems, ['Hydrocarbon (trộn nước)'])
+  }
+  const data = wallWash('pass')
+  data.wallWashResults.hydrocarbon = 'bluish'
+  const saved = [{ id: 'old_bluish', ...data, status: 'passed', endTime: '2026-10-09T03:00:00Z' }]
+  const originalStorage = globalThis.localStorage
+  globalThis.localStorage = { getItem: key => key === 'dolphin_sessions' ? JSON.stringify(saved) : null }
+  try {
+    const reloaded = createInitialState()
+    assert.equal(reloaded.sessions[0].status, 'failed')
+    assert.equal(reloaded.sessions[0].wallWashResults.hydrocarbon, 'bluish')
+    const state = appReducer(reloaded, { type: 'LOAD_SESSION', sessionId: 'old_bluish' })
+    assert.equal(getInspectionOutcome(state).label, 'KHÔNG ĐẠT')
+    assert.deepEqual(state.photos, data.photos)
+  } finally {
+    if (originalStorage === undefined) delete globalThis.localStorage
+    else globalThis.localStorage = originalStorage
+  }
+})
+
 test('missing required results or photos do not produce a passing report or bypass evidence', () => {
   const missing = waterWhite()
   missing.waterWhiteChecklist.bottom = null
