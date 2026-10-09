@@ -1,0 +1,57 @@
+[
+  {
+    "file": "01-kien-truc-tong-the.svg",
+    "heading": "Kiến trúc tổng thể",
+    "png": "01-kien-truc-tong-the.png"
+  },
+  {
+    "file": "02-vong-doi-ca-lam-viec.svg",
+    "heading": "Vòng đời ca làm việc",
+    "png": "02-vong-doi-ca-lam-viec.png"
+  },
+  {
+    "file": "03-luong-nghiep-vu-3-buoc.svg",
+    "heading": "Luồng nghiệp vụ 3 bước",
+    "png": "03-luong-nghiep-vu-3-buoc.png"
+  },
+  {
+    "file": "04-nhanh-wall-wash.svg",
+    "heading": "Nhánh Wall Wash",
+    "png": "04-nhanh-wall-wash.png"
+  },
+  {
+    "file": "05-nhanh-water-white.svg",
+    "heading": "Nhánh Water White",
+    "png": "05-nhanh-water-white.png"
+  },
+  {
+    "file": "06-luong-bang-chung-anh.svg",
+    "heading": "Luồng bằng chứng ảnh",
+    "png": "06-luong-bang-chung-anh.png"
+  },
+  {
+    "file": "07-luong-ai-copilot-va-rag.svg",
+    "heading": "Luồng AI Copilot và RAG",
+    "png": "07-luong-ai-copilot-va-rag.png"
+  },
+  {
+    "file": "08-pipeline-xay-kho-rag.svg",
+    "heading": "Pipeline xây kho RAG",
+    "png": "08-pipeline-xay-kho-rag.png"
+  },
+  {
+    "file": "09-quan-ly-doi-tau-va-ham.svg",
+    "heading": "Quản lý đội tàu và hầm",
+    "png": "09-quan-ly-doi-tau-va-ham.png"
+  },
+  {
+    "file": "10-ban-do-action-cua-reducer.svg",
+    "heading": "Bản đồ action của reducer",
+    "png": "10-ban-do-action-cua-reducer.png"
+  },
+  {
+    "file": "11-luong-kiem-thu.svg",
+    "heading": "Luồng kiểm thử",
+    "png": "11-luong-kiem-thu.png"
+  }
+]

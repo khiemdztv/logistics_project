@@ -9,6 +9,8 @@
     "lint": "oxlint",
     "test": "node --test tests/*.test.mjs",
     "rag:extract": "node scripts/extract_rag_references.mjs",
+    "docs:diagrams": "node scripts/render_workflow_diagrams.mjs",
+    "docs:diagrams:png": "node scripts/render_workflow_diagrams.mjs --png",
     "preview": "vite preview"
   },
   "dependencies": {
