@@ -23,6 +23,10 @@ export function AppProvider({ children }) {
     localStorage.setItem('dolphin_vessels', JSON.stringify(state.vessels))
   }, [state.vessels])
 
+  useEffect(() => {
+    localStorage.setItem('dolphin_deleted_vessels', JSON.stringify(state.deletedVesselIds))
+  }, [state.deletedVesselIds])
+
   // Free the space of photos that no session uses any more (deleted or reset sessions).
   useEffect(() => {
     const timer = setTimeout(() => {

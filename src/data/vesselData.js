@@ -41,12 +41,13 @@ export function migrateSessions(sessions) {
   })
 }
 
-export function loadFleet(saved, sessions) {
+export function loadFleet(saved, sessions, deletedIds = []) {
+  const deleted = new Set(deletedIds)
   const records = [DEFAULT_VESSEL, ...(Array.isArray(saved) ? saved : [])].filter(vessel => vessel?.id && vessel?.name)
-  const fleet = new Map(records.map(vessel => [vessel.id, normalizeVessel(vessel)]))
+  const fleet = new Map(records.filter(vessel => !deleted.has(vessel.id)).map(vessel => [vessel.id, normalizeVessel(vessel)]))
   for (const session of sessions) {
     const vessel = getSessionVessel(session)
-    if (!fleet.has(vessel.id)) fleet.set(vessel.id, vessel)
+    if (!fleet.has(vessel.id) && !deleted.has(vessel.id)) fleet.set(vessel.id, vessel)
   }
   return [...fleet.values()]
 }

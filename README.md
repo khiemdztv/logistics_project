@@ -7,6 +7,7 @@
 - **Thêm tàu** lưu tên tàu, IMO (7 chữ số), trọng tải DWT, quốc tịch và lớp phủ hầm tùy chọn. Một IMO chỉ có một hồ sơ tàu trong danh sách.
 - **Tạo ca mới** mở form đặt tên ca (tùy chọn), chọn tàu đã lưu hoặc thêm tàu mới. Tên ca mặc định gồm tên tàu. Thông tin tàu xuất hiện trên thẻ ca, màn kiểm tra và báo cáo/PDF.
 - Menu ba chấm trên thẻ ca có **Sửa tên ca & tàu**. Mỗi ca lưu một bản thông tin tàu riêng; cập nhật hồ sơ để dùng cho ca mới không thay đổi ca cũ. Nhân bản và đặt lại kết quả giữ liên kết tàu.
+- **Quản lý tàu → Xóa** bỏ tàu khỏi danh sách chọn ca mới sau khi xác nhận. Ca, báo cáo và ảnh đã lưu vẫn giữ nguyên; thông tin xóa được lưu để tàu không tự xuất hiện lại khi tải trang. Có thể thêm lại tàu thành hồ sơ mới.
 - Ca cũ được chuyển sang hồ sơ Dolphin 01 của bản trước, giữ dữ liệu kiểm tra. Quốc tịch trước đây chưa được lưu nên hiển thị “Chưa khai báo”; có thể bổ sung từ form sửa ca.
 - Hầm có sẵn là mẫu Dolphin 01. Tàu khác có thể thêm hầm với tên/dung tích riêng; hầm tùy chỉnh được gắn với tàu và được dùng trong báo cáo.
 
@@ -17,7 +18,7 @@ Dữ liệu vẫn lưu trong **localStorage của trình duyệt** (`dolphin_ves
 - Bảng Wall Wash luôn hiện đủ **8 phương pháp** theo tài liệu "thông tin đầu vào web.pptx": Hydrocarbon, Chloride, PTT, Acid Wash Colour, Cảm quan và màu sắc, Mùi, NVM, UV. Cấu hình nằm trong `src/data/wallWashTests.js`.
 - Hàng mới quyết định phép thử nào **bắt buộc**, **tùy chọn** hay **không áp dụng** (dòng không áp dụng bị khóa và mờ). Hàng trước có thể bổ sung: dầu thực vật thêm HNO3 cho Chloride và bắt buộc NVM; hydrocarbon thơm bắt buộc Acid Wash Colour; dầu/nhiên liệu bắt buộc Hydrocarbon và Mùi.
 - Hydrocarbon, Chloride, Cảm quan, Mùi, UV nhập bằng cách **chọn hiện tượng quan sát**; PTT, Acid Wash Colour, NVM nhập số. Mỗi dòng có nút Hướng dẫn với các bước và cách đọc kết quả.
-- Chỉ qua bước báo cáo khi mọi phép thử bắt buộc đạt. Kết quả "đạt (lưu ý)" (ví dụ Hydrocarbon ánh xanh nhạt) vẫn qua nhưng được ghi nhận. Ngưỡng Acid Wash Colour và NVM là ngưỡng tạm vì tài liệu không nêu số, cần nhóm xác nhận.
+- Qua bước báo cáo khi mọi phép thử bắt buộc đã có kết quả và các mục đã kiểm tra đủ ảnh, kể cả khi có kết quả **không đạt**. Water White cần đánh giá đủ 7 khu vực. Báo cáo, kết luận và trạng thái ca lấy kết quả thực tế; thiếu dữ liệu không được ghi đạt. Kết quả "đạt (lưu ý)" (ví dụ Hydrocarbon ánh xanh nhạt) vẫn được ghi nhận. Ngưỡng Acid Wash Colour và NVM là ngưỡng tạm vì tài liệu không nêu số, cần nhóm xác nhận.
 - **Ảnh bằng chứng**: mỗi khu vực Water White và mỗi phép thử Wall Wash có nút Chụp ảnh (mở camera qua trình duyệt, cần HTTPS hoặc localhost; nếu bị chặn thì mở camera/thư viện của máy) và Tải ảnh lên. Nút Đạt/Không đạt và ô nhập kết quả bị khóa đến khi mục đó có ít nhất 1 ảnh; thiếu ảnh thì không xuất báo cáo được. Ảnh được thu nhỏ (cạnh dài tối đa 1280 px) và lưu trong IndexedDB `dolphin_evidence` của trình duyệt, ca chỉ lưu mã ảnh. Ảnh không còn ca nào dùng tự xóa sau 10 phút. Báo cáo in ảnh theo từng mục. Nút demo tạo ảnh mẫu có chữ "ẢNH MẪU (DEMO)".
 
 ## Chạy local

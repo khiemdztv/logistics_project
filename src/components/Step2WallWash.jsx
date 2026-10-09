@@ -17,6 +17,7 @@ import { addDemoEvidence } from '../services/demoEvidence'
 import EvidencePhotos from './EvidencePhotos'
 import { analyzeTestFailures } from '../services/aiService'
 import { getSessionVessel } from '../data/vesselData.js'
+import { getInspectionOutcome } from '../data/inspectionOutcome.js'
 import {
   FlaskConical,
   CheckCircle2,
@@ -77,7 +78,7 @@ export default function Step2WallWash() {
     .filter(entry => evaluation.statuses[entry.testId] !== 'pending')
     .map(entry => testTarget(entry.testId))
   const missingPhotos = missingEvidence(filledTargets, state.photos)
-  const canContinue = evaluation.allRequiredPassed && missingPhotos.length === 0
+  const canContinue = getInspectionOutcome(state).canExport
   const photoCount = countEvidence(state.photos, EVIDENCE_KINDS.WALL_WASH)
 
   // Call the AI diagnostic when the set of failed tests changes

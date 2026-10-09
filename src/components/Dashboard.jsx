@@ -3,6 +3,7 @@ import { useApp } from '../context/AppContext'
 import { CARGO_ITEMS, VESSEL_HOLDS } from '../data/cargoData'
 import { Plus, Copy, Trash2, RotateCcw, MoreHorizontal, ArrowRight, Search, Pencil } from 'lucide-react'
 import SessionDialog from './SessionDialog'
+import FleetManager from './FleetManager'
 import { getSessionVessel, formatDwt } from '../data/vesselData.js'
 
 const STATUS = {
@@ -21,6 +22,7 @@ export default function Dashboard() {
   const [dialog, setDialog] = useState(null)
   const menuRef = useRef(null)
   const sessions = state.sessions || []
+  const filterVessels = [...new Map([...sessions.map(getSessionVessel), ...state.vessels].map(vessel => [vessel.id, vessel])).values()]
   const cargoName = id => CARGO_ITEMS.find(item => item.id === id)?.name || id || 'Chưa chọn hàng'
   const holdName = session => session.holdName || [...(state.customHolds || []), ...VESSEL_HOLDS].find(hold => hold.id === session.selectedHold)?.name || 'Chưa chọn hầm'
   const statusOf = session => STATUS[session.status] || STATUS.in_progress
@@ -49,7 +51,7 @@ export default function Dashboard() {
     <div className="dashboard">
       <div className="dashboard-header">
         <div><p className="page-eyebrow">Điều hành hầm hàng</p><h1 className="dashboard-title">Ca làm việc</h1><p className="dashboard-subtitle">Theo dõi kiểm tra, kết quả và báo cáo của đội tàu.</p></div>
-        <div className="dashboard-header-actions"><button className="btn btn-secondary" onClick={() => setDialog({ mode: 'vessel' })}>Thêm tàu</button><button className="btn btn-primary" onClick={createNew}><Plus size={18} aria-hidden="true" />Tạo ca mới</button></div>
+        <div className="dashboard-header-actions"><button className="btn btn-secondary" onClick={() => setDialog({ mode: 'fleet' })}>Quản lý tàu</button><button className="btn btn-secondary" onClick={() => setDialog({ mode: 'vessel' })}>Thêm tàu</button><button className="btn btn-primary" onClick={createNew}><Plus size={18} aria-hidden="true" />Tạo ca mới</button></div>
       </div>
       <div className="dashboard-stats" aria-label="Tổng hợp ca làm việc">
         {[{ label: 'Tổng số ca', value: sessions.length, type: 'all' }, ...FILTERS.slice(1).map(item => ({ label: item.label, value: sessions.filter(session => (session.status || 'in_progress') === item.id).length, type: item.id }))].map(stat => (
@@ -60,7 +62,7 @@ export default function Dashboard() {
         <div className="session-section-heading"><h2 id="session-list-title">Danh sách ca làm việc <span>{sessions.length}</span></h2><p>{state.vessels.length} tàu · Mở một ca để tiếp tục thao tác.</p></div>
         <div className="dashboard-toolbar">
           <div className="dashboard-filters" role="group" aria-label="Lọc theo trạng thái">{FILTERS.map(item => <button key={item.id} className={filter === item.id ? 'active' : ''} aria-pressed={filter === item.id} onClick={() => setFilter(item.id)}>{item.label}</button>)}</div>
-          <div className="dashboard-search-controls"><select className="form-select vessel-filter" aria-label="Lọc ca theo tàu" value={vesselFilter} onChange={event => setVesselFilter(event.target.value)}><option value="all">Tất cả tàu</option>{state.vessels.map(vessel => <option key={vessel.id} value={vessel.id}>{vessel.name}</option>)}</select><label className="dashboard-search"><Search size={17} aria-hidden="true" /><input aria-label="Tìm ca, tên tàu, IMO, hầm hoặc hàng" type="search" placeholder="Tìm ca, tàu, IMO, hầm…" value={search} onChange={event => setSearch(event.target.value)} /></label></div>
+          <div className="dashboard-search-controls"><select className="form-select vessel-filter" aria-label="Lọc ca theo tàu" value={vesselFilter} onChange={event => setVesselFilter(event.target.value)}><option value="all">Tất cả tàu</option>{filterVessels.map(vessel => <option key={vessel.id} value={vessel.id}>{vessel.name}{state.deletedVesselIds.includes(vessel.id) ? ' (đã xóa)' : ''}</option>)}</select><label className="dashboard-search"><Search size={17} aria-hidden="true" /><input aria-label="Tìm ca, tên tàu, IMO, hầm hoặc hàng" type="search" placeholder="Tìm ca, tàu, IMO, hầm…" value={search} onChange={event => setSearch(event.target.value)} /></label></div>
         </div>
         {visible.length ? (
           <div className="dashboard-grid">{visible.map(session => (
@@ -91,7 +93,8 @@ export default function Dashboard() {
           </div>
         )}
       </section>
-      {dialog && <SessionDialog {...dialog} onClose={() => setDialog(null)} />}
+      {dialog?.mode === 'fleet' ? <FleetManager onClose={() => setDialog(null)} onAdd={() => setDialog({ mode: 'vessel' })} />
+        : dialog && <SessionDialog {...dialog} onClose={() => setDialog(null)} />}
     </div>
   )
 }

@@ -294,9 +294,6 @@ export default function Step1CargoInit() {
                 <div className="method-name" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   Wall Wash · Kiểm tra bằng hóa chất
                 </div>
-                <div className="method-desc">
-                  Thực hiện phun dung môi (Methanol/Acetone), hứng dịch rửa và kiểm tra 5 chỉ tiêu hóa nghiệm: Độ mặn, PTT, APHA, Hydrocarbon, Chloride. Bắt buộc cho hàng tinh khiết.
-                </div>
               </div>
             </button>
 

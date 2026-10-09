@@ -9,10 +9,10 @@ import {
 import { getTestPlan, summarizeWallWash, getStandardLabel, formatResultValue, WALL_WASH_TESTS } from '../data/wallWashTests'
 import { EVIDENCE_KINDS, evidenceTarget, photosFor } from '../data/evidence'
 import { EvidenceGallery } from './EvidencePhotos'
+import { getInspectionOutcome } from '../data/inspectionOutcome.js'
 import {
   Printer,
   RotateCcw,
-  CheckCircle2,
   Clock
 } from 'lucide-react'
 
@@ -26,6 +26,10 @@ export default function Step3Report() {
   const newItem = CARGO_ITEMS.find(c => c.id === state.newCargo) || { name: 'Methanol' }
   const plan = getTestPlan(state.newCargo, state.previousCargo)
   const wallWash = summarizeWallWash(state.wallWashResults, plan)
+  const outcome = getInspectionOutcome(state)
+  const resultColors = outcome.verdict === 'fail' ? { background: '#FEF2F2', border: '#FECACA', text: '#991B1B' }
+    : outcome.verdict === 'pass' ? { background: '#F0FDF4', border: '#BBF7D0', text: '#166534' }
+      : { background: '#FFFBEB', border: '#FDE68A', text: '#92400E' }
   const reportRows = plan.entries.filter(entry => entry.level !== 'na')
   const skippedTests = plan.notApplicable.map(id => WALL_WASH_TESTS[id].shortName).join(', ')
   const evidenceItems = state.selectedMethod === 'WALL_WASH'
@@ -131,7 +135,7 @@ export default function Step3Report() {
                   DOLPHIN TANKOPS MARITIME INSPECTION
                 </h1>
                 <div style={{ fontSize: '11px', color: '#555', letterSpacing: '0.5px' }}>
-                  HỆ THỐNG GIÁM SÁT VÀ CHỨNG NHẬN LÀM SẠCH HẦM HÀNG TIÊU CHUẨN QUỐC TẾ
+                  HỆ THỐNG THEO DÕI VÀ BÁO CÁO KIỂM TRA HẦM HÀNG
                 </div>
               </div>
             </div>
@@ -144,18 +148,18 @@ export default function Step3Report() {
                 alignItems: 'center',
                 gap: '6px',
                 padding: '4px 12px',
-                background: '#E8F5E9',
-                border: '1px solid #4CAF50',
+                background: resultColors.background,
+                border: `1px solid ${resultColors.border}`,
                 borderRadius: '4px',
-                color: '#2E7D32',
+                color: resultColors.text,
                 fontWeight: 700,
                 fontSize: '12px'
               }}
             >
-              <CheckCircle2 size={16} /> ĐÃ DUYỆT ĐẠT CHUẨN
+              KẾT QUẢ: {outcome.label}
             </div>
             <div style={{ fontSize: '11px', color: '#777', marginTop: '4px' }}>
-              Ngày cấp: {currentDate} • {currentTime}
+              Ngày lập: {currentDate} • {currentTime}
             </div>
           </div>
         </div>
@@ -163,10 +167,10 @@ export default function Step3Report() {
         {/* Certificate Title */}
         <div style={{ textAlign: 'center', marginBottom: '30px' }}>
           <h2 style={{ fontSize: '22px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#0B132B', margin: 0 }}>
-            CHỨNG NHẬN KIỂM TRA ĐỘ TINH KHIẾT HẦM HÀNG
+            BIÊN BẢN KIỂM TRA HẦM HÀNG
           </h2>
           <div style={{ fontSize: '13px', fontStyle: 'italic', color: '#666', marginTop: '4px' }}>
-            (TANK CLEANLINESS & WALL WASH INSPECTION CERTIFICATE)
+            (TANK CLEANLINESS INSPECTION REPORT)
           </div>
           <div style={{ fontSize: '12px', color: '#444', marginTop: '6px' }}>
             Tổng hợp số liệu kiểm tra của tàu {vessel.name}
@@ -320,7 +324,9 @@ export default function Step3Report() {
                       Sạch cặn - Khô ráo - Không mùi - Không gỉ vảy
                     </td>
                     <td style={{ padding: '8px 12px', border: '1px solid #E5E7EB', textAlign: 'center' }}>
-                      <span style={{ color: '#16A34A', fontWeight: 800 }}>✓ ĐẠT CHUẨN</span>
+                      {state.waterWhiteChecklist[area.id] === 'pass' ? <span style={{ color: '#16A34A', fontWeight: 800 }}>✓ ĐẠT</span>
+                        : state.waterWhiteChecklist[area.id] === 'fail' ? <span style={{ color: '#DC2626', fontWeight: 800 }}>✗ KHÔNG ĐẠT</span>
+                          : <span style={{ color: '#92400E', fontWeight: 600 }}>CHƯA KIỂM TRA</span>}
                     </td>
                   </tr>
                 ))}
@@ -351,18 +357,21 @@ export default function Step3Report() {
         {/* Conclusion Declaration */}
         <div
           style={{
-            background: '#F0FDF4',
-            border: '1px solid #BBF7D0',
+            background: resultColors.background,
+            border: `1px solid ${resultColors.border}`,
             padding: '16px',
             borderRadius: '6px',
             marginBottom: '32px'
           }}
         >
-          <div style={{ fontWeight: 800, color: '#166534', fontSize: '14px', marginBottom: '4px' }}>
-            KẾT LUẬN GIÁM ĐỊNH (SURVEYOR DECLARATION):
+          <div style={{ fontWeight: 800, color: resultColors.text, fontSize: '14px', marginBottom: '4px' }}>
+            KẾT LUẬN KIỂM TRA: {outcome.label}
           </div>
-          <div style={{ fontSize: '13px', color: '#14532D', lineHeight: 1.6 }}>
+          <div style={{ fontSize: '13px', color: resultColors.text, lineHeight: 1.6 }}>
             Báo cáo ghi nhận kết quả kiểm tra hầm <strong>{holdInfo.name}</strong> của tàu <strong>{vessel.name}</strong> trong ca <strong>{state.sessionName || 'kiểm tra hầm hàng'}</strong>, khi chuyển từ {prevItem.name} sang {newItem.name}. Các chỉ số và trạng thái được trình bày trong bảng kết quả phía trên.
+            {outcome.failedItems.length > 0 && <p>Không đạt tại: <strong>{outcome.failedItems.join(', ')}</strong>. Cần xử lý và kiểm tra lại các mục này.</p>}
+            {!outcome.completed && <p>Chưa hoàn tất các mục kiểm tra bắt buộc.</p>}
+            {outcome.missingPhotos.length > 0 && <p>Còn {outcome.missingPhotos.length} mục có kết quả nhưng thiếu ảnh minh chứng.</p>}
           </div>
         </div>
 
@@ -384,9 +393,9 @@ export default function Step3Report() {
 
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontSize: '12px', fontWeight: 700, color: '#666', textTransform: 'uppercase' }}>
-              GIÁM ĐỊNH VIÊN ĐỘC LẬP
+              PHÒNG KHAI THÁC
             </div>
-            <div style={{ fontSize: '11px', color: '#888' }}>(Independent Cargo Surveyor)</div>
+            <div style={{ fontSize: '11px', color: '#888' }}>(Operations Department)</div>
             <div style={{ height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <span style={{ fontFamily: 'cursive', fontSize: '20px', color: '#1E40AF', transform: 'rotate(-3deg)' }}>
                 …………………………

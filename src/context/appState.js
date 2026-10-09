@@ -1,6 +1,7 @@
 import { DEFAULT_VESSEL, normalizeVessel, validateVessel, getSessionVessel, migrateSessions, loadFleet } from '../data/vesselData.js'
 import { createBlankWallWashResults } from '../data/wallWashTests.js'
 import { normalizePhotos } from '../data/evidence.js'
+import { getInspectionOutcome, getSessionStatus } from '../data/inspectionOutcome.js'
 
 const loadSaved = (key) => {
   try { return JSON.parse(localStorage.getItem(key) || '[]') } catch { return [] }
@@ -10,7 +11,7 @@ const loadSaved = (key) => {
 const loadSessions = () => {
   try {
     const saved = localStorage.getItem('dolphin_sessions')
-    return migrateSessions(saved ? JSON.parse(saved) : [])
+    return migrateSessions(saved ? JSON.parse(saved) : []).map(session => ({ ...session, status: getSessionStatus(session) }))
   } catch { return [] }
 }
 
@@ -56,6 +57,8 @@ const createBlankSessionData = (vessel = DEFAULT_VESSEL) => ({
 
 export function createInitialState() {
   const sessions = loadSessions()
+  const deleted = loadSaved('dolphin_deleted_vessels')
+  const deletedVesselIds = Array.isArray(deleted) ? deleted.filter(id => typeof id === 'string') : []
   return {
     // View management
     currentView: 'dashboard', // 'dashboard' or 'inspection'
@@ -63,7 +66,8 @@ export function createInitialState() {
 
     // Session management
     sessions,
-    vessels: loadFleet(loadSaved('dolphin_vessels'), sessions),
+    vessels: loadFleet(loadSaved('dolphin_vessels'), sessions, deletedVesselIds),
+    deletedVesselIds,
     sessionName: '',
     vesselId: DEFAULT_VESSEL.id,
     vessel: { ...DEFAULT_VESSEL },
@@ -148,10 +152,7 @@ function extractSessionData(state) {
 
 // Helper: determine session status from data
 function determineStatus(data) {
-  if (data.endTime) return 'passed'
-  if (data.startTime) return 'in_progress'
-  if (data.previousCargo || data.newCargo) return 'in_progress'
-  return 'in_progress'
+  return getSessionStatus(data)
 }
 
 export function appReducer(state, action) {
@@ -221,22 +222,27 @@ export function appReducer(state, action) {
         }]
       }
 
-    case 'COMPLETE_INSPECTION':
-      return {
+    case 'COMPLETE_INSPECTION': {
+      const outcome = getInspectionOutcome(state)
+      if (!outcome.canExport) return state
+      const completedState = {
         ...state,
         endTime: new Date(),
         currentStep: 3,
         inspectionLog: [...state.inspectionLog, {
           time: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }),
-          text: 'Kiểm tra hoàn tất',
-          type: 'complete'
+          text: `Kiểm tra hoàn tất: ${outcome.label}`,
+          type: outcome.verdict === 'fail' ? 'fail' : 'complete'
         }]
       }
+      return appReducer(completedState, { type: 'SAVE_CURRENT_SESSION' })
+    }
 
     case 'RESET_WALL_WASH':
       return {
         ...state,
         wallWashResults: createBlankWallWashResults(),
+        endTime: null,
         // After a re-wash the old evidence no longer describes the tank.
         photos: normalizePhotos(state.photos).filter(photo => !photo.target.startsWith('ww:'))
       }
@@ -244,6 +250,7 @@ export function appReducer(state, action) {
     case 'RESET_WATER_WHITE':
       return {
         ...state,
+        endTime: null,
         photos: normalizePhotos(state.photos).filter(photo => !photo.target.startsWith('wh:')),
         waterWhiteChecklist: {
           ceiling: null,
@@ -259,6 +266,7 @@ export function appReducer(state, action) {
     // ===== SESSION MANAGEMENT =====
     case 'CREATE_SESSION': {
       const vessel = normalizeVessel(action.vessel)
+      if (state.deletedVesselIds.includes(vessel.id)) return state
       if (Object.keys(validateVessel(vessel, state.vessels)).length) return state
       if (!vessel.id) vessel.id = 'vessel_' + generateId()
       const vessels = [...state.vessels.filter(item => item.id !== vessel.id), vessel]
@@ -375,21 +383,33 @@ export function appReducer(state, action) {
 
     case 'ADD_VESSEL': {
       const vessel = normalizeVessel(action.vessel)
+      if (state.deletedVesselIds.includes(vessel.id)) return state
       if (Object.keys(validateVessel(vessel, state.vessels)).length) return state
       if (!vessel.id) vessel.id = 'vessel_' + generateId()
       return { ...state, vessels: [...state.vessels.filter(item => item.id !== vessel.id), vessel] }
     }
 
+    case 'DELETE_VESSEL': {
+      if (!state.vessels.some(vessel => vessel.id === action.vesselId)) return state
+      return { ...state,
+        vessels: state.vessels.filter(vessel => vessel.id !== action.vesselId),
+        deletedVesselIds: [...new Set([...state.deletedVesselIds, action.vesselId])],
+      }
+    }
+
     case 'UPDATE_SESSION_DETAILS': {
-      if (!state.sessions.some(session => session.id === action.sessionId)) return state
+      const source = state.sessions.find(session => session.id === action.sessionId)
+      if (!source) return state
       const vessel = normalizeVessel(action.vessel)
-      if (Object.keys(validateVessel(vessel, state.vessels)).length) return state
+      const validationFleet = state.deletedVesselIds.includes(vessel.id) && vessel.id === source.vesselId
+        ? state.vessels.filter(item => item.imo !== getSessionVessel(source).imo) : state.vessels
+      if (Object.keys(validateVessel(vessel, validationFleet)).length) return state
       if (!vessel.id) vessel.id = 'vessel_' + generateId()
       const details = { vesselId: vessel.id, vessel, dwt: vessel.dwt,
         sessionName: String(action.sessionName || '').trim().slice(0, 120) || `Ca kiểm tra · ${vessel.name}` }
       return { ...state,
         ...(state.currentSessionId === action.sessionId ? details : {}),
-        vessels: [...state.vessels.filter(item => item.id !== vessel.id), vessel],
+        vessels: state.deletedVesselIds.includes(vessel.id) ? state.vessels : [...state.vessels.filter(item => item.id !== vessel.id), vessel],
         sessions: state.sessions.map(session => session.id === action.sessionId ? { ...session, ...details } : session),
       }
     }
@@ -420,7 +440,7 @@ export function appReducer(state, action) {
     }
 
     case 'RESET_ALL':
-      return { ...createInitialState(), sessions: state.sessions, customHolds: state.customHolds, vessels: state.vessels }
+      return { ...createInitialState(), sessions: state.sessions, customHolds: state.customHolds, vessels: state.vessels, deletedVesselIds: state.deletedVesselIds }
 
     default:
       return state

@@ -5,6 +5,7 @@ import { EVIDENCE_KINDS, evidenceTarget, hasEvidence, photosFor, missingEvidence
 import { addDemoEvidence } from '../services/demoEvidence'
 import EvidencePhotos from './EvidencePhotos'
 import { usePhotoUrls } from '../services/usePhotoUrls'
+import { getInspectionOutcome } from '../data/inspectionOutcome.js'
 import {
   Layers,
   AlertTriangle,
@@ -246,7 +247,7 @@ export default function Step2WaterWhite() {
 
             <button
               className="btn btn-primary"
-              disabled={!summary.allPassed}
+              disabled={!getInspectionOutcome(state).canExport}
               onClick={() => dispatch({ type: 'COMPLETE_INSPECTION' })}
               id="complete-waterwhite-btn"
             >

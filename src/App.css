@@ -194,6 +194,14 @@ button svg { flex-shrink: 0; }
 .session-dialog { width: min(580px, calc(100vw - 32px)); max-height: calc(100dvh - 40px); margin: auto; padding: 0; border: 1px solid #3a5067; border-radius: 14px; background: var(--color-bg-card); color: var(--color-text-primary); box-shadow: 0 20px 80px rgba(0,0,0,.4); }
 .session-dialog::backdrop { background: rgba(4, 11, 24, .78); }
 .session-dialog { overflow-y: auto; overscroll-behavior: contain; }
+.fleet-list { display: grid; gap: 12px; margin-top: 18px; }
+.fleet-list-item { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px; background: var(--color-bg-input); border: 1px solid var(--color-border); border-radius: 8px; }
+.fleet-list-item > div { min-width: 0; overflow-wrap: anywhere; }
+.fleet-list-item h3 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+.fleet-list-item p, .fleet-list-item small { color: var(--color-text-secondary); font-size: 11px; line-height: 1.7; }
+.fleet-list-item small { display: block; margin-top: 6px; color: var(--color-text-muted); }
+.fleet-delete { color: #e7a0a5; flex-shrink: 0; }
+.fleet-empty { color: var(--color-text-secondary); font-size: 13px; line-height: 1.7; padding: 24px 0; }
 .session-dialog > form { display: flex; flex-direction: column; }
 .session-dialog-header { display: flex; justify-content: space-between; align-items: flex-start; padding: 24px 24px 20px; border-bottom: 1px solid var(--color-border); gap: 16px; }
 .session-dialog-header h2 { font-size: 21px; font-weight: 600; line-height: 1.4; }

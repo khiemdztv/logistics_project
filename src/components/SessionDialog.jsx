@@ -23,7 +23,7 @@ export default function SessionDialog({ mode = 'create', session, onClose }) {
   const selectVessel = event => {
     const id = event.target.value
     setSelectedId(id)
-    setVessel(normalizeVessel(id === 'new' ? {} : state.vessels.find(item => item.id === id)))
+    setVessel(normalizeVessel(id === 'new' ? {} : state.vessels.find(item => item.id === id) || (session && getSessionVessel(session))))
     setErrors({})
   }
   const setField = (field, value) => {
@@ -73,6 +73,7 @@ export default function SessionDialog({ mode = 'create', session, onClose }) {
               <label className="form-label" htmlFor="session-vessel">Tàu thực hiện ca</label>
               <select id="session-vessel" className="form-select" value={selectedId} onChange={selectVessel}>
                 {state.vessels.map(item => <option key={item.id} value={item.id}>{item.name} · IMO {item.imo || 'chưa khai báo'}</option>)}
+                {session && !state.vessels.some(item => item.id === session.vesselId) && <option value={session.vesselId}>{getSessionVessel(session).name} (đã xóa khỏi đội tàu)</option>}
                 <option value="new">+ Thêm tàu mới</option>
               </select>
               <p className="form-help">Chọn tàu đã lưu hoặc thêm tàu mới cho ca này.</p>
